@@ -21,7 +21,7 @@ html[lang="en"] {
 }
 
 @theme {
-  ---color-main: #6E5034;
+  --color-main: #6E5034;
   --color-normal: #CDB885;
   --color-light: #EFE1B5;
 }
