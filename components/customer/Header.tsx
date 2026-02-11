@@ -3,13 +3,15 @@
 import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
-import { ChangeEvent } from "react";
-import {FiPhoneCall, FiSearch, FiShoppingCart} from "react-icons/fi"
+import { ChangeEvent, useState } from "react";
+import {FiMenu, FiPhoneCall, FiSearch, FiShoppingCart} from "react-icons/fi"
+import SIdeBar from "./SIdeBar";
 
 export default function Header() {
   const { lang, switchLang } = useLanguage();
+    const [showSideBar, setShowSideBar] = useState(false)
 
-  const headerLinks = [
+    const headerLinks = [
     { name: lang === 'en' ? 'About' : 'من نحن', link: '/about' },
     { name: lang === 'en' ? 'Menu' : 'قائمة الطعام', link: '/collections/all' },
     { name: lang === 'en' ? 'Customize Your Cake' : 'خصص كعكتك', link: '/collections/customize-your-cake' },
@@ -37,7 +39,6 @@ export default function Header() {
     z-50
   `}
 >
-  {/* Left Nav */}
   <nav className="hidden lg:flex gap-6 text-sm font-medium">
     {headerLinks.map((link, i) => (
       <Link
@@ -50,8 +51,13 @@ export default function Header() {
     ))}
   </nav>
 
+  <nav className="block lg:hidden">
+    <FiMenu size={23} onClick={() => setShowSideBar(true)} />
+    {showSideBar && <SIdeBar setShowSideBar={setShowSideBar} headerLinks={headerLinks} />}
+  </nav>
+
   {/* Logo */}
-  <div className={`${lang === "en" ? "mr-35" : "ml-50"} flex justify-center`}>
+  <div className={`${lang === "en" ? "lg:mr-35" : "lg:ml-50"} flex justify-center`}>
     <Image
       src="/logo.png"
       alt="header logo image"
@@ -63,7 +69,7 @@ export default function Header() {
 
   {/* Right Side */}
   <div className="flex items-center gap-4">
-    <button className="bg-green-500/80 hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
+    <button className="bg-green-500/80 hidden lg:block hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
       <FiPhoneCall size={16} />
     </button>
 
@@ -75,7 +81,7 @@ export default function Header() {
     <select
       onChange={handleChange}
       value={lang}
-      className="bg-transparent border border-white/20 rounded-md px-2 py-1 text-sm focus:outline-none"
+      className="bg-transparent hidden lg:block border border-white/20 rounded-md px-2 py-1 text-sm focus:outline-none"
     >
       <option value="en" className="text-black">EN</option>
       <option value="ar" className="text-black">AR</option>
