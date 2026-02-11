@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import HtmlLangSetter from "@/components/customer/HTMLLangSelector";
+import { roboto } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Amas Bakery",
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html>
       <body
-        className={`antialiased`}
+        className={`antialiased ${roboto.className}`}
       >
         <LanguageProvider>
         {children}

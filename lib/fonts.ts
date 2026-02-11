@@ -1,6 +1,6 @@
-import {Raleway, Playfair_Display_SC} from "next/font/google"
+import {Roboto, Playfair_Display_SC} from "next/font/google"
 
-export const raleway = Raleway({
+export const roboto = Roboto({
     weight: ["100", "200", "400", "600", "800"],
     style: ["normal", "italic"],
     subsets: ["latin"]
