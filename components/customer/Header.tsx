@@ -21,32 +21,66 @@ export default function Header() {
   }
 
   return (
-    <header className={`${lang === 'ar' ? 'rtl' : 'ltr'} p-2  m-5 backdrop-blur-sm rounded-md border border-white/50 flex justify-between gap-2`}>
-        <div>
-            <nav className="flex gap-5">
-                {headerLinks.map((link, i) => (
-                <Link key={i} href={link.link}>{link.name}</Link>
-                ))}
-            </nav>
-        </div>
-        <div>
-            <Image src="/logo.png" alt="header logo image" width={100} height={100} />
-        </div>
-        <div className="flex gap-3">
-            <div>
-                <FiPhoneCall />
-            </div>
-            <div className="flex gap-2">
-                <FiShoppingCart />
-                <FiSearch />
-            </div>
-            <div>
-                <select onChange={handleChange} value={lang}>
-                    <option  value="en">ENGLISH</option>
-                    <option  value="ar">العربية</option>
-                </select>
-            </div>
-        </div>
-    </header>
+    <header
+  className={`
+    ${lang === "ar" ? "rtl" : "ltr"}
+    fixed top-4 left-1/2 -translate-x-1/2
+    w-[95%] max-w-7xl
+    px-6 py-1
+    flex items-center justify-between
+    rounded-full
+    backdrop-blur-md
+    bg-white/10
+    border border-white/20
+    shadow-lg shadow-black/10
+    text-zinc-100
+    z-50
+  `}
+>
+  {/* Left Nav */}
+  <nav className="hidden lg:flex gap-6 text-sm font-medium">
+    {headerLinks.map((link, i) => (
+      <Link
+        key={i}
+        href={link.link}
+        className="hover:text-white transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal"
+      >
+        {link.name}
+      </Link>
+    ))}
+  </nav>
+
+  {/* Logo */}
+  <div className={`${lang === "en" ? "mr-35" : "ml-50"} flex justify-center`}>
+    <Image
+      src="/logo.png"
+      alt="header logo image"
+      width={90}
+      height={90}
+      className="object-contain rounded-lg"
+    />
+  </div>
+
+  {/* Right Side */}
+  <div className="flex items-center gap-4">
+    <button className="bg-green-500/80 hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
+      <FiPhoneCall size={16} />
+    </button>
+
+    <div className="flex items-center gap-3 text-lg">
+      <FiShoppingCart className="cursor-pointer hover:scale-110 transition" />
+      <FiSearch className="cursor-pointer hover:scale-110 transition" />
+    </div>
+
+    <select
+      onChange={handleChange}
+      value={lang}
+      className="bg-transparent border border-white/20 rounded-md px-2 py-1 text-sm focus:outline-none"
+    >
+      <option value="en" className="text-black">EN</option>
+      <option value="ar" className="text-black">AR</option>
+    </select>
+  </div>
+</header>
   );
 }

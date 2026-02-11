@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+body{
+  box-sizing: border-box;
+}
 
 html[lang="ar"] {
   direction: rtl;
