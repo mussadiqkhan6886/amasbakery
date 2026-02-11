@@ -2,6 +2,7 @@
 
 body{
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 html[lang="ar"] {
@@ -12,6 +13,11 @@ html[lang="ar"] {
 html[lang="en"] {
   direction: ltr;
   text-align: left;
+}
+
+.navLink {
+  color: rgb(255 255 255);
+  mix-blend-mode: difference;
 }
 
 @theme {
