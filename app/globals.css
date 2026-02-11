@@ -10,3 +10,9 @@ html[lang="en"] {
   direction: ltr;
   text-align: left;
 }
+
+@theme {
+  ---color-main: #6E5034;
+  --color-normal: #CDB885;
+  --color-light: #EFE1B5;
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import HtmlLangSetter from "@/components/customer/HTMLLangSelector";
 
 export const metadata: Metadata = {
   title: "Amas Bakery",
@@ -13,12 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html>
       <body
         className={`antialiased`}
       >
         <LanguageProvider>
         {children}
+        <HtmlLangSetter />
         </LanguageProvider>
       </body>
     </html>
