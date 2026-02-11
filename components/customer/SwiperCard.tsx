@@ -24,11 +24,10 @@ const SwiperCard: React.FC<SwiperCardProps> = ({ data , delay}) => {
       }}
       speed={2500}          // controls smoothness
       loop={true}
-      className='bg-main p-2 shadow-inner'
     >
       {data.map((item) => (
         <SwiperSlide key={item.id}>
-          <div className="flex flex-col items-center p-4">
+          <div className="flex flex-col  items-center p-4">
             <div className="w-32 h-32 relative mb-2">
               <Image src={item.image} alt={item.name} fill className="object-cover rounded-lg" />
             </div>
