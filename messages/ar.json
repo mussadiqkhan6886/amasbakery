@@ -1,0 +1,8 @@
+{
+  "headerLinks": [
+    { "name": "من نحن", "link": "/about" },
+    { "name": "قائمة الطعام", "link": "/collections/all" },
+    { "name": "خصص كعكتك", "link": "/collections/customize-your-cake" },
+    { "name": "كعكات المناسبات", "link": "/collections/occasion-cakes" }
+  ]
+}
