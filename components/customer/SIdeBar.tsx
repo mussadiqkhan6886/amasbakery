@@ -14,7 +14,7 @@ const SideBar = ({
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/20 backdrop-blur-lg z-40 h-screen"
+        className="fixed inset-0 bg-transparent backdrop-blur-lg z-40 h-screen"
         onClick={() => setShowSideBar(false)}
       />
 
