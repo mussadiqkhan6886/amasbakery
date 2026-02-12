@@ -6,10 +6,12 @@ import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import {FiMenu, FiPhoneCall, FiSearch, FiShoppingCart} from "react-icons/fi"
 import SIdeBar from "./SIdeBar";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const { lang, switchLang } = useLanguage();
     const [showSideBar, setShowSideBar] = useState(false)
+    const pathname = usePathname()
 
     const headerLinks = [
     { name: lang === 'en' ? 'About' : 'من نحن', link: '/about' },
@@ -34,7 +36,7 @@ export default function Header() {
     backdrop-blur-md
     bg-white/10
     border border-white/20
-    text-zinc-100
+  ${pathname.includes("/about") ? "text-black" : "text-zinc-100"}
     z-50
   `}
 >
@@ -43,7 +45,7 @@ export default function Header() {
       <Link
         key={i}
         href={link.link}
-        className="hover:text-white transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal font-light tracking-wider"
+        className={`${pathname.includes("/about") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal font-light tracking-wider`}
       >
         {link.name}
       </Link>
