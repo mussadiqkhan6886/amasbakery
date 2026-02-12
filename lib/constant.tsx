@@ -4,7 +4,9 @@ export const cakes = [
   // -------------------
   {
     name: { en: "Classic Vanilla", ar: "فانيليا كلاسيك" },
+    slug: "classic-vanilla",
     type: "menu",
+    category: "cake",
     description: {
       en: "Soft vanilla sponge with buttercream frosting.",
       ar: "كيك إسفنجي فانيليا ناعم مع كريمة الزبدة.",
@@ -14,7 +16,9 @@ export const cakes = [
   },
   {
     name: { en: "Chocolate Delight", ar: "متعة الشوكولاتة" },
+    slug: "chocolate-delight",
     type: "menu",
+    category: "cake",
     description: {
       en: "Rich chocolate cake topped with ganache.",
       ar: "كيك شوكولاتة غني مغطى بجناش.",
@@ -24,7 +28,9 @@ export const cakes = [
   },
   {
     name: { en: "Red Velvet", ar: "ريد فلفت" },
+    slug: "red-velvet",
     type: "menu",
+    category: "cake",
     description: {
       en: "Classic red velvet with cream cheese frosting.",
       ar: "ريد فلفت كلاسيكي مع كريمة الجبن.",
@@ -34,7 +40,9 @@ export const cakes = [
   },
   {
     name: { en: "Lemon Drizzle", ar: "ليمون دريزل" },
+    slug: "lemon-drizzle",
     type: "menu",
+    category: "cake",
     description: {
       en: "Tangy lemon sponge with zesty icing.",
       ar: "كيك إسفنجي بالليمون مع تغليفة لاذعة.",
@@ -44,7 +52,9 @@ export const cakes = [
   },
   {
     name: { en: "Carrot Cake", ar: "كيك الجزر" },
+    slug: "carrot-cake",
     type: "menu",
+    category: "cake",
     description: {
       en: "Moist carrot cake with cream cheese frosting.",
       ar: "كيك جزر رطب مع كريمة الجبن.",
@@ -54,7 +64,9 @@ export const cakes = [
   },
   {
     name: { en: "Strawberry Shortcake", ar: "كيك الفراولة" },
+    slug: "strawberry-shortcake",
     type: "menu",
+    category: "cake",
     description: {
       en: "Light sponge layered with fresh strawberries.",
       ar: "كيك إسفنجي خفيف مع طبقات من الفراولة الطازجة.",
@@ -64,7 +76,9 @@ export const cakes = [
   },
   {
     name: { en: "Coffee Hazelnut", ar: "قهوة وبندق" },
+    slug: "coffee-hazelnut",
     type: "menu",
+    category: "cake",
     description: {
       en: "Coffee-flavored sponge with nutty cream.",
       ar: "كيك إسفنجي بنكهة القهوة مع كريم البندق.",
@@ -74,7 +88,9 @@ export const cakes = [
   },
   {
     name: { en: "Pistachio Cake", ar: "كيك الفستق" },
+    slug: "pistachio-cake",
     type: "menu",
+    category: "cake",
     description: {
       en: "Pistachio-flavored sponge with white chocolate.",
       ar: "كيك إسفنجي بنكهة الفستق مع الشوكولاتة البيضاء.",
@@ -84,7 +100,9 @@ export const cakes = [
   },
   {
     name: { en: "Lotus Biscuit Cake", ar: "كيك بسكويت اللوتس" },
+    slug: "lotus-biscuit-cake",
     type: "menu",
+    category: "cookies",
     description: {
       en: "Caramel and Lotus biscuit flavored cake.",
       ar: "كيك بنكهة الكراميل وبسكويت اللوتس.",
@@ -94,7 +112,9 @@ export const cakes = [
   },
   {
     name: { en: "Oreo Cake", ar: "كيك أوريو" },
+    slug: "oreo-cake",
     type: "menu",
+    category: "cookies",
     description: {
       en: "Chocolate cake with Oreo cookie crumble.",
       ar: "كيك شوكولاتة مع فتات بسكويت أوريو.",
@@ -108,7 +128,9 @@ export const cakes = [
   // -------------------
   {
     name: { en: "Birthday Bash", ar: "عيد ميلاد كبير" },
+    slug: "birthday-bash",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Custom birthday cake with multiple flavors.",
       ar: "كيك عيد ميلاد مخصص مع نكهات متعددة.",
@@ -122,7 +144,9 @@ export const cakes = [
   },
   {
     name: { en: "Wedding Elegance", ar: "أناقة الزفاف" },
+    slug: "wedding-elegance",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Elegant multi-tier wedding cake.",
       ar: "كيك زفاف أنيق متعدد الطبقات.",
@@ -136,7 +160,9 @@ export const cakes = [
   },
   {
     name: { en: "Anniversary Special", ar: "ذكرى خاصة" },
+    slug: "anniversary-special",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Romantic cake for anniversaries.",
       ar: "كيك رومانسي للاحتفال بالذكرى السنوية.",
@@ -150,7 +176,9 @@ export const cakes = [
   },
   {
     name: { en: "Graduation Cake", ar: "كيك التخرج" },
+    slug: "graduation-cake",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Celebrate achievements with custom theme.",
       ar: "احتفل بالإنجازات مع تصميم مخصص.",
@@ -164,7 +192,9 @@ export const cakes = [
   },
   {
     name: { en: "Baby Shower Delight", ar: "بهجة حفلة المولود" },
+    slug: "baby-shower-delight",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Soft pastel cake perfect for baby showers.",
       ar: "كيك بألوان الباستيل الناعمة مثالي لحفلات المولود.",
@@ -178,7 +208,9 @@ export const cakes = [
   },
   {
     name: { en: "Holiday Special", ar: "عرض العطلات" },
+    slug: "holiday-special",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Festive cake for holidays and special events.",
       ar: "كيك احتفالي للعطلات والمناسبات الخاصة.",
@@ -192,7 +224,9 @@ export const cakes = [
   },
   {
     name: { en: "Corporate Cake", ar: "كيك الشركات" },
+    slug: "corporate-cake",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Professional cake for corporate events.",
       ar: "كيك احترافي للمناسبات والشركات.",
@@ -206,7 +240,9 @@ export const cakes = [
   },
   {
     name: { en: "Engagement Cake", ar: "كيك خطوبة" },
+    slug: "engagement-cake",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Beautiful cake to celebrate engagements.",
       ar: "كيك جميل للاحتفال بالخطوبة.",
@@ -220,7 +256,9 @@ export const cakes = [
   },
   {
     name: { en: "Retirement Cake", ar: "كيك التقاعد" },
+    slug: "retirement-cake",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Custom cake to celebrate retirement.",
       ar: "كيك مخصص للاحتفال بالتقاعد.",
@@ -234,7 +272,9 @@ export const cakes = [
   },
   {
     name: { en: "Milestone Celebration", ar: "احتفال بالإنجازات" },
+    slug: "milestone-celebration",
     type: "occasion-cakes",
+    category: "cake",
     description: {
       en: "Perfect for any milestone celebration.",
       ar: "مثالي للاحتفال بأي إنجاز مهم.",
@@ -246,5 +286,4 @@ export const cakes = [
     messagePrice: 7,
     specialInstructions: true,
   },
-
 ];
