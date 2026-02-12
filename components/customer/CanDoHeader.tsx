@@ -5,7 +5,7 @@ import React from 'react'
 import ScrollFloat from '../ui/HeadingScroll';
 import { playFair } from '@/lib/fonts';
 
-const CanDoHeader = () => {
+const CanDoHeader = ({en, ar}: {en: string, ar: string}) => {
     const {t, lang} = useLanguage()
   return (
     <>
@@ -16,9 +16,9 @@ const CanDoHeader = () => {
         scrollEnd='bottom bottom-=40%'
         stagger={0.03}
         >
-        What can we do for you
+       {en}
         </ScrollFloat> : <h3 className={`${playFair.className} text-center mt-30 text-4xl md:text-5xl my-15`}>
-        ما الذي يمكننا تقديمه لكم؟</h3>} 
+        {ar}</h3>} 
     </>
   )
 }

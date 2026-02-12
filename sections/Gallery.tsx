@@ -1,3 +1,4 @@
+import CanDoHeader from '@/components/customer/CanDoHeader'
 import ScrollFloat from '@/components/ui/HeadingScroll'
 import Image from 'next/image'
 import React from 'react'
@@ -5,15 +6,7 @@ import React from 'react'
 const Gallery = () => {
   return (
     <section className='my-20 max-w-6xl mx-auto px-4'>
-      <ScrollFloat
-        animationDuration={1}
-        ease='back.inOut(2)'
-        scrollStart='center bottom+=50%'
-        scrollEnd='bottom bottom-=40%'
-        stagger={0.03}
-      >
-        Gallery
-      </ScrollFloat>
+      <CanDoHeader en='Gallery' ar='معرض' />
 
       <div className='grid grid-cols-4 grid-rows-3 gap-4 h-[670px] mt-10'>
         

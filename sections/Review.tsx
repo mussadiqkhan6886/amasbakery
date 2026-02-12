@@ -1,83 +1,72 @@
-'use client'
-
 import React from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay } from 'swiper/modules'
-import 'swiper/css'
-import ScrollFloat from '@/components/ui/HeadingScroll'
+import CanDoHeader from '@/components/customer/CanDoHeader'
+import ReviewsSwiper from '@/components/customer/ReviewsSwiper'
 
-const reviews = [
+export const reviews = [
   {
     id: 1,
-    review:
-      "The chocolate cake was absolutely divine. Soft, rich, and perfectly balanced sweetness. Highly recommended!",
-    name: "Ayesha Khan",
+    review: {
+      en: "The chocolate cake was absolutely divine. Soft, rich, and perfectly balanced sweetness. Highly recommended!",
+      ar: "كيك الشوكولاتة كان رائعًا للغاية. طري وغني ومتوازن الحلاوة بشكل مثالي. أنصح به بشدة!",
+    },
+    name: {
+      en: "Ayesha Khan",
+      ar: "عائشة خان",
+    },
   },
   {
     id: 2,
-    review:
-      "Best bakery experience in town. The ambiance and pastries both feel luxurious and fresh.",
-    name: "Omar Hassan",
+    review: {
+      en: "Best bakery experience in town. The ambiance and pastries both feel luxurious and fresh.",
+      ar: "أفضل تجربة مخبز في المدينة. الأجواء والمعجنات كلاهما فاخر وطازج.",
+    },
+    name: {
+      en: "Omar Hassan",
+      ar: "عمر حسن",
+    },
   },
   {
     id: 3,
-    review:
-      "Their brownies melt in your mouth. I ordered once and now I’m a regular customer.",
-    name: "Fatima Ali",
+    review: {
+      en: "Their brownies melt in your mouth. I ordered once and now I’m a regular customer.",
+      ar: "البراوني لديهم يذوب في الفم. طلبت مرة واحدة وأصبحت الآن زبونًا دائمًا.",
+    },
+    name: {
+      en: "Fatima Ali",
+      ar: "فاطمة علي",
+    },
   },
   {
     id: 4,
-    review:
-      "Beautiful presentation and amazing taste. Perfect for special occasions.",
-    name: "Zain Ahmed",
+    review: {
+      en: "Beautiful presentation and amazing taste. Perfect for special occasions.",
+      ar: "تقديم جميل وطعم رائع. مثالي للمناسبات الخاصة.",
+    },
+    name: {
+      en: "Zain Ahmed",
+      ar: "زين أحمد",
+    },
   },
   {
     id: 5,
-    review:
-      "The freshness is unmatched. You can taste the quality ingredients.",
-    name: "Sara Malik",
+    review: {
+      en: "The freshness is unmatched. You can taste the quality ingredients.",
+      ar: "الطزاجة لا مثيل لها. يمكنك تذوق جودة المكونات في كل قطعة.",
+    },
+    name: {
+      en: "Sara Malik",
+      ar: "سارة مالك",
+    },
   },
-]
+];
+
 
 const Review = () => {
   return (
     <section className="my-24 bg-main py-10 text-light px-6">
-      <ScrollFloat
-        animationDuration={1}
-        ease='back.inOut(2)'
-        scrollStart='center bottom+=50%'
-        scrollEnd='bottom bottom-=40%'
-        stagger={0.03}
-        textClassName='text-light'
-        >
-        What Our Customer Says
-        </ScrollFloat>
+      <CanDoHeader en='What Our Customer Says' ar="ما يقوله عملاؤنا" />
 
-      <Swiper
-        modules={[Autoplay]}
-        slidesPerView={2}
-        spaceBetween={20}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        speed={1000}
-        loop={true}
-        className="w-full mt-10 max-w-6xl mx-auto"
-      >
-        {reviews.map((item) => (
-          <SwiperSlide key={item.id}>
-            <div className="bg-main/80 text-light p-10 rounded-2xl text-center h-62">
-              <p className="text-lg italic leading-relaxed mb-6">
-                “{item.review}”
-              </p>
-              <h4 className="text-xl font-semibold tracking-wide">
-                — {item.name}
-              </h4>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <ReviewsSwiper data={reviews} />
     </section>
   )
 }

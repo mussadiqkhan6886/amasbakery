@@ -8,7 +8,7 @@ import { FiArrowUpRight } from 'react-icons/fi'
 const CanDo = () => {
   return (
     <section className='my-20 max-w-8xl mx-auto'>
-       <CanDoHeader />
+       <CanDoHeader en=' What can we do for you' ar='ما الذي يمكننا تقديمه لكم؟' />
         <section className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-2'>
             <div className='relative'>
                 <div className='absolute inset-0 w-full h-full bg-black/20' />
