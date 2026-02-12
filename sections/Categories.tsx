@@ -74,7 +74,7 @@ const Categories = () => {
             <CategoryCard delay={2000} header='Cake' link='/' data={cakes} />
             <CategoryCard delay={2000} header='Cupcake' link='/' data={pastries2} />
             <CategoryCard delay={2200} header='Pastry' link='/' data={pastries} />
-            <CategoryCard delay={2200} header='Date' link='/' data={dates} />
+            <CategoryCard delay={2000} header='Date' link='/' data={dates} />
             <CategoryCard delay={2400} header='Brownies' link='/' data={brownies} />
             <CategoryCard delay={2400} header='Cookies' link='/' data={cookies} />
         </div>
