@@ -5,7 +5,6 @@ import React from 'react'
 const Hero = () => {
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      {/* First video: always visible */}
       <video
         className="absolute bottom-0 md:top-0 left-0 w-full h-[50%] md:h-full object-cover"
         src="/hero.mp4"
