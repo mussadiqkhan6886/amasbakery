@@ -21,7 +21,7 @@ const AboutUs = () => {
         About Us
         </ScrollFloat> : <h3 className={`${playFair.className} text-4xl md:text-5xl my-5`}>معلومات عنا</h3>}
 
-          {t(` At Ama’s Bakery, every creation is baked with love and passion.
+        <p className="text-center max-w-4xl mx-auto">{t(` At Ama’s Bakery, every creation is baked with love and passion.
         We craft delightful pastries, cakes, and treats that bring joy to every bite.
         Using only the finest ingredients, we blend tradition with a touch of modern artistry.
         
@@ -32,7 +32,7 @@ const AboutUs = () => {
 
 مهمتنا بسيطة: أن نجعل كل لحظة أحلى وكل احتفال لا يُنسى.
 
-تفضلوا بالدخول، واستمتعوا، ودعوا براعم ذوقكم تتذوق لحظات من السعادة.`, lang)}
+تفضلوا بالدخول، واستمتعوا، ودعوا براعم ذوقكم تتذوق لحظات من السعادة.`, lang)}</p>
     </section>
   )
 }
