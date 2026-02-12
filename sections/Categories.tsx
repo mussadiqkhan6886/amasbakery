@@ -68,10 +68,9 @@ const Categories = () => {
         scrollEnd='bottom bottom-=40%'
         stagger={0.03}
         >
-        Categories
+        Menu
         </ScrollFloat>
-        <CategoriesSwiper />
-        <div className='grid grid-cols-2 gap-5 max-w-7xl mx-auto place-items-center'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-7xl mx-auto place-items-center'>
             <CategoryCard delay={2000} header='Cake' link='/' data={cakes} />
             <CategoryCard delay={2000} header='Cupcake' link='/' data={pastries2} />
             <CategoryCard delay={2200} header='Pastry' link='/' data={pastries} />

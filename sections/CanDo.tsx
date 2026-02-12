@@ -16,7 +16,7 @@ const CanDo = () => {
         What can we do for you
         </ScrollFloat>
 
-        <section className='grid grid-cols-3 mt-2'>
+        <section className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-2'>
             <div className='relative'>
                 <div className='absolute inset-0 w-full h-full bg-black/20' />
                 <video className='h-[88vh] w-full object-cover object-center'  src={"/menu.mp4"} muted playsInline autoPlay loop />
