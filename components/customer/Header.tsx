@@ -15,7 +15,7 @@ export default function Header() {
 
     const headerLinks = [
     { name: lang === 'en' ? 'About' : 'من نحن', link: '/about' },
-    { name: lang === 'en' ? 'Menu' : 'قائمة الطعام', link: '/collections/all' },
+    { name: lang === 'en' ? 'Menu' : 'قائمة الطعام', link: '/collections/menu' },
     { name: lang === 'en' ? 'Customize Your Cake' : 'خصص كعكتك', link: '/customize-your-cake' },
     { name: lang === 'en' ? 'Occasion Cakes' : 'كعكات المناسبات', link: '/collections/occasion-cakes' }
   ];
