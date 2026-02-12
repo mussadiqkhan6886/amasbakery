@@ -35,7 +35,8 @@ const Gallery = () => {
         <div className="relative rounded-xl overflow-hidden aspect-square">
           <Image
             src="/cake.jpg"
-            fill
+            width={300}
+            height={300}
             alt="cake"
             className="object-cover"
           />
@@ -45,7 +46,8 @@ const Gallery = () => {
         <div className="relative rounded-xl overflow-hidden aspect-square">
           <Image
             src="/brownie.jpg"
-            fill
+            width={300}
+            height={300}
             alt="brownie"
             className="object-cover"
           />

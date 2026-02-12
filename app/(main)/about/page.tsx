@@ -23,7 +23,8 @@ const Page = () => {
             <Image
               src="/About2.png"
               alt="Amas Bakery"
-              fill
+              width={300}
+              height={300}
               className="object-cover"
             />
           </div>
@@ -102,7 +103,8 @@ const Page = () => {
               <Image
                 src="/About2.png"
                 alt="Amas Bakery Story"
-                fill
+                width={400}
+                height={400}
                 className="object-cover"
               />
             </div>

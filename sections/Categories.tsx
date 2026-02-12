@@ -67,7 +67,7 @@ const Categories = () => {
             <CategoryCard delay={2000} header={t("Cake", "كعكة", lang)} link='/' data={cakes} />
             <CategoryCard delay={2000} header={t('Cupcake', "كب كيك", lang)} link='/' data={pastries2} />
             <CategoryCard delay={2100} header={t("Dates","بلح" ,lang)} link='/' data={dates} />
-            <CategoryCard delay={2400} header={t("Cookies", "ملفات تعريف الارتباط" ,lang)} link='/' data={cookies} />
+            <CategoryCard delay={2100} header={t("Cookies", "ملفات تعريف الارتباط" ,lang)} link='/' data={cookies} />
         </div>
     </section>
   )

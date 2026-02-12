@@ -127,7 +127,8 @@ const Collections = () => {
               <Image
                 src={item.image}
                 alt={item.name.en}
-                fill
+                width={400}
+                height={400}
                 className="object-cover group-hover:scale-105 transition duration-700"
               />
             </div>
