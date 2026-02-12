@@ -34,7 +34,6 @@ export default function Header() {
     backdrop-blur-md
     bg-white/10
     border border-white/20
-    shadow-lg shadow-black/10
     text-zinc-100
     z-50
   `}

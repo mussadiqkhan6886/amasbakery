@@ -3,7 +3,7 @@ import CanDoVideoHeading from '@/components/customer/CanDoVideoHeading'
 import ScrollFloat from '@/components/ui/HeadingScroll'
 import { playFair } from '@/lib/fonts'
 import React from 'react'
-import { FiArrowUpRight } from 'react-icons/fi'
+import { FiArrowRight, FiArrowUpRight } from 'react-icons/fi'
 
 const CanDo = () => {
   return (
@@ -13,17 +13,17 @@ const CanDo = () => {
             <div className='relative'>
                 <div className='absolute inset-0 w-full h-full bg-black/20' />
                 <video className=' md:h-[88vh] w-full object-cover object-center'  src={"/menu.mp4"} muted playsInline autoPlay loop />
-                <CanDoVideoHeading header='Menu ↗' ar="قائمة طعام ↗" />
+                <CanDoVideoHeading header={`Menu`} ar="قائمة طعام " />
             </div>
             <div className='relative'>
                 <div className='absolute inset-0 w-full h-full bg-black/20' />
                 <video className='md:h-[88vh] w-full object-cover object-center'  src={"/occasion.mp4"} muted playsInline autoPlay loop />
-                <CanDoVideoHeading header='Occasion Cakes ↗' ar='كعك المناسبات ↗' />
+                <CanDoVideoHeading header={`Occasion Cakes `} ar='كعك المناسبات ' />
             </div>
             <div className='relative'>
                 <div className='absolute inset-0 w-full h-full bg-black/20' />
                 <video className='md:h-[88vh] w-full object-cover object-center'  src={"/customize.mp4"} muted playsInline autoPlay loop />
-                <CanDoVideoHeading header='Customize Your Cake ↗' ar='تخصيص الكعكة الخاصة بك ↗' />
+                <CanDoVideoHeading header={`Customize Your Cake`} ar='تخصيص الكعكة الخاصة بك ' />
 
             </div>
         </section>
