@@ -64,7 +64,7 @@ export const reviews = [
 const Review = () => {
   return (
     <section className="my-24 bg-main py-10 text-light px-6">
-      <CanDoHeader en='What Our Customer Says' ar="ما يقوله عملاؤنا" />
+      <CanDoHeader en='Reviews' ar="ما يقوله عملاؤنا" />
 
       <ReviewsSwiper data={reviews} />
     </section>

@@ -12,17 +12,17 @@ const CanDo = () => {
         <section className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-2'>
             <div className='relative'>
                 <div className='absolute inset-0 w-full h-full bg-black/20' />
-                <video className='h-[88vh] w-full object-cover object-center'  src={"/menu.mp4"} muted playsInline autoPlay loop />
+                <video className=' md:h-[88vh] w-full object-cover object-center'  src={"/menu.mp4"} muted playsInline autoPlay loop />
                 <CanDoVideoHeading header='Menu ↗' ar="قائمة طعام ↗" />
             </div>
             <div className='relative'>
                 <div className='absolute inset-0 w-full h-full bg-black/20' />
-                <video className='h-[88vh] w-full object-cover object-center'  src={"/occasion.mp4"} muted playsInline autoPlay loop />
+                <video className='md:h-[88vh] w-full object-cover object-center'  src={"/occasion.mp4"} muted playsInline autoPlay loop />
                 <CanDoVideoHeading header='Occasion Cakes ↗' ar='كعك المناسبات ↗' />
             </div>
             <div className='relative'>
                 <div className='absolute inset-0 w-full h-full bg-black/20' />
-                <video className='h-[88vh] w-full object-cover object-center'  src={"/customize.mp4"} muted playsInline autoPlay loop />
+                <video className='md:h-[88vh] w-full object-cover object-center'  src={"/customize.mp4"} muted playsInline autoPlay loop />
                 <CanDoVideoHeading header='Menu ↗' ar='تخصيص الكعكة الخاصة بك ↗' />
 
             </div>

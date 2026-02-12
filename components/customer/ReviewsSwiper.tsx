@@ -9,9 +9,16 @@ const ReviewsSwiper = ({data}: {data:any}) => {
     const {t, lang} = useLanguage()
   return (
     <Swiper
-        slidesPerView={2}
+        slidesPerView={1}
         spaceBetween={20}
         className="w-full mt-10 max-w-6xl mx-auto"
+        breakpoints={
+            {
+                680: {slidesPerView: 1},
+                880: {slidesPerView: 2}
+
+            }
+        }
       >
         {data.map((item: any) => (
           <SwiperSlide key={item.id}>

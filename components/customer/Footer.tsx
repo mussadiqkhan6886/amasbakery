@@ -13,7 +13,7 @@ const Footer = () => {
       <div className="text-center flex items-center justify-center p-2">
         <FiInstagram />
       </div>
-      <div className='flex justify-between py-5 px-2 items-center'>
+      <div className='flex gap-4 flex-col md:flex-row justify-between py-5 px-2 items-center'>
         <div className='flex flex-col gap-2 text-sm'>
           <Link href={"/"}>{t("Shipping & Returns", "الشحن والإرجاع", lang)}</Link>
           <Link href={"/"}>{t("Terms & Condition", "الشروط والأحكام" ,lang)}</Link>
