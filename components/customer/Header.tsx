@@ -36,7 +36,7 @@ export default function Header() {
     backdrop-blur-md
     bg-white/10
     border border-white/20
-  ${pathname.includes("/about") ? "text-black" : "text-zinc-100"}
+  ${pathname.includes("/about") || pathname.includes("/collections") ? "text-black" : "text-zinc-100"}
     z-50
   `}
 >
@@ -45,7 +45,7 @@ export default function Header() {
       <Link
         key={i}
         href={link.link}
-        className={`${pathname.includes("/about") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal font-light tracking-wider`}
+        className={`${pathname.includes("/about") || pathname.includes("/collections") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal font-light tracking-wider`}
       >
         {link.name}
       </Link>
