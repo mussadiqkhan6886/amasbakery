@@ -16,7 +16,7 @@ export default function Header() {
     const headerLinks = [
     { name: lang === 'en' ? 'About' : 'من نحن', link: '/about' },
     { name: lang === 'en' ? 'Menu' : 'قائمة الطعام', link: '/collections/all' },
-    { name: lang === 'en' ? 'Customize Your Cake' : 'خصص كعكتك', link: '/collections/customize-your-cake' },
+    { name: lang === 'en' ? 'Customize Your Cake' : 'خصص كعكتك', link: '/customize-your-cake' },
     { name: lang === 'en' ? 'Occasion Cakes' : 'كعكات المناسبات', link: '/collections/occasion-cakes' }
   ];
 
@@ -28,7 +28,7 @@ export default function Header() {
     <header
   className={`
     ${lang === "ar" ? "rtl" : "ltr"}
-    fixed top-4 left-1/2 -translate-x-1/2
+  ${pathname.includes("/collections/all") || pathname.includes("/collections/occasion-cakes") ? "relative" : "fixed"} top-4 left-1/2 -translate-x-1/2
     w-[95%] max-w-7xl
     px-6 py-1
     flex items-center justify-between
@@ -36,7 +36,7 @@ export default function Header() {
     backdrop-blur-md
     bg-white/10
     border border-white/20
-  ${pathname.includes("/about") || pathname.includes("/collections") ? "text-black" : "text-zinc-100"}
+  ${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") ? "text-black" : "text-zinc-100"}
     z-50
   `}
 >
@@ -45,7 +45,7 @@ export default function Header() {
       <Link
         key={i}
         href={link.link}
-        className={`${pathname.includes("/about") || pathname.includes("/collections") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal font-light tracking-wider`}
+        className={`${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal font-light tracking-wider`}
       >
         {link.name}
       </Link>
