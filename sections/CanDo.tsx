@@ -23,7 +23,7 @@ const CanDo = () => {
             <div className='relative'>
                 <div className='absolute inset-0 w-full h-full bg-black/20' />
                 <video className='md:h-[88vh] w-full object-cover object-center'  src={"/customize.mp4"} muted playsInline autoPlay loop />
-                <CanDoVideoHeading header='Menu ↗' ar='تخصيص الكعكة الخاصة بك ↗' />
+                <CanDoVideoHeading header='Customize Your Cake ↗' ar='تخصيص الكعكة الخاصة بك ↗' />
 
             </div>
         </section>
