@@ -12,8 +12,8 @@ const Home = () => {
     <main>
       <Language />
       <Hero />
-      <AboutUs />
       <CanDo />
+      <AboutUs />
       <Categories />
       <Gallery />
       <Review />

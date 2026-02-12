@@ -17,15 +17,6 @@ export const cakes = [
 ];
 
 
-// Pastry
-export const pastries = [
-  { id: 1, name: { en: "Croissant", ar: "كرواسون" }, image: "/pastry.jpg", price: 5 },
-  { id: 2, name: { en: "Danish Pastry", ar: "معجنات دنماركية" }, image: "/pastry.jpg", price: 6 },
-  { id: 3, name: { en: "Chocolate Pastry", ar: "معجنات الشوكولاتة" }, image: "/pastry.jpg", price: 7 },
-  { id: 4, name: { en: "Almond Pastry", ar: "معجنات اللوز" }, image: "/pastry.jpg", price: 6 },
-  { id: 5, name: { en: "Fruit Pastry", ar: "معجنات الفواكه" }, image: "/pastry.jpg", price: 6 },
-];
-
 
 // Dates
 export const dates = [
@@ -46,15 +37,6 @@ export const cookies = [
   { id: 5, name: { en: "Snickerdoodle", ar: "سنيكردودل" }, image: "/cookies.jpg", price: 4 },
 ];
 
-
-// Brownies
-export const brownies = [
-  { id: 1, name: { en: "Fudge Brownie", ar: "براوني فادج" }, image: "/brownie.jpg", price: 5 },
-  { id: 2, name: { en: "Walnut Brownie", ar: "براوني بالجوز" }, image: "/brownie.jpg", price: 6 },
-  { id: 3, name: { en: "Caramel Brownie", ar: "براوني بالكراميل" }, image: "/brownie.jpg", price: 6 },
-  { id: 4, name: { en: "Chocolate Chip Brownie", ar: "براوني برقائق الشوكولاتة" }, image: "/brownie.jpg", price: 5 },
-  { id: 5, name: { en: "Mint Brownie", ar: "براوني بالنعناع" }, image: "/brownie.jpg", price: 6 },
-];
 
 
 export const pastries2 = [
@@ -84,9 +66,7 @@ const Categories = () => {
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-7xl mx-auto place-items-center'>
             <CategoryCard delay={2000} header={t("Cake", "كعكة", lang)} link='/' data={cakes} />
             <CategoryCard delay={2000} header={t('Cupcake', "كب كيك", lang)} link='/' data={pastries2} />
-            <CategoryCard delay={2200} header={t("Pastry", "معجنات", lang)} link='/' data={pastries} />
             <CategoryCard delay={2100} header={t("Dates","بلح" ,lang)} link='/' data={dates} />
-            <CategoryCard delay={2400} header={t("Brownies", "الكعك" ,lang)} link='/' data={brownies} />
             <CategoryCard delay={2400} header={t("Cookies", "ملفات تعريف الارتباط" ,lang)} link='/' data={cookies} />
         </div>
     </section>
