@@ -28,7 +28,7 @@ export default function Header() {
     <header
   className={`
     ${lang === "ar" ? "rtl" : "ltr"}
-  ${pathname.includes("/collections/menu") || pathname.includes("/collections/occasion-cakes") ? "relative w-full" : "fixed left-1/2 -translate-x-1/2 w-[95%]"} top-4
+  ${pathname.includes("/collections/menu") || pathname.includes("/collections/occasion-cakes") ? "relative w-full mx-auto" : "fixed left-1/2 -translate-x-1/2 w-[95%]"} top-4
      max-w-7xl
     px-6 py-1
     flex items-center justify-between
