@@ -46,13 +46,12 @@ const Product = async ({ params }: { params: Promise<{ slug: string }> }) => {
     );
   }
 
- const defaultSize = data.price
-  ? Object.keys(data.price)[0] as keyof typeof data.price
-  : Object.keys(data.basePrice)[0] as keyof typeof data.basePrice;
+  function getPrice(obj: Partial<Record<string, number>>, key: string) {
+    return obj[key] ?? 0; // fallback if undefined
+  }
 
-const price = data.price
-  ? data.price[defaultSize]
-  : data.basePrice[defaultSize];
+  const defaultSize = data.price ? Object.keys(data.price)[0] : Object.keys(data.basePrice)[0];
+  const price = data.price ? getPrice(data.price, defaultSize) : getPrice(data.basePrice, defaultSize);
 
 
   return (

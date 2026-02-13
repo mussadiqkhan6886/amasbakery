@@ -15,10 +15,6 @@ html[lang="en"] {
   text-align: left;
 }
 
-.navLink {
-  color: rgb(255 255 255);
-  mix-blend-mode: difference;
-}
 
 @theme {
   --color-main: #6E5034;
