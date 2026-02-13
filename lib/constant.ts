@@ -100,7 +100,55 @@ export const cakes: Product[] = [
   },
 
   // =====================================
-  // OCCASION CAKES
+  // MENU — DATES
+  // =====================================
+  {
+    name: { en: "Stuffed Dates Deluxe", ar: "تمر محشي فاخر" },
+    slug: "stuffed-dates-deluxe",
+    type: "menu",
+    category: { en: "dates", ar: "تمر" },
+    description: {
+      en: "Premium dates stuffed with nuts and chocolate.",
+      ar: "تمر فاخر محشي بالمكسرات والشوكولاتة.",
+    },
+    image: "/dates.webp",
+    varieties: [{ size: "box", price: 50 }],
+  },
+
+  // =====================================
+  // MENU — BROWNIES
+  // =====================================
+  {
+    name: { en: "Classic Brownie", ar: "براوني كلاسيك" },
+    slug: "classic-brownie",
+    type: "menu",
+    category: { en: "brownie", ar: "براوني" },
+    description: {
+      en: "Dense chocolate brownie squares.",
+      ar: "قطع براوني شوكولاتة غنية.",
+    },
+    image: "/brownie.webp",
+    varieties: [{ size: "box", price: 40 }],
+  },
+
+  // =====================================
+  // MENU — PASTRY
+  // =====================================
+  {
+    name: { en: "Mini Fruit Pastry", ar: "فطائر فواكه صغيرة" },
+    slug: "mini-fruit-pastry",
+    type: "menu",
+    category: { en: "pastry", ar: "فطائر" },
+    description: {
+      en: "Mini pastries topped with fresh fruits.",
+      ar: "فطائر صغيرة مغطاة بفواكه طازجة.",
+    },
+    image: "/pastry.webp",
+    varieties: [{ size: "box", price: 45 }],
+  },
+
+  // =====================================
+  // OCCASION CAKES — ONLY CAKES
   // =====================================
   {
     name: { en: "Birthday Celebration Cake", ar: "كيك عيد ميلاد احتفالي" },
@@ -119,6 +167,26 @@ export const cakes: Product[] = [
     ],
     flavors: ["Vanilla", "Chocolate", "Red Velvet", "Strawberry"],
     messagePrice: 5,
+    specialInstructions: true,
+  },
+  {
+    name: { en: "Wedding Cake Elegant", ar: "كيك زفاف أنيق" },
+    slug: "wedding-cake-elegant",
+    type: "occasion",
+    category: { en: "cake", ar: "كيك" },
+    description: {
+      en: "Multi-tier wedding cake with elegant design.",
+      ar: "كيك زفاف متعدد الطبقات بتصميم أنيق.",
+    },
+    image: "/cake.webp",
+    varieties: [
+      { size: "6inch", price: 60 },
+      { size: "8inch", price: 90 },
+      { size: "10inch", price: 120 },
+    ],
+    tiers: ["Two Tier", "Three Tier"],
+    flavors: ["Vanilla", "Chocolate", "Red Velvet"],
+    messagePrice: 10,
     specialInstructions: true,
   },
 ];

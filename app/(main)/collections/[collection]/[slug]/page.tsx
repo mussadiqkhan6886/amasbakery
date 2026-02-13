@@ -63,6 +63,28 @@ const Product = async ({ params }: { params: Promise<{ slug: string }> }) => {
               }
             </select>
           </div>
+          {data.tiers && <div className="flex flex-col w-full gap-2">
+            <label className="font-medium">Tiers</label>
+            <select className="border w-full border-gray-300 rounded px-3 py-2">
+              {data.tiers.map((item, i) => (
+                <option key={i} value={item}>
+                    {item}
+                  </option>
+                ))
+              }
+            </select>
+          </div>}
+          {data.flavors && <div className="flex flex-col w-full gap-2">
+            <label className="font-medium">Size</label>
+            <select className="border w-full border-gray-300 rounded px-3 py-2">
+              {data.flavors.map((item, i) => (
+                <option key={i} value={item}>
+                    {item}
+                  </option>
+                ))
+              }
+            </select>
+          </div>}
 
             <Message />
           {/* Quantity Selector */}
