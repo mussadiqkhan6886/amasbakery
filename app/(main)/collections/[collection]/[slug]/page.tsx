@@ -30,7 +30,7 @@ const Product = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-12">
-      <section className="flex flex-col lg:flex-row justify-between">
+      <section className="flex flex-col gap-10 lg:flex-row justify-between">
         {/* Product Image */}
         <div className="flex-1">
           <Image

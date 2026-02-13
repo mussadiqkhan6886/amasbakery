@@ -1,8 +1,7 @@
 'use client';
 
-import ScrollFloat from '@/components/ui/HeadingScroll'
+import CanDoHeader from '@/components/customer/CanDoHeader';
 import { useLanguage } from '@/context/LanguageContext';
-import { playFair } from '@/lib/fonts';
 import React from 'react'
 
 const AboutUs = () => {
@@ -11,15 +10,7 @@ const AboutUs = () => {
   return (
     <section className='h-full my-20 max-w-7xl mx-auto flex items-center justify-center flex-col gap-3'>
 
-        {lang === "en" ? <ScrollFloat
-        animationDuration={1}
-        ease='back.inOut(2)'
-        scrollStart='center bottom+=50%'
-        scrollEnd='bottom bottom-=40%'
-        stagger={0.03}
-        >
-        About Us
-        </ScrollFloat> : <h3 className={`${playFair.className} text-4xl md:text-5xl my-5`}>معلومات عنا</h3>}
+        <CanDoHeader en="About Us" ar="معلومات عنا" />
 
         <p className="text-center max-w-4xl mx-auto">{t(` At Ama’s Bakery, every creation is baked with love and passion.
         We craft delightful pastries, cakes, and treats that bring joy to every bite.

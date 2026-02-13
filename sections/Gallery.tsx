@@ -1,6 +1,7 @@
 import CanDoHeader from '@/components/customer/CanDoHeader';
 import Image from 'next/image';
 import React from 'react';
+import { FiPlayCircle } from 'react-icons/fi';
 
 const Gallery = () => {
   return (
@@ -13,20 +14,17 @@ const Gallery = () => {
         <div className="relative rounded-xl overflow-hidden sm:col-span-2 aspect-[16/9]">
           <video
             src="/hero.mp4"
-            autoPlay
-            muted
-            loop
+            controls
             className="w-full h-full object-cover"
           />
+          
         </div>
 
         {/* Side tall video (1 col, 2 rows) */}
         <div className="relative rounded-xl overflow-hidden sm:row-span-2 sm:col-span-1 aspect-[9/16]">
           <video
             src="/menu.mp4"
-            autoPlay
-            muted
-            loop
+            controls
             className="w-full h-full object-cover"
           />
         </div>

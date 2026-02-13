@@ -1,9 +1,5 @@
 import CanDoHeader from '@/components/customer/CanDoHeader'
 import CanDoVideoHeading from '@/components/customer/CanDoVideoHeading'
-import ScrollFloat from '@/components/ui/HeadingScroll'
-import { playFair } from '@/lib/fonts'
-import React from 'react'
-import { FiArrowRight, FiArrowUpRight } from 'react-icons/fi'
 
 const CanDo = () => {
   return (

@@ -6,7 +6,7 @@ import ScrollFloat from '../ui/HeadingScroll';
 import { playFair } from '@/lib/fonts';
 
 const CanDoHeader = ({en, ar}: {en: string, ar: string}) => {
-    const {t, lang} = useLanguage()
+    const {lang} = useLanguage()
   return (
     <>
      {lang === "en" ? <ScrollFloat
