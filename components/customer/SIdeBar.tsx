@@ -14,7 +14,7 @@ const SideBar = ({
   return (
     <>
       <div
-        className="fixed inset-0 bg-transparent backdrop-blur-lg z-40 h-screen"
+        className="fixed inset-0 bg-transparent z-40 h-screen"
         onClick={() => setShowSideBar(false)}
       />
 
@@ -28,7 +28,6 @@ const SideBar = ({
           fixed top-0 right-0
           h-screen w-72
           text-black
-          shadow-2xl
           z-50
           p-6
           flex flex-col

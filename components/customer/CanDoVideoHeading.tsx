@@ -3,7 +3,6 @@
 import { useLanguage } from '@/context/LanguageContext';
 import { playFair } from '@/lib/fonts';
 import React from 'react'
-import { IconType } from 'react-icons/lib'
 
 const CanDoVideoHeading = ({header, ar}: {header: string, ar: string}) => {
     const {t, lang} = useLanguage()

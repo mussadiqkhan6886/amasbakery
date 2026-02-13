@@ -6,6 +6,28 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+type CakePrice = {
+  "6inch"?: number;
+  "8inch"?: number;
+  "10inch"?: number;
+  box?: number;
+  box6?: number;
+  box12?: number;
+};
+
+interface Cake {
+  name: { en: string; ar: string };
+  slug: string;
+  type: "menu" | "occasion";
+  category: { en: string; ar: string };
+  description: { en: string; ar: string };
+  image: string;
+  price?: CakePrice;
+  basePrice?: CakePrice;
+  [key: string]: any;
+}
+
+
 const Product = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   const data = cakes.find(cake => cake.slug === slug);
@@ -24,9 +46,14 @@ const Product = async ({ params }: { params: Promise<{ slug: string }> }) => {
     );
   }
 
-  // Default size and price (first option)
-  const defaultSize = data.price ? Object.keys(data.price)[0] : Object.keys(data.basePrice)[0];
-  const price = data.price ? data.price[defaultSize] : data.basePrice[defaultSize];
+ const defaultSize = data.price
+  ? Object.keys(data.price)[0] as keyof typeof data.price
+  : Object.keys(data.basePrice)[0] as keyof typeof data.basePrice;
+
+const price = data.price
+  ? data.price[defaultSize]
+  : data.basePrice[defaultSize];
+
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-12">

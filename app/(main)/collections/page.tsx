@@ -13,7 +13,7 @@ const collectionsCatalog = [
       en: "All",
       ar: "الكل"
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     link: "/collections/all"
   },
   {
@@ -22,7 +22,7 @@ const collectionsCatalog = [
       en: "Occasion Cakes",
       ar: "كيكات المناسبات"
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     link: "/collections/occasion-cakes"
   },
   {
@@ -31,7 +31,7 @@ const collectionsCatalog = [
       en: "Customize Cake",
       ar: "كيك حسب الطلب"
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     link: "/collections/customize-cake"
   },
   {
@@ -40,7 +40,7 @@ const collectionsCatalog = [
       en: "Dates",
       ar: "تمور"
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     link: "/collections/dates"
   },
   {
@@ -49,7 +49,7 @@ const collectionsCatalog = [
       en: "Cakes",
       ar: "كيكات"
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     link: "/collections/cakes"
   },
   {
@@ -58,7 +58,7 @@ const collectionsCatalog = [
       en: "Pastry",
       ar: "معجنات"
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     link: "/collections/pastry"
   },
   {
@@ -67,7 +67,7 @@ const collectionsCatalog = [
       en: "Cookies",
       ar: "كوكيز"
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     link: "/collections/cookies"
   },
   {
@@ -76,7 +76,7 @@ const collectionsCatalog = [
       en: "Brownie",
       ar: "براونيز"
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     link: "/collections/brownie"
   },
   {
@@ -85,7 +85,7 @@ const collectionsCatalog = [
       en: "Cupcake",
       ar: "كب كيك"
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     link: "/collections/cupcake"
   }
 ];

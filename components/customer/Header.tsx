@@ -65,6 +65,7 @@ export default function Header() {
       width={90}
       height={90}
       className="object-contain rounded-lg"
+      priority
     />
   </div>
 

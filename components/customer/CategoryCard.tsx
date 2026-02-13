@@ -1,10 +1,13 @@
 'use client';
 
 import React from 'react'
-import SwiperCard from './SwiperCard'
 import Link from 'next/link'
 import { playFair } from '@/lib/fonts'
 import { useLanguage } from '@/context/LanguageContext';
+import dynamic from 'next/dynamic';
+const SwiperCard = dynamic(() => import("./SwiperCard"), {
+  ssr: false
+})
 
 interface Props {
     header: {

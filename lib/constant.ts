@@ -9,7 +9,7 @@ export const cakes = [
       en: "Soft vanilla sponge layered with buttercream.",
       ar: "كيك فانيليا إسفنجي ناعم بطبقات من كريمة الزبدة.",
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     price: { "6inch": 25, "8inch": 35, "10inch": 45 },
   },
   {
@@ -21,7 +21,7 @@ export const cakes = [
       en: "Rich chocolate cake with fudge filling.",
       ar: "كيك شوكولاتة غني بحشوة الفادج.",
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     price: { "6inch": 30, "8inch": 40, "10inch": 50 },
   },
 
@@ -38,7 +38,7 @@ export const cakes = [
       en: "Soft baked cookies with lotus flavor.",
       ar: "كوكيز طازجة بنكهة اللوتس.",
     },
-    image: "/cookies.jpg",
+    image: "/cookies.webp",
     price: { "box": 35 },
   },
   {
@@ -50,7 +50,7 @@ export const cakes = [
       en: "Chocolate cookies filled with Oreo chunks.",
       ar: "كوكيز شوكولاتة مع قطع أوريو.",
     },
-    image: "/cookies.jpg",
+    image: "/cookies.webp",
     price: { "box": 38 },
   },
 
@@ -67,7 +67,7 @@ export const cakes = [
       en: "Fluffy cupcake topped with buttercream.",
       ar: "كب كيك هش مغطى بكريمة الزبدة.",
     },
-    image: "/cupcake.jpg",
+    image: "/cupcake.webp",
     price: { "box6": 30, "box12": 55 },
   },
   {
@@ -79,7 +79,7 @@ export const cakes = [
       en: "Moist red velvet cupcake with cream cheese frosting.",
       ar: "كب كيك ريد فيلفت مع كريمة الجبن.",
     },
-    image: "/cupcake.jpg",
+    image: "/cupcake.webp",
     price: { "box6": 35, "box12": 60 },
   },
 
@@ -96,7 +96,7 @@ export const cakes = [
       en: "Premium dates stuffed with nuts and chocolate.",
       ar: "تمر فاخر محشي بالمكسرات والشوكولاتة.",
     },
-    image: "/dates.jpg",
+    image: "/dates.webp",
     price: { "box": 50 },
   },
   {
@@ -108,7 +108,7 @@ export const cakes = [
       en: "Premium dates stuffed with nuts and chocolate.",
       ar: "تمر فاخر محشي بالمكسرات والشوكولاتة.",
     },
-    image: "/dates.jpg",
+    image: "/dates.webp",
     price: { "box": 50 },
   },
 
@@ -125,7 +125,7 @@ export const cakes = [
       en: "Dense chocolate brownie squares.",
       ar: "قطع براوني شوكولاتة غنية.",
     },
-    image: "/brownie.jpg",
+    image: "/brownie.webp",
     price: { "box": 40 },
   },
 
@@ -142,7 +142,7 @@ export const cakes = [
       en: "Mini pastries topped with fresh fruits.",
       ar: "فطائر صغيرة مغطاة بفواكه طازجة.",
     },
-    image: "/pastry.jpg",
+    image: "/pastry.webp",
     price: { "box": 45 },
   },
 
@@ -159,7 +159,7 @@ export const cakes = [
       en: "Custom birthday cake designed to your theme.",
       ar: "كيك عيد ميلاد مخصص حسب طلبك.",
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     basePrice: { "6inch": 40, "8inch": 60, "10inch": 80 },
     flavors: ["Vanilla", "Chocolate", "Red Velvet", "Strawberry"],
     messagePrice: 5,
@@ -174,7 +174,7 @@ export const cakes = [
       en: "Multi-tier wedding cake with elegant design.",
       ar: "كيك زفاف متعدد الطبقات بتصميم أنيق.",
     },
-    image: "/cake.jpg",
+    image: "/cake.webp",
     basePrice: { "6inch": 60, "8inch": 90, "10inch": 120 },
     tiers: ["Two Tier", "Three Tier"],
     flavors: ["Vanilla", "Chocolate", "Red Velvet"],
