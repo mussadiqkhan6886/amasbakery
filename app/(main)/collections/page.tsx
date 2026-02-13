@@ -32,7 +32,7 @@ const collectionsCatalog = [
       ar: "كيك حسب الطلب"
     },
     image: "/cake.webp",
-    link: "/collections/customize-cake"
+    link: "/customize-your-cake"
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const collectionsCatalog = [
       ar: "تمور"
     },
     image: "/cake.webp",
-    link: "/collections/dates"
+    link: "/collections/menu"
   },
   {
     id: 5,
@@ -50,7 +50,7 @@ const collectionsCatalog = [
       ar: "كيكات"
     },
     image: "/cake.webp",
-    link: "/collections/cakes"
+    link: "/collections/menu"
   },
   {
     id: 6,
@@ -59,7 +59,7 @@ const collectionsCatalog = [
       ar: "معجنات"
     },
     image: "/cake.webp",
-    link: "/collections/pastry"
+    link: "/collections/menu"
   },
   {
     id: 7,
@@ -68,7 +68,7 @@ const collectionsCatalog = [
       ar: "كوكيز"
     },
     image: "/cake.webp",
-    link: "/collections/cookies"
+    link: "/collections/menu"
   },
   {
     id: 8,
@@ -77,7 +77,7 @@ const collectionsCatalog = [
       ar: "براونيز"
     },
     image: "/cake.webp",
-    link: "/collections/brownie"
+    link: "/collections/menu"
   },
   {
     id: 9,
@@ -86,7 +86,7 @@ const collectionsCatalog = [
       ar: "كب كيك"
     },
     image: "/cake.webp",
-    link: "/collections/cupcake"
+    link: "/collections/menu"
   }
 ];
 
@@ -101,7 +101,7 @@ const Collections = () => {
       }`}
     >
       {/* Heading */}
-      <div className="max-w-6xl mx-auto mb-16 text-center">
+      <div className="max-w-6xl mx-auto mb-16 mt-4 text-center">
         <h1 className={`${playFair.className} text-4xl md:text-5xl font-bold text-main mb-4`}>
           {t('Our Collections', 'مجموعاتنا', lang)}
         </h1>
@@ -142,7 +142,7 @@ const Collections = () => {
                 {t(item.name.en, item.name.ar, lang)}
               </h3>
               <span className="text-sm opacity-90">
-                {t('View Collection →', 'عرض المجموعة →', lang)}
+                {t('View Collection', 'عرض المجموعة ', lang)}
               </span>
             </div>
           </Link>

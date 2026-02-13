@@ -25,7 +25,7 @@ const Page = () => {
               alt="Amas Bakery"
               width={300}
               height={300}
-              className="object-cover"
+              className="object-cover w-full h-full"
             />
           </div>
         </div>
@@ -105,7 +105,7 @@ const Page = () => {
                 alt="Amas Bakery Story"
                 width={400}
                 height={400}
-                className="object-cover"
+                className="object-cover w-full h-full"
               />
             </div>
           </div>

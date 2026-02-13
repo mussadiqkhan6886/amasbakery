@@ -28,8 +28,8 @@ export default function Header() {
     <header
   className={`
     ${lang === "ar" ? "rtl" : "ltr"}
-  ${pathname.includes("/collections/menu") || pathname.includes("/collections/occasion-cakes") ? "relative" : "fixed"} top-4 left-1/2 -translate-x-1/2
-    w-[95%] max-w-7xl
+  ${pathname.includes("/collections/menu") || pathname.includes("/collections/occasion-cakes") ? "relative w-full" : "fixed left-1/2 -translate-x-1/2 w-[95%]"} top-4
+     max-w-7xl
     px-6 py-1
     flex items-center justify-between
     rounded-full
@@ -58,7 +58,7 @@ export default function Header() {
   </nav>
 
   {/* Logo */}
-  <div className={`${lang === "en" ? "lg:mr-35" : "lg:ml-50"} flex justify-center`}>
+  <Link href="/" className={`${lang === "en" ? "lg:mr-35" : "lg:ml-50"} flex justify-center`}>
     <Image
       src="/logo.webp"
       alt="header logo image"
@@ -67,7 +67,7 @@ export default function Header() {
       className="object-contain rounded-lg"
       priority
     />
-  </div>
+  </Link>
 
   {/* Right Side */}
   <div className="flex items-center gap-4">

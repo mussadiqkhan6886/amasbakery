@@ -57,7 +57,7 @@ const Product = async ({ params }: { params: Promise<{ slug: string }> }) => {
             <select className="border w-full border-gray-300 rounded px-3 py-2">
               {data.varieties.map((item, i) => (
                 <option key={item.size} value={item.size}>
-                    {item.size + " " +item.price}
+                    {item.size + " " +item.price} <CurrenncyT />
                   </option>
                 ))
               }
@@ -75,7 +75,7 @@ const Product = async ({ params }: { params: Promise<{ slug: string }> }) => {
             </select>
           </div>}
           {data.flavors && <div className="flex flex-col w-full gap-2">
-            <label className="font-medium">Size</label>
+            <label className="font-medium">Flavors</label>
             <select className="border w-full border-gray-300 rounded px-3 py-2">
               {data.flavors.map((item, i) => (
                 <option key={i} value={item}>

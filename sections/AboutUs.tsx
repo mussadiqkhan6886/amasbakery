@@ -15,7 +15,7 @@ const AboutUs = () => {
       </div>
         <CanDoHeader en="About Us" ar="معلومات عنا" />
 
-        <p className="text-center max-w-4xl mx-auto px-3 ">{t(` At Ama’s Bakery, every creation is baked with love and passion.
+        <p className={`${lang === "en" ? "text-base" : "text-lg"} text-center max-w-4xl mx-auto px-3`}>{t(` At Ama’s Bakery, every creation is baked with love and passion.
         We craft delightful pastries, cakes, and treats that bring joy to every bite.
         Using only the finest ingredients, we blend tradition with a touch of modern artistry.
         

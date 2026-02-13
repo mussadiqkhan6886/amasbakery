@@ -189,6 +189,7 @@ export const cakes: Product[] = [
       { size: "8inch", price: 60 },
       { size: "10inch", price: 80 },
     ],
+    tiers: ["Two Tier", "Three Tier"],
     flavors: ["Vanilla", "Chocolate", "Red Velvet", "Strawberry"],
     messagePrice: 5,
     specialInstructions: true,

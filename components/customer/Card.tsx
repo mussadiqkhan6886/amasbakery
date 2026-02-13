@@ -14,21 +14,21 @@ const Card = ({ item }: { item: Product }) => {
   return (
     <Link
       href={`/collections/${item.type}/${item.slug}`}
-      className="flex flex-col items-center text-center"
+      className="flex h-full flex-col items-center text-center"
     >
-      <div className="w-full h-full relative mb-2">
+      <div className="w-79 h-88 relative mb-2">
         <Image
           src={item.image}
           alt={t(item.name.en, item.name.ar, lang)}
-          width={400}
-          height={350}
-          className="object-cover object-center"
+          width={300}
+          height={300}
+          className="object-cover h-full object-center"
         />
       </div>
-      <h2 className={`${playFair.className} text-lg`}>
+      <h2 className={`${playFair.className} mt-3 text-center text-lg`}>
         {t(item.name.en, item.name.ar, lang)}
       </h2>
-      <h3 className="text-sm text-gray-700 mt-1">
+      <h3 className="text-sm text-center text-gray-700 mt-1">
         {item.varieties[0].price} <CurrenncyT />
       </h3>
     </Link>
