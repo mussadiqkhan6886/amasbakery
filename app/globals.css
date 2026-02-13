@@ -22,9 +22,5 @@ html[lang="en"] {
   --color-light: #EFE1B5;
 }
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  height: 2px;
 }
