@@ -9,7 +9,11 @@ const HeroHeading = () => {
   const { lang, t } = useLanguage()
 
   useEffect(() => {
-    setShowFirst(false)
+    const interval = setInterval(() => {
+      setShowFirst(false)
+    })
+
+    return () => clearInterval(interval)
   }, [])
 
   const charVariants = {

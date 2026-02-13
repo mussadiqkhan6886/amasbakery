@@ -16,7 +16,7 @@ const Card = ({ item }: { item: Product }) => {
       href={`/collections/${item.type}/${item.slug}`}
       className="flex h-full flex-col items-center text-center"
     >
-      <div className="w-79 h-88 relative mb-2">
+      <div className="w-80 h-88 relative mb-2">
         <Image
           src={item.image}
           alt={t(item.name.en, item.name.ar, lang)}
