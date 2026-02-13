@@ -21,7 +21,7 @@ const Page = () => {
         <div className="flex justify-center md:justify-start">
           <div className="relative w-[280px] h-[380px] md:w-[450px] md:h-[580px] overflow-hidden rounded-[50%/40%] border border-main shadow-xl">
             <Image
-              src="/About2.png"
+              src="/About2.webp"
               alt="Amas Bakery"
               width={300}
               height={300}
@@ -101,7 +101,7 @@ const Page = () => {
           <div className="flex justify-center md:justify-center">
             <div className="relative w-[280px] h-[380px] md:w-[450px] md:h-[580px] overflow-hidden rounded-[50%/40%] ">
               <Image
-                src="/About2.png"
+                src="/About2.webp"
                 alt="Amas Bakery Story"
                 width={400}
                 height={400}

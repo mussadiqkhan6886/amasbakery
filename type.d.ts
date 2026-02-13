@@ -6,7 +6,7 @@ export type Variety = {
 export interface Product {
   name: { en: string; ar: string };
   slug: string;
-  type: "menu" | "occasion";
+  type: "menu" | "occasion-cakes";
   category: { en: string; ar: string };
   description: { en: string; ar: string };
   image: string;

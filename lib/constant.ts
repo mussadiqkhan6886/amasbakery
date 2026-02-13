@@ -103,7 +103,19 @@ export const cakes: Product[] = [
   // MENU — DATES
   // =====================================
   {
-    name: { en: "Stuffed Dates Deluxe", ar: "تمر محشي فاخر" },
+    name: { en: "Stuffeds Dates Deluxe", ar: "تمر محشي فاخر" },
+    slug: "stuffed-dates-deluxe",
+    type: "menu",
+    category: { en: "dates", ar: "تمر" },
+    description: {
+      en: "Premium dates stuffed with nuts and chocolate.",
+      ar: "تمر فاخر محشي بالمكسرات والشوكولاتة.",
+    },
+    image: "/dates.webp",
+    varieties: [{ size: "box", price: 50 }],
+  },
+  {
+    name: { en: "Stuffeds Dates Deluxe", ar: "تمر محشي فاخر" },
     slug: "stuffed-dates-deluxe",
     type: "menu",
     category: { en: "dates", ar: "تمر" },
@@ -121,6 +133,18 @@ export const cakes: Product[] = [
   {
     name: { en: "Classic Brownie", ar: "براوني كلاسيك" },
     slug: "classic-brownie",
+    type: "menu",
+    category: { en: "brownie", ar: "براوني" },
+    description: {
+      en: "Dense chocolate brownie squares.",
+      ar: "قطع براوني شوكولاتة غنية.",
+    },
+    image: "/brownie.webp",
+    varieties: [{ size: "box", price: 40 }],
+  },
+  {
+    name: { en: "Classics Brownie", ar: "براوني كلاسيك" },
+    slug: "classics-brownie",
     type: "menu",
     category: { en: "brownie", ar: "براوني" },
     description: {
@@ -153,7 +177,7 @@ export const cakes: Product[] = [
   {
     name: { en: "Birthday Celebration Cake", ar: "كيك عيد ميلاد احتفالي" },
     slug: "birthday-celebration-cake",
-    type: "occasion",
+    type: "occasion-cakes",
     category: { en: "cake", ar: "كيك" },
     description: {
       en: "Custom birthday cake designed to your theme.",
@@ -172,7 +196,7 @@ export const cakes: Product[] = [
   {
     name: { en: "Wedding Cake Elegant", ar: "كيك زفاف أنيق" },
     slug: "wedding-cake-elegant",
-    type: "occasion",
+    type: "occasion-cakes",
     category: { en: "cake", ar: "كيك" },
     description: {
       en: "Multi-tier wedding cake with elegant design.",
