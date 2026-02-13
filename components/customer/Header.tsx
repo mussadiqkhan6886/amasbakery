@@ -60,7 +60,7 @@ export default function Header() {
   {/* Logo */}
   <div className={`${lang === "en" ? "lg:mr-35" : "lg:ml-50"} flex justify-center`}>
     <Image
-      src="/logo.png"
+      src="/logo.webp"
       alt="header logo image"
       width={90}
       height={90}

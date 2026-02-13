@@ -3,7 +3,6 @@ import CategoryCard from '@/components/customer/CategoryCard'
 import { cakes } from '@/lib/constant';
 import React from 'react'
 
-
 const Categories = () => {
 
   const cake = cakes.filter(item => item.category.en === "cake")
