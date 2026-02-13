@@ -1,3 +1,4 @@
+import AdminHeader from "@/components/admin/AdminHeader";
 
 export default function RootLayout({
   children,
@@ -6,6 +7,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
+      <AdminHeader />
         {children}
     </>
   );
