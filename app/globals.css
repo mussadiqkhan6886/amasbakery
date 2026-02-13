@@ -21,3 +21,10 @@ html[lang="en"] {
   --color-normal: #CDB885;
   --color-light: #EFE1B5;
 }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

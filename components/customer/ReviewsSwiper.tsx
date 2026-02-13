@@ -9,7 +9,7 @@ const ReviewsSlider = ({ data }: { data: any }) => {
   if (!data || data.length === 0) return null;
 
   return (
-    <section className="w-full mt-10 max-w-6xl mx-auto overflow-x-auto scroll-smooth snap-x flex gap-6 py-4">
+    <section className="w-full scrollbar-hide mt-10 max-w-6xl mx-auto overflow-x-auto scroll-smooth snap-x flex gap-6 py-4">
       {data.map((item: any) => (
         <div
           key={item.id}
