@@ -5,8 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { Product } from '@/type';
+import CurrenncyT from './CurrenncyT';
 
-const Card = ({ item }: { item: any }) => {
+const Card = ({ item }: { item: Product }) => {
   const {t, lang } = useLanguage();
 
   return (
@@ -27,7 +29,7 @@ const Card = ({ item }: { item: any }) => {
         {t(item.name.en, item.name.ar, lang)}
       </h2>
       <h3 className="text-sm text-gray-700 mt-1">
-        {item.price ? item.price['6inch'] : item.basePrice['6inch']} {t("SAR", " ر.س" , lang)}
+        {item.varieties[0].price} <CurrenncyT />
       </h3>
     </Link>
   );

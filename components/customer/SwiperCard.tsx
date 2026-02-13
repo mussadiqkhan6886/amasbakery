@@ -8,9 +8,11 @@ import { Autoplay } from 'swiper/modules';
 import { playFair } from '@/lib/fonts';
 import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
+import { Product } from '@/type';
+import CurrenncyT from './CurrenncyT';
 
 interface SwiperCardProps {
-  data: { id: number; name: {en: string, ar: string}; image: string; price: {[key: string]: number}, basePrice: {[key:string]: number}, slug:string }[];
+  data: Product[];
   delay: number
 }
 
@@ -30,20 +32,16 @@ const SwiperCard: React.FC<SwiperCardProps> = ({ data , delay}) => {
       loop={data.length > 3}
       className="z-50 w-full"
     >
-      {data.map((item) => {
-        const priceObj = item.price || item.basePrice; 
-        const firstKey = priceObj ? Object.keys(priceObj)[0] : null;
-        const firstValue = firstKey && priceObj ? priceObj[firstKey] : null;
-
+      {data.map((item, i) => {
         return (
-          <SwiperSlide key={item.id}>
+          <SwiperSlide key={i}>
             <Link href={`/collections/menu/${item.slug}`} className="flex flex-col z-40  items-center p-4">
               <div className="w-32 h-34 relative mb-2">
                 <Image src={item.image} alt={item.name.en} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover rounded-lg" />
               </div>
               <h5 className={`${playFair.className} text-nowrap text-lg`}>{t(item.name.en, item.name.ar, lang)}</h5>
               <h6 className="text-sm">
-                {firstKey && firstValue !== null ? `${firstValue} ${t("SAR", " ر.س", lang)}` : ""}
+                {item.varieties[0].price} <CurrenncyT />
               </h6>
             </Link>
           </SwiperSlide>

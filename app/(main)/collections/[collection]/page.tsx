@@ -9,7 +9,7 @@ const Category = async ({ params }: { params: Promise<{ collection: string }> })
   const { collection } = await params;
 
   return (
-    <main className="min-h-screen px-4 py-8 bg-white text-black">
+    <main className="min-h-screen max-w-8xl mx-auto px-4 py-8 bg-white text-black">
      <MenuHeading collection={collection} />
       <section className='max-w-6xl mx-auto'>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
