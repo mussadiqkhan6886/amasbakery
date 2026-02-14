@@ -9,7 +9,7 @@ export const GET = async () => {
   await connectDB();
 
   try {
-    const products = await Product.find({});
+    const products = await Product.find({type: "menu"});
     return NextResponse.json(
       { success: true, data: products },
       { status: 200 }

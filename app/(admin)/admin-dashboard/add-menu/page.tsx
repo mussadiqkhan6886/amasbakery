@@ -130,7 +130,7 @@ export default function AddProductPage() {
         formData.append("images", compressedFile);
       }
 
-      const res = await axios.post("/api/adding-menu", formData);
+      const res = await axios.post("/api/menu", formData);
 
       if (res.status === 201 || res.status === 200) {
         setResult("✅ Product added successfully!");
