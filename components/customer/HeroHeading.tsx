@@ -11,7 +11,7 @@ const HeroHeading = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setShowFirst(false)
-    }, 4000)
+    }, 3200)
 
     return () => clearInterval(interval)
   }, [])
