@@ -29,7 +29,7 @@ export default function AdminProductsPage() {
   return (
     <div className="lg:p-5">
       <h1 className="text-2xl text-center font-semibold mb-4">Menu List</h1>
-      <ProductTable products={products} />
+      <ProductTable products={products} setProducts={setProducts} />
     </div>
   );
 }

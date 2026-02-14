@@ -11,9 +11,10 @@ import { Product } from '@/type';
 
 interface ProductTableProps {
   products: Product[]; // categories with products
+  setProducts: (p: Product[]) => void
 }
 
-export default function ProductTable({ products }: ProductTableProps) {
+export default function ProductTable({ products, setProducts }: ProductTableProps) {
 
 
   const handleDelete = async (id: string) => {
@@ -24,6 +25,7 @@ export default function ProductTable({ products }: ProductTableProps) {
       if (res.status === 200) {
         alert("Product deleted successfully!");
       }
+      setProducts(prev => prev.filter(p => p._id !== id))
     } catch (err) {
       console.error(err);
       alert("Failed to delete product.");
@@ -48,7 +50,7 @@ export default function ProductTable({ products }: ProductTableProps) {
     ),
   },
   { field: 'name', headerName: 'Product Name', minWidth: 200, renderCell: (params) => (
-    <h2>{params.formattedValue.en}</h2>
+    <h2 className="pt-2">{params.formattedValue.en}</h2>
   ) },
   {
     field: "varieties",
@@ -56,7 +58,7 @@ export default function ProductTable({ products }: ProductTableProps) {
     width: 250,
     renderCell: (params) => {
       return (
-        <div>
+        <div className='pt-2'>
           {params.row.varieties.map(
             (item: { size: string; price: number }, i: number) => (
               <p key={i}>
