@@ -11,7 +11,7 @@ import { Product } from '@/type';
 
 interface ProductTableProps {
   products: Product[]; // categories with products
-  setProducts: (p: Product[]) => void
+  setProducts: (p: any) => void
 }
 
 export default function ProductTable({ products, setProducts }: ProductTableProps) {
@@ -79,6 +79,14 @@ export default function ProductTable({ products, setProducts }: ProductTableProp
     )
   },
   {
+    field: 'flavors',
+    headerName: 'Flavors',
+    width: 220,
+    renderCell: (params) => (
+      <p>{params.formattedValue.join(", ")}</p>
+    )
+  },
+  {
     field: 'isActive',
     headerName: 'Active',
     width: 80,
@@ -92,7 +100,7 @@ export default function ProductTable({ products, setProducts }: ProductTableProp
     renderCell: (params) => (
       <Box>
         <IconButton color="primary">
-          <Link href={`/admin-dashboard/update-menu/${params.row._id}`}><Edit /></Link>
+          <Link href={`/admin-dashboard/update-${params.row.type === "menu" ? "menu" : "occasion"}/${params.row._id}`}><Edit /></Link>
         </IconButton>
         <IconButton color="error" onClick={() => handleDelete(params.row._id)}>
           <Trash />
