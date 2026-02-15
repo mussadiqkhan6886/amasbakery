@@ -1,31 +1,45 @@
-import { connectDB } from "@/lib/config/db"
-import { ReviewSchema } from "@/lib/models/ReviewSchema"
-import { NextRequest, NextResponse } from "next/server"
+import { connectDB } from "@/lib/config/db";
+import { ReviewSchema } from "@/lib/models/ReviewSchema";
+import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async () => {
-    await connectDB()
+  await connectDB();
 
-    try{
-        const res = await ReviewSchema.find({})
-        return NextResponse.json({message: "Fetched data successfully", data:res}, {status: 200})
-    }catch(err: any){
-        console.log(err.message)
-        return NextResponse.json({error: "Failed to fetch reviews" + err.message}, {status:500})
-    }
-    
-}
+  try {
+    const reviews = await ReviewSchema.find({}).sort({ createdAt: -1 });
+
+    return NextResponse.json(
+      {
+        message: "Fetched data successfully",
+        data: reviews,
+      },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.error("GET Review Error:", error);
+
+    return NextResponse.json(
+      { error: "Failed to fetch reviews" },
+      { status: 500 }
+    );
+  }
+};
 
 export const POST = async (req: NextRequest) => {
   await connectDB();
 
   try {
     const body = await req.json();
-
     const { name, message } = body;
 
-    if (!name || !message) {
+    if (
+      !name?.en ||
+      !name?.ar ||
+      !message?.en ||
+      !message?.ar
+    ) {
       return NextResponse.json(
-        { error: "Name and message are required" },
+        { error: "All language fields are required" },
         { status: 400 }
       );
     }
@@ -40,13 +54,13 @@ export const POST = async (req: NextRequest) => {
         message: "Successfully added new review",
         review,
       },
-      { status: 201 } // 201 for created
+      { status: 201 }
     );
   } catch (error: any) {
     console.error("POST Review Error:", error);
 
     return NextResponse.json(
-      { error: "Failed to add review", details: error.message },
+      { error: "Failed to add review" },
       { status: 500 }
     );
   }

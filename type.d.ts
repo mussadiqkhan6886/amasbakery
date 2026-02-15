@@ -17,3 +17,17 @@ export interface ProductType {
   messagePrice?: number;          // optional for personalized messages
   specialInstructions?: boolean;  // optional
 }
+
+export interface ReviewType {
+  _id: string
+  name: {
+    en: string,
+    ar: string
+  }
+  message: {
+    en: string,
+    ar: string
+  }
+  createdAt: string
+  updatedAt: string
+}

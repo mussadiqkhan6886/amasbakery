@@ -7,46 +7,49 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 
 const Page = () => {
   const { t, lang } = useLanguage();
+  const router = useRouter();
 
   const [data, setData] = useState({
-    name: "",
-    message: ""
+    name: { en: "", ar: "" },
+    message: { en: "", ar: "" }
   });
 
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
-
-  const router = useRouter()
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    const { name, value } = e.target;
+
+    const [field, langType] = name.split(".");
+
     setData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [field]: {
+        ...prev[field as keyof typeof prev],
+        [langType]: value
+      }
     }));
   };
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!data.name || !data.message) return;
+    if (
+      !data.name.en ||
+      !data.name.ar ||
+      !data.message.en ||
+      !data.message.ar
+    ) {
+      return;
+    }
 
     try {
       setLoading(true);
+
       await axios.post("/api/review", data);
 
-      setSuccess(
-        t(
-          "Review submitted successfully!",
-          "تم إرسال المراجعة بنجاح!",
-          lang
-        )
-      );
-
-      router.push("/#reviews")
-
-      setData({ name: "", message: "" });
+      router.push("/#reviews");
     } catch (error) {
       console.error(error);
     } finally {
@@ -58,60 +61,59 @@ const Page = () => {
     <main className="min-h-screen flex items-center justify-center bg-gray-50 mt-10 p-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8">
         <h1 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-          {t("Add Review", "إضافة مراجعة", lang)}
+          Add Review
         </h1>
 
         <form onSubmit={submit} className="flex flex-col gap-4">
-          {/* Name */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-gray-700">
-              {t("Name", "الاسم", lang)}
-            </label>
-            <input
-              value={data.name}
-              onChange={handleChange}
-              type="text"
-              name="name"
-              placeholder={t("Your name", "اسمك", lang)}
-              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-main"
-            />
-          </div>
 
-          {/* Review */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-gray-700">
-              {t("Review", "المراجعة", lang)}
-            </label>
-            <textarea
-              value={data.message}
-              name="message"
-              onChange={handleChange}
-              placeholder={t(
-                "Write your review...",
-                "اكتب مراجعتك...",
-                lang
-              )}
-              className="border border-gray-300 rounded px-3 py-2 h-24 resize-none focus:outline-none focus:ring-2 focus:ring-main"
-            />
-          </div>
+          {/* Name English */}
+          <input
+            type="text"
+            name="name.en"
+            placeholder="Name (English)"
+            value={data.name.en}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
 
-          {/* Button */}
+          {/* Name Arabic */}
+          <input
+            type="text"
+            name="name.ar"
+            placeholder="الاسم (عربي)"
+            value={data.name.ar}
+            onChange={handleChange}
+            className="border p-2 rounded"
+            dir="rtl"
+          />
+
+          {/* Message English */}
+          <textarea
+            name="message.en"
+            placeholder="Review (English)"
+            value={data.message.en}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
+
+          {/* Message Arabic */}
+          <textarea
+            name="message.ar"
+            placeholder="المراجعة (عربي)"
+            value={data.message.ar}
+            onChange={handleChange}
+            className="border p-2 rounded"
+            dir="rtl"
+          />
+
           <button
             type="submit"
             disabled={loading}
-            className="mt-4 bg-main text-white font-medium py-2 rounded hover:bg-normal transition disabled:opacity-50"
+            className="bg-main text-white py-2 rounded"
           >
-            {loading
-              ? t("Submitting...", "جاري الإرسال...", lang)
-              : t("Submit Review", "إرسال المراجعة", lang)}
+            {loading ? "Submitting..." : "Submit"}
           </button>
 
-          {/* Success Message */}
-          {success && (
-            <p className="text-green-600 text-sm text-center">
-              {success}
-            </p>
-          )}
         </form>
       </div>
     </main>
