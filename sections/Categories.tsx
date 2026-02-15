@@ -1,14 +1,24 @@
 import CanDoHeader from '@/components/customer/CanDoHeader';
 import CategoryCard from '@/components/customer/CategoryCard'
-import { cakes } from '@/lib/constant';
+import { connectDB } from '@/lib/config/db';
+import { Product } from '@/lib/models/ProductSchema';
+import { ProductType } from '@/type';
 import React from 'react'
 
-const Categories = () => {
+const Categories = async () => {
 
-  const cake = cakes.filter(item => item.category.en === "cake")
-  const cupcake = cakes.filter(item => item.category.en === "cupcake")
-  const dates = cakes.filter(item => item.category.en === "dates")
-  const cookies = cakes.filter(item =>item.category.en === "cookies")
+  await connectDB()
+  const res = await Product.find({type: "menu"}).lean()
+
+  const products = JSON.parse(JSON.stringify(res))
+
+  const cake = products.filter((item: ProductType) => item.category.en.toLowerCase() === "cake")
+  const cupcake = products.filter((item: ProductType) => item.category.en.toLowerCase() === "cupcake")
+  const dates = products.filter((item: ProductType) => item.category.en.toLowerCase() === "dates")
+  const cookies = products.filter((item: ProductType) =>item.category.en.toLowerCase() === "cookies")
+
+  console.log(products)
+
   return (
     <section className='my-20 max-w-8xl mx-auto'>
         <CanDoHeader en="Menu" ar='قائمة طعام' />

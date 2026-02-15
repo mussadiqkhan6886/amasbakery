@@ -8,11 +8,11 @@ import { Autoplay } from 'swiper/modules';
 import { playFair } from '@/lib/fonts';
 import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
-import { Product } from '@/type';
+import { ProductType } from '@/type';
 import CurrenncyT from './CurrenncyT';
 
 interface SwiperCardProps {
-  data: Product[];
+  data: ProductType[];
   delay: number
 }
 

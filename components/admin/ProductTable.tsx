@@ -7,10 +7,10 @@ import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 import Link from 'next/link';
 import { Edit, Trash } from 'lucide-react';
-import { Product } from '@/type';
+import { ProductType } from '@/type';
 
 interface ProductTableProps {
-  products: Product[]; // categories with products
+  products: ProductType[]; // categories with products
   setProducts: (p: any) => void
 }
 
@@ -25,7 +25,7 @@ export default function ProductTable({ products, setProducts }: ProductTableProp
       if (res.status === 200) {
         alert("Product deleted successfully!");
       }
-      setProducts((prev: Product[]) => prev.filter((p: Product) => p._id !== id))
+      setProducts((prev: ProductType[]) => prev.filter((p: ProductType) => p._id !== id))
     } catch (err) {
       console.error(err);
       alert("Failed to delete product.");

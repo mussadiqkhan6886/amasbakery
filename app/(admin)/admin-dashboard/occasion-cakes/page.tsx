@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Product } from "@/type";
+import { ProductType } from "@/type";
 import ProductTable from "@/components/admin/ProductTable";
 
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

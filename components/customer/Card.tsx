@@ -5,10 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useLanguage } from '@/context/LanguageContext';
-import { Product } from '@/type';
+import { ProductType } from '@/type';
 import CurrenncyT from './CurrenncyT';
 
-const Card = ({ item }: { item: Product }) => {
+const Card = ({ item }: { item: ProductType }) => {
   const {t, lang } = useLanguage();
 
   return (

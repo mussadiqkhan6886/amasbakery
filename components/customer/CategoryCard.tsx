@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { playFair } from '@/lib/fonts'
 import { useLanguage } from '@/context/LanguageContext';
 import dynamic from 'next/dynamic';
-import { Product } from '@/type';
+import { ProductType } from '@/type';
 const SwiperCard = dynamic(() => import("./SwiperCard"), {
   ssr: false
 })
@@ -16,7 +16,7 @@ interface Props {
       ar: string
     }
     link: string
-    data: Product[]
+    data: ProductType[]
     delay: number
 }
 

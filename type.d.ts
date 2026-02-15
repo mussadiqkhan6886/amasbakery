@@ -3,7 +3,7 @@ export type Variety = {
   price: number;
 };
 
-export interface Product {
+export interface ProductType {
   _id: string,
   name: { en: string; ar: string };
   slug: string;
