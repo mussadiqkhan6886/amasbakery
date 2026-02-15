@@ -62,7 +62,7 @@ const singleProduct = async ({ params }: { params: Promise<{ slug: string }> }) 
           {/* Size Selector */}
           <div className="flex flex-col w-full gap-2">
             <label className="font-medium">Size</label>
-            <select className="border w-full border-gray-300 rounded px-3 py-2">
+            <select dir="ltr" className="border w-full border-gray-300 rounded px-3 py-2">
               {product.varieties.map((item: {size: string, price: number}) => (
                 <option key={item.size} value={item.size}>
                     {item.size + " " +item.price} <CurrenncyT />

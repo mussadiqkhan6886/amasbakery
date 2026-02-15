@@ -61,7 +61,7 @@ const Page = () => {
     <main className="min-h-screen flex items-center justify-center bg-gray-50 mt-10 p-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8">
         <h1 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-          Add Review
+          {t("Add Review", "أضف مراجعة", lang)}
         </h1>
 
         <form onSubmit={submit} className="flex flex-col gap-4">
@@ -74,6 +74,7 @@ const Page = () => {
             value={data.name.en}
             onChange={handleChange}
             className="border p-2 rounded"
+            dir="ltr"
           />
 
           {/* Name Arabic */}
@@ -94,6 +95,7 @@ const Page = () => {
             value={data.message.en}
             onChange={handleChange}
             className="border p-2 rounded"
+            dir="ltr"
           />
 
           {/* Message Arabic */}
@@ -111,7 +113,7 @@ const Page = () => {
             disabled={loading}
             className="bg-main text-white py-2 rounded"
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading ? t("Submitting...","تقديم..." ,lang) : t("Submit", "يُقدِّم", lang)}
           </button>
 
         </form>
