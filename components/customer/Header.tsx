@@ -36,7 +36,7 @@ export default function Header() {
     backdrop-blur-md
     bg-white/10
     border border-white/20
-  ${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") ? "text-black" : "text-zinc-100"}
+  ${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/add-review") ? "text-black" : "text-zinc-100"}
     z-50
   `}
 >

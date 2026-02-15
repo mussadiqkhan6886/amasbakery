@@ -24,7 +24,7 @@ html[lang="en"] {
 @layer utilities {
   .thin-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #d1d5db transparent;
+    scrollbar-color: var(--color-normal) transparent;
   }
 
   .thin-scrollbar::-webkit-scrollbar {
