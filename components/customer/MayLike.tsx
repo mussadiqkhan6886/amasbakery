@@ -4,6 +4,7 @@ import React from 'react'
 import Card from './Card'
 import MayLikeHeading from './MayLikeHeading'
 import mongoose from 'mongoose'
+import { ProductType } from '@/type'
 
 interface MayLikeProps {
   type: string
@@ -19,10 +20,13 @@ const MayLike = async ({ type, excludeIds }: MayLikeProps) => {
     matchStage._id = { $ne: new mongoose.Types.ObjectId(excludeIds) }
   }
 
-  const products = await Product.aggregate([
+  const res = await Product.aggregate([
     { $match: matchStage },
-    { $sample: { size: 4 } } // pick 4 random products
+    { $sample: { size: 6 } } // pick 4 random products
   ])
+
+  const products = JSON.parse(JSON.stringify(res))
+  
 
   if(products.length <= 0){
     return (
@@ -35,7 +39,7 @@ const MayLike = async ({ type, excludeIds }: MayLikeProps) => {
     <section>
       <MayLikeHeading en="You May Like" ar="قد ترغب" />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {products.map(item => (
+        {products.map((item: ProductType) => (
           <Card item={item} key={item._id.toString()} />
         ))}
       </div>
