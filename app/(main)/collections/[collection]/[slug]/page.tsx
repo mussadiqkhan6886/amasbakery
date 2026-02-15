@@ -1,14 +1,13 @@
 import AddToCart from '@/components/customer/AddToCart';
 import CurrenncyT from '@/components/customer/CurrenncyT';
+import MayLike from '@/components/customer/MayLike';
 import Message from '@/components/customer/Message';
 import ProductDescription from '@/components/customer/ProductDescription';
 import ProductHeading from '@/components/customer/ProductHeading';
 import Quantity from '@/components/customer/Quantity';
 import { connectDB } from '@/lib/config/db';
-import { cakes } from '@/lib/constant';
 import { playFair } from '@/lib/fonts';
 import { Product } from '@/lib/models/ProductSchema';
-import { ProductType } from '@/type';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -92,6 +91,7 @@ const singleProduct = async ({ params }: { params: Promise<{ slug: string }> }) 
           <AddToCart />
         </div>
       </section>
+      <MayLike type={product.type} excludeIds={product._id} />
     </main>
   );
 };

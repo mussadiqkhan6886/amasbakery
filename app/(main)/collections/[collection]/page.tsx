@@ -2,6 +2,7 @@ import Card from '@/components/customer/Card';
 import MenuHeading from '@/components/customer/MenuHeading';
 import { connectDB } from '@/lib/config/db';
 import { Product } from '@/lib/models/ProductSchema';
+import { ProductType } from '@/type';
 import React from 'react';
 
 const Category = async ({ params }: { params: Promise<{ collection: string }> }) => {
