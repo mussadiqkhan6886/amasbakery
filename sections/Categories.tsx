@@ -17,8 +17,6 @@ const Categories = async () => {
   const dates = products.filter((item: ProductType) => item.category.en.toLowerCase() === "dates")
   const cookies = products.filter((item: ProductType) =>item.category.en.toLowerCase() === "cookies")
 
-  console.log(products)
-
   return (
     <section className='my-20 max-w-8xl mx-auto'>
         <CanDoHeader en="Menu" ar='قائمة طعام' />

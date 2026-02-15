@@ -18,7 +18,7 @@ const Card = ({ item }: { item: ProductType }) => {
     >
       <div className="w-80 h-88 relative mb-2">
         <Image
-          src={item.image}
+          src={item.image[0]}
           alt={t(item.name.en, item.name.ar, lang)}
           width={300}
           height={300}

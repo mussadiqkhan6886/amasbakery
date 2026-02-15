@@ -18,7 +18,6 @@ interface SwiperCardProps {
 
 const SwiperCard: React.FC<SwiperCardProps> = ({ data , delay}) => {
   const {t, lang} = useLanguage()
-  
   return (
     <Swiper
       modules={[Autoplay]}
@@ -37,7 +36,7 @@ const SwiperCard: React.FC<SwiperCardProps> = ({ data , delay}) => {
           <SwiperSlide key={i}>
             <Link href={`/collections/menu/${item.slug}`} className="flex flex-col z-40  items-center p-4">
               <div className="w-32 h-34 relative mb-2">
-                <Image src={item.image} alt={item.name.en} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover rounded-lg" />
+                <Image src={item.image[0]} alt={item.name.en} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover rounded-lg" />
               </div>
               <h5 className={`${playFair.className} text-center text-lg`}>{t(item.name.en, item.name.ar, lang)}</h5>
               <h6 className="text-sm">
