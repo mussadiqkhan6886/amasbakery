@@ -25,7 +25,7 @@ export default function ProductTable({ products, setProducts }: ProductTableProp
       if (res.status === 200) {
         alert("Product deleted successfully!");
       }
-      setProducts(prev => prev.filter(p => p._id !== id))
+      setProducts((prev: Product[]) => prev.filter((p: Product) => p._id !== id))
     } catch (err) {
       console.error(err);
       alert("Failed to delete product.");

@@ -4,6 +4,7 @@ export type Variety = {
 };
 
 export interface Product {
+  _id: string,
   name: { en: string; ar: string };
   slug: string;
   type: "menu" | "occasion-cakes";
