@@ -11,7 +11,7 @@ export default function CustomizeCakePage() {
 
   return (
     <main
-      className={`min-h-screen pt-50 pb-20 px-4 ${
+      className={`min-h-screen pt-30 pb-20 px-4 ${
         lang === "ar" ? "rtl text-right" : "ltr text-left"
       }`}
     >
@@ -36,7 +36,7 @@ export default function CustomizeCakePage() {
 
             <p className="text-black text-sm leading-relaxed">
               {t(
-                "Whether it's a birthday, wedding, celebration or surprise — Amas Bakery will craft your dream cake with precision and elegance.",
+                "Whether it's a birthday, wedding, celebration or surprise Amas Bakery will craft your dream cake with precision and elegance.",
                 "سواء كان عيد ميلاد أو زفاف أو مناسبة خاصة — تقوم أماس بيكري بصناعة كيك أحلامك بدقة وأناقة.",
                 lang
               )}
@@ -45,7 +45,7 @@ export default function CustomizeCakePage() {
         </div>
 
         {/* RIGHT SIDE - FORM */}
-        <div className=" p-5">
+        <div className=" text-[13px] p-5">
           {!submitted ? (
             <form
               onSubmit={(e) => {
@@ -57,48 +57,48 @@ export default function CustomizeCakePage() {
 
               {/* Full Name */}
               <div>
-                <label className="block mb-2 text-sm">
+                <label className="block mb-2">
                   {t("Full Name", "الاسم الكامل", lang)} *
                 </label>
                 <input
                   type="text"
                   required
-                  className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 />
               </div>
 
               {/* Email */}
               <div>
-                <label className="block mb-2 text-sm">
+                <label className="block mb-2">
                   {t("Email", "البريد الإلكتروني", lang)} *
                 </label>
                 <input
                   type="email"
                   required
-                  className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 />
               </div>
 
               {/* Phone */}
               <div>
-                <label className="block mb-2 text-sm">
+                <label className="block mb-2">
                   {t("Contact Number", "رقم التواصل", lang)} *
                 </label>
                 <input
                   type="tel"
                   required
-                  className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 />
               </div>
 
               {/* Cake Size */}
               <div>
-                <label className="block mb-2 text-sm">
+                <label className="block mb-2">
                   {t("Cake Size", "حجم الكيك", lang)} *
                 </label>
                 <select
                   required
-                  className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 >
                   <option value="">{t("Select size", "اختر الحجم", lang)}</option>
                   <option>6 inch (6-8 servings)</option>
@@ -111,12 +111,12 @@ export default function CustomizeCakePage() {
 
               {/* Tier Cake Size */}
 <div>
-  <label className="block mb-2 text-sm">
+  <label className="block mb-2">
     {t("Tier Cake Size", "حجم الكيك متعدد الطبقات", lang)} *
   </label>
   <select
     required
-    className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
   >
     <option value="">
       {t("Select tier size", "اختر حجم الطبقات", lang)}
@@ -130,12 +130,12 @@ export default function CustomizeCakePage() {
 
 {/* Cake Flavor Top Tier */}
 <div>
-  <label className="block mb-2 text-sm">
+  <label className="block mb-2">
     {t("Cake Flavor (Top Tier)", "نكهة الطبقة العلوية", lang)} *
   </label>
   <select
     required
-    className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
   >
     <option value="">
       {t("Select flavor", "اختر النكهة", lang)}
@@ -150,11 +150,11 @@ export default function CustomizeCakePage() {
 
 {/* Cake Flavor Bottom Tier */}
 <div>
-  <label className="block mb-2 text-sm">
+  <label className="block mb-2">
     {t("Cake Flavor (Bottom Tier)", "نكهة الطبقة السفلية", lang)}
   </label>
   <select
-    className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
   >
     <option value="">
       {t("Select flavor", "اختر النكهة", lang)}
@@ -169,12 +169,12 @@ export default function CustomizeCakePage() {
 
 {/* Add Personalized Message */}
 <div>
-  <label className="block mb-2 text-sm">
+  <label className="block mb-2">
     {t("Add Personalized Message", "إضافة رسالة مخصصة", lang)} *
   </label>
   <select
     required
-    className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
   >
     <option value="">
     {t("Select option", "اختر خيار", lang)}
@@ -193,7 +193,7 @@ export default function CustomizeCakePage() {
 
 {/* Message Field */}
 <div>
-  <label className="block mb-2 text-sm">
+  <label className="block mb-2">
     {t("Message", "الرسالة", lang)}
   </label>
   <input
@@ -204,13 +204,13 @@ export default function CustomizeCakePage() {
       lang
     )}
     maxLength={40}
-    className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
   />
 </div>
 
 {/* Special Instructions */}
 <div>
-  <label className="block mb-2 text-sm">
+  <label className="block mb-2">
     {t("Special Instructions", "تعليمات خاصة", lang)}
   </label>
   <textarea
@@ -220,34 +220,34 @@ export default function CustomizeCakePage() {
       "أي تفاصيل إضافية حول التصميم أو المناسبة أو الحساسية وغيرها",
       lang
     )}
-    className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main resize-none"
+    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main resize-none"
   />
 </div>
 
               {/* Date */}
               <div>
-                <label className="block mb-2 text-sm">
+                <label className="block mb-2">
                   {t("Delivery Date", "تاريخ التسليم", lang)} *
                 </label>
                 <input
                   type="datetime-local"
                   required
-                  className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:border-main"
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 />
               </div>
 
               {/* File Upload */}
               <div>
-                <label className="block mb-2 text-sm">
+                <label className="block mb-2">
                   {t("Upload Design (Optional)", "رفع صورة التصميم (اختياري)", lang)}
                 </label>
-                <input type="file" className="w-full text-sm border border-zinc-300 rounded-xl p-3 " />
+                <input type="file" className="w-full border border-zinc-300 rounded-sm p-3 " />
               </div>
 
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full bg-main text-white py-3 rounded-xl hover:opacity-90 transition"
+                className="w-full bg-main text-white py-3 rounded-sm hover:opacity-90 transition"
               >
                 {t("Submit Order", "إرسال الطلب", lang)}
               </button>
