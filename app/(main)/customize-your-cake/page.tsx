@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import imageCompression from "browser-image-compression";
 import { useLanguage } from "@/context/LanguageContext";
 import { playFair } from "@/lib/fonts";
@@ -11,7 +11,6 @@ interface Details {
   email: string;
   phone: string;
   city: string;
-  address: string;
   cakeSize: string;
   tierCakeSize: string;
   cakeFlavorTopTier: string;
@@ -35,7 +34,6 @@ export default function CustomizeCakePage() {
     email: "",
     phone: "",
     city: "",
-    address: "",
     cakeSize: "",
     tierCakeSize: "",
     cakeFlavorTopTier: "",
@@ -52,6 +50,11 @@ export default function CustomizeCakePage() {
 
   const [images, setImages] = useState<File[]>([]);
 
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 2);
+  
+  const minDate = tomorrow.toISOString().split("T")[0];
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -65,6 +68,43 @@ export default function CustomizeCakePage() {
     }
   };
 
+  useEffect(() => {
+    const calculatePrice = () => {
+      let basePrice = 0;
+      let deliveryPrice = 0;
+
+      // Logic: If a field is selected (not empty), add 1
+      if (details.cakeSize) basePrice += 1;
+      if (details.tierCakeSize) basePrice += 1;
+      if (details.cakeFlavorTopTier) basePrice += 1;
+      if (details.cakeFlavorBottomTier) basePrice += 1;
+      if (details.messageOn && details.messageOn !== "no") basePrice += 1;
+
+      // Delivery Logic based on City
+      if (details.city === "al-khobar") {
+        deliveryPrice = 300;
+      } else if (details.city === "damam") {
+        deliveryPrice = 200;
+      }
+
+      setDetails((prev) => ({
+        ...prev,
+        totalPrice: basePrice,
+        deliveryCharges: deliveryPrice,
+        totalAmount: basePrice + deliveryPrice,
+      }));
+    };
+
+    calculatePrice();
+  }, [
+    details.cakeSize,
+    details.tierCakeSize,
+    details.cakeFlavorTopTier,
+    details.cakeFlavorBottomTier,
+    details.messageOn,
+    details.city,
+  ]);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -75,7 +115,6 @@ export default function CustomizeCakePage() {
         email: details.email,
         phone: details.phone,
         city: details.city,
-        address: details.address,
       };
 
       const cakeDetails = {
@@ -380,14 +419,42 @@ export default function CustomizeCakePage() {
                   {t("Delivery Date", "تاريخ التسليم", lang)} *
                 </label>
                 <input
-                  type="datetime-local"
+                  type="date"
                   required
+                  min={minDate}
                   name="deliveryDate"
                   value={details.deliveryDate}
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 />
               </div>
+
+              {/* Delivery Time */}
+          <div>
+            <label className="block mb-2">
+              {t("Delivery Time", "وقت التسليم", lang)} *
+            </label>
+            <select
+              name="deliveryTime"
+              value={details.deliveryTime}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
+            >
+              <option value="">{t("Select Time", "اختر الوقت", lang)}</option>
+              {/* Generating 24 hours options */}
+              {Array.from({ length: 24 }).map((_, i) => {
+                const hour = i === 0 ? 12 : i > 12 ? i - 12 : i;
+                const ampm = i >= 12 ? "PM" : "AM";
+                const timeString = `${hour}:00 ${ampm}`;
+                return (
+                  <option key={i} value={timeString}>
+                    {timeString}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
 
               <div>
                 <label className="block mb-2">
