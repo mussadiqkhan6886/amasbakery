@@ -27,11 +27,16 @@ export default function Header() {
     switchLang(e.target.value)
   }
 
+  const isCollectionPage =
+  pathname.includes("/collections/menu") ||
+  pathname.includes("/collections/occasion-cakes") ||
+  pathname.includes("/customize-your-cake");
+
   return (
     <header
   className={`
     ${lang === "ar" ? "rtl" : "ltr"}
-  ${pathname.includes("/collections/menu") || pathname.includes("/collections/occasion-cakes") || pathname.includes("/customize-your-cake") ? "relative w-full mx-auto" : "fixed left-1/2 -translate-x-1/2 w-[95%]"} top-4
+   ${isCollectionPage && !open ? "relative w-full mx-auto" : "fixed left-1/2 -translate-x-1/2 w-[95%]"} top-4
      max-w-7xl
     px-6 py-1
     flex items-center justify-between

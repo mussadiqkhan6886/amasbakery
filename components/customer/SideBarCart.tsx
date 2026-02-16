@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { FiX } from "react-icons/fi";
 import CurrenncyT from "./CurrenncyT";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   open: boolean;
@@ -115,7 +116,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
 
         {/* DELIVERY SECTION */}
         <div className="border-t p-3 overflow-y-auto thin-scrollbar flex flex-col gap-2">
-          <div>
+         {cart.length > 0 ? ( <> <div>
             <label className="text-sm font-medium">
               {t("Delivery Date", "تاريخ التوصيل", lang)}
             </label>
@@ -128,7 +129,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
           </div>
 
           <div>
-            <label className="text-sm font-medium">
+              <label className="text-sm font-medium">
               {t("Delivery Time", "وقت التوصيل", lang)}
             </label>
             <select
@@ -146,7 +147,6 @@ const SideBarCart = ({ open, onClose }: Props) => {
             </select>
           </div>
 
-          {/* TOTAL */}
           <div className="flex justify-between font-semibold text-lg">
             <span>{t("Total", "الإجمالي", lang)}</span>
             <span>
@@ -154,7 +154,6 @@ const SideBarCart = ({ open, onClose }: Props) => {
             </span>
           </div>
 
-          {/* CHECKOUT BUTTON */}
           <button
             disabled={!deliveryDate || !deliveryTime || cart.length === 0}
             className={`py-3 rounded font-medium transition
@@ -167,6 +166,9 @@ const SideBarCart = ({ open, onClose }: Props) => {
           >
             {t("Proceed to Checkout", "المتابعة للدفع", lang)}
           </button>
+          </>) : (
+            <Link className="border text-center py-2" href="/collections/menu">{t("Continue to Menu", "المتابعة إلى القائمة", lang)}</Link>
+          )}
         </div>
       </div>
     </>
