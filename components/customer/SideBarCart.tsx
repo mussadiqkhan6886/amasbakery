@@ -20,6 +20,12 @@ const SideBarCart = ({ open, onClose }: Props) => {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("");
 
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 2);
+
+    const minDate = tomorrow.toISOString().split("T")[0];
+
+
   return (
     <>
       {/* OVERLAY */}
@@ -121,11 +127,12 @@ const SideBarCart = ({ open, onClose }: Props) => {
               {t("Delivery Date", "تاريخ التوصيل", lang)}
             </label>
             <input
-              type="date"
-              value={deliveryDate}
-              onChange={(e) => setDeliveryDate(e.target.value)}
-              className="w-full border rounded px-3 text-sm py-1 mt-1"
-            />
+                type="date"
+                value={deliveryDate}
+                min={minDate} // 👈 prevents selecting today or past
+                onChange={(e) => setDeliveryDate(e.target.value)}
+                className="w-full border rounded px-3 text-sm py-1 mt-1"
+                />
           </div>
 
           <div>
@@ -156,6 +163,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
 
           <div className="flex gap-2 w-full">
             <button
+            onClick={onClose}
             disabled={!deliveryDate || !deliveryTime || cart.length === 0}
             className={`py-3 rounded font-medium transition w-full
               ${
@@ -169,6 +177,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
           </button>
           <button
             disabled={!deliveryDate || !deliveryTime || cart.length === 0}
+            onClick={onClose}
             className={`py-3 rounded font-medium transition w-full
               ${
                 deliveryDate && deliveryTime && cart.length > 0
