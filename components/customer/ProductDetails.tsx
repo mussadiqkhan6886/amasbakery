@@ -62,6 +62,7 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
             if (found) setSelectedSize(found);
           }}
           className="border w-full border-gray-300 rounded px-3 py-2"
+          dir="ltr"
         >
           {product.varieties.map((item) => (
             <option key={item.size} value={item.size}>
@@ -78,6 +79,7 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
           </label>
 
           <select
+            dir="ltr"
             value={selectedFlavor}
             onChange={(e) => setSelectedFlavor(e.target.value)}
             className="border w-full border-gray-300 rounded px-3 py-2"
