@@ -31,3 +31,18 @@ export interface ReviewType {
   createdAt: string
   updatedAt: string
 }
+
+export interface CartItem {
+  id: string;
+  type: "MENU" | "OCCASION"; 
+  title: string;
+  image: string;
+  flavor?: string;
+  size: string;
+  price: number; // dynamic for box
+  quantity: number;
+  messageOn: string
+  message?: string
+  specialInstruction?: string
+  cartKey: string
+}
