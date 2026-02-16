@@ -1,0 +1,186 @@
+"use client";
+
+import { useLanguage } from "@/context/LanguageContext";
+import { playFair } from "@/lib/fonts";
+import { ProductType } from "@/type";
+import React, { useMemo, useState } from "react";
+import CurrenncyT from "./CurrenncyT";
+import AddToCart from "./AddToCart";
+
+const ProductDetails = ({ product }: { product: ProductType }) => {
+  const { t, lang } = useLanguage();
+
+  // ---------------- STATE ----------------
+  const [selectedSize, setSelectedSize] = useState(
+    product.varieties[0]
+  );
+
+  const [selectedFlavor, setSelectedFlavor] = useState(
+    product.flavors?.[0] || ""
+  );
+
+  const [quantity, setQuantity] = useState(1);
+
+  const [messageOn, setMessageOn] = useState("noMessage");
+  const [message, setMessage] = useState("");
+  const [specialInstruction, setSpecialInstruction] = useState("");
+
+  // ---------------- DYNAMIC PRICE ----------------
+  const totalPrice = useMemo(() => {
+    return selectedSize.price * quantity;
+  }, [selectedSize, quantity]);
+
+  return (
+    <div className="flex-1 flex flex-col gap-6">
+      <h1
+        className={`${playFair.className} text-5xl ${
+          lang === "en" ? "text-left" : "text-right"
+        } my-12`}
+      >
+        {t(product.name.en, product.name.ar, lang)}
+      </h1>
+
+      <p className="text-2xl font-bold text-gray-800">
+        {totalPrice.toFixed(2)} <CurrenncyT />
+      </p>
+
+      <p>
+        {t(product.description.en, product.description.ar, lang)}
+      </p>
+
+      <div className="flex flex-col w-full gap-2">
+        <label className="font-medium">
+          {t("Size", "الحجم", lang)}
+        </label>
+
+        <select
+          value={selectedSize.size}
+          onChange={(e) => {
+            const found = product.varieties.find(
+              (v) => v.size === e.target.value
+            );
+            if (found) setSelectedSize(found);
+          }}
+          className="border w-full border-gray-300 rounded px-3 py-2"
+        >
+          {product.varieties.map((item) => (
+            <option key={item.size} value={item.size}>
+              {item.size} - {item.price} <CurrenncyT />
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {product.flavors && product.flavors.length > 0 && (
+        <div className="flex flex-col w-full gap-2">
+          <label className="font-medium">
+            {t("Flavor", "النكهة", lang)}
+          </label>
+
+          <select
+            value={selectedFlavor}
+            onChange={(e) => setSelectedFlavor(e.target.value)}
+            className="border w-full border-gray-300 rounded px-3 py-2"
+          >
+            {product.flavors.map((item, i) => (
+              <option key={i} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      <div className="flex flex-col gap-2">
+        <label className="font-medium">
+          {t("Add Personalized Message", "إضافة رسالة شخصية", lang)}
+        </label>
+
+        <select
+          value={messageOn}
+          onChange={(e) => setMessageOn(e.target.value)}
+          className="border border-gray-300 rounded px-3 py-2"
+        >
+          <option value="onBoard">
+            {t("On Board", "على اللوحة", lang)}
+          </option>
+          <option value="onCake">
+            {t("On Cake", "على الكعكة", lang)}
+          </option>
+          <option value="noMessage">
+            {t("No Message", "بدون رسالة", lang)}
+          </option>
+        </select>
+
+        {messageOn !== "noMessage" && (
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder={t(
+              "Your message here",
+              "اكتب رسالتك هنا",
+              lang
+            )}
+            className="border border-gray-300 rounded px-3 py-2 w-full"
+          />
+        )}
+
+        <input
+          type="text"
+          value={specialInstruction}
+          onChange={(e) => setSpecialInstruction(e.target.value)}
+          placeholder={t(
+            "Special instruction",
+            "تعليمات خاصة",
+            lang
+          )}
+          className="border border-gray-300 rounded px-3 py-2 w-full"
+        />
+      </div>
+
+      {/* QUANTITY */}
+      <div className="flex items-center gap-4 mt-4">
+        <span className="font-medium">
+          {t("Quantity", "الكمية", lang)}
+        </span>
+
+        <div className="flex items-center border border-gray-300 rounded">
+          <button
+            onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+            className="px-3 py-1"
+          >
+            -
+          </button>
+
+          <div className="px-4 py-1">{quantity}</div>
+
+          <button
+            onClick={() => setQuantity((prev) => prev + 1)}
+            className="px-3 py-1"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      {/* ADD TO CART */}
+      <AddToCart
+        id={product._id}
+        type={product.type.toUpperCase()}
+        titleEn={product.name.en}
+        titleAr={product.name.ar}
+        image={product.image[0]}
+        flavor={selectedFlavor}
+        size={selectedSize.size}
+        price={selectedSize.price}
+        quantity={quantity}
+        messageOn={messageOn}
+        message={message}
+        specialInstruction={specialInstruction}
+      />
+    </div>
+  );
+};
+
+export default ProductDetails;

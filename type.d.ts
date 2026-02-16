@@ -34,8 +34,9 @@ export interface ReviewType {
 
 export interface CartItem {
   id: string;
-  type: "MENU" | "OCCASION"; 
-  title: string;
+  type: string; 
+  titleEn: string;
+  titleAr: string;
   image: string;
   flavor?: string;
   size: string;
@@ -44,5 +45,5 @@ export interface CartItem {
   messageOn: string
   message?: string
   specialInstruction?: string
-  cartKey: string
+  cartKey?: string
 }

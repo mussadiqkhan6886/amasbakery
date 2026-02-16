@@ -20,7 +20,7 @@ const menuOccasionOrderSchema = new mongoose.Schema(
     orderId: {type: String, default: () => uuidv4(), unique: true},
     orderType: {
       type: String,
-      enum: ["MENU", "OCCASION"],
+      enum: ["MENU", "OCCASION-CAKES"],
       required: true,
     },
     customer: {

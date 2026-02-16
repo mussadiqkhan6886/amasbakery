@@ -75,19 +75,21 @@ export const CartContextProvider = ({ children }: { children: React.ReactNode })
 
   // ------------------ REMOVE FROM CART ------------------
   const removeFromCart = (cartKey: string) => {
-    setCart((prev) => prev.filter((item) => generateCartKey(item) !== cartKey));
+    setCart((prev) => prev.filter((item) => item.cartKey !== cartKey));
   };
+
 
   // ------------------ UPDATE QUANTITY ------------------
   const updateQuantity = (cartKey: string, quantity: number) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        generateCartKey(item) === cartKey
-          ? { ...item, quantity: Math.max(1, quantity) }
-          : item
-      )
-    );
-  };
+  setCart((prev) =>
+    prev.map((item) =>
+      item.cartKey === cartKey
+        ? { ...item, quantity: Math.max(1, quantity) }
+        : item
+    )
+  );
+};
+
 
   // ------------------ CLEAR CART ------------------
   const clearCart = () => {

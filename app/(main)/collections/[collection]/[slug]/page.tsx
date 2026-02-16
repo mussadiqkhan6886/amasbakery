@@ -1,10 +1,5 @@
-import AddToCart from '@/components/customer/AddToCart';
-import CurrenncyT from '@/components/customer/CurrenncyT';
 import MayLike from '@/components/customer/MayLike';
-import Message from '@/components/customer/Message';
-import ProductDescription from '@/components/customer/ProductDescription';
-import ProductHeading from '@/components/customer/ProductHeading';
-import Quantity from '@/components/customer/Quantity';
+import ProductDetails from '@/components/customer/ProductDetails';
 import { connectDB } from '@/lib/config/db';
 import { playFair } from '@/lib/fonts';
 import { Product } from '@/lib/models/ProductSchema';
@@ -52,44 +47,7 @@ const singleProduct = async ({ params }: { params: Promise<{ slug: string }> }) 
         </div>
 
         {/* Product Details */}
-        <div className="flex-1 flex flex-col gap-6">
-          <ProductHeading en={product.name.en} ar={product.name.ar} />
-
-          <p className="text-2xl font-bold text-gray-800">{product.varieties[0].price.toFixed(2)} <CurrenncyT /></p>
-
-          <ProductDescription en={product.description.en} ar={product.description.ar} />
-
-          {/* Size Selector */}
-          <div className="flex flex-col w-full gap-2">
-            <label className="font-medium">Size</label>
-            <select dir="ltr" className="border w-full border-gray-300 rounded px-3 py-2">
-              {product.varieties.map((item: {size: string, price: number}) => (
-                <option key={item.size} value={item.size}>
-                    {item.size + " " +item.price} <CurrenncyT />
-                  </option>
-                ))
-              }
-            </select>
-          </div>
-          {product.flavors.length > 0 && <div className="flex flex-col w-full gap-2">
-            <label className="font-medium">Flavors</label>
-            <select className="border w-full border-gray-300 rounded px-3 py-2">
-              {product.flavors.map((item: string, i: number) => (
-                <option key={i} value={item}>
-                    {item}
-                  </option>
-                ))
-              }
-            </select>
-          </div>}
-
-            <Message />
-          {/* Quantity Selector */}
-         <Quantity />
-
-          {/* Add to Cart */}
-          <AddToCart />
-        </div>
+        <ProductDetails product={product} />
       </section>
       <MayLike type={product.type} excludeIds={product._id} />
     </main>

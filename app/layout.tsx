@@ -3,6 +3,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import HtmlLangSetter from "@/components/customer/HTMLLangSelector";
 import { roboto } from "@/lib/fonts";
+import { CartContextProvider } from "@/context/CartContext";
 
 export const metadata: Metadata = {
   title: "Amas Bakery",
@@ -20,7 +21,9 @@ export default function RootLayout({
         className={`antialiased ${roboto.className}`}
       >
         <LanguageProvider>
-        {children}
+          <CartContextProvider>
+            {children}
+          </CartContextProvider>
         <HtmlLangSetter />
         </LanguageProvider>
       </body>
