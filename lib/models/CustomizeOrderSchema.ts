@@ -26,7 +26,7 @@ const customOrderSchema = new mongoose.Schema(
       messageOn: String,
       message: String,
       specialInstruction: String,
-      referenceImage: String, // uploaded image URL
+      referenceImage: [String], 
     },
 
     delivery: {

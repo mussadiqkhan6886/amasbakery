@@ -1,13 +1,139 @@
-'use client';
+"use client";
 
 import Image from "next/image";
+import { useState, ChangeEvent, FormEvent } from "react";
+import imageCompression from "browser-image-compression";
 import { useLanguage } from "@/context/LanguageContext";
-import { useState } from "react";
 import { playFair } from "@/lib/fonts";
 
+interface Details {
+  fullName: string;
+  email: string;
+  phone: string;
+  city: string;
+  address: string;
+  cakeSize: string;
+  tierCakeSize: string;
+  cakeFlavorTopTier: string;
+  cakeFlavorBottomTier: string;
+  messageOn: string;
+  message: string;
+  specialInstruction: string;
+  deliveryDate: string;
+  deliveryTime: string;
+  totalPrice: number;
+  deliveryCharges: number;
+  totalAmount: number;
+}
+
 export default function CustomizeCakePage() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
   const { t, lang } = useLanguage();
-  const [submitted, setSubmitted] = useState(false);
+  const [details, setDetails] = useState<Details>({
+    fullName: "",
+    email: "",
+    phone: "",
+    city: "",
+    address: "",
+    cakeSize: "",
+    tierCakeSize: "",
+    cakeFlavorTopTier: "",
+    cakeFlavorBottomTier: "",
+    messageOn: "",
+    message: "",
+    specialInstruction: "",
+    deliveryDate: "",
+    deliveryTime: "",
+    totalPrice: 0,
+    deliveryCharges: 0,
+    totalAmount: 0,
+  });
+
+  const [images, setImages] = useState<File[]>([]);
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setDetails({ ...details, [name]: value });
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImages(Array.from(e.target.files));
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const customer = {
+        fullName: details.fullName,
+        email: details.email,
+        phone: details.phone,
+        city: details.city,
+        address: details.address,
+      };
+
+      const cakeDetails = {
+        cakeSize: details.cakeSize,
+        tierCakeSize: details.tierCakeSize,
+        cakeFlavorTopTier: details.cakeFlavorTopTier,
+        cakeFlavorBottomTier: details.cakeFlavorBottomTier,
+        messageOn: details.messageOn,
+        message: details.message,
+        specialInstruction: details.specialInstruction,
+      };
+
+      const delivery = {
+        deliveryDate: details.deliveryDate,
+        deliveryTime: details.deliveryTime,
+      };
+
+      const pricing = {
+        totalPrice: details.totalPrice,
+        deliveryCharges: details.deliveryCharges,
+        totalAmount: details.totalAmount,
+      };
+
+      const formData = new FormData();
+      formData.append("customer", JSON.stringify(customer));
+      formData.append("cakeDetails", JSON.stringify(cakeDetails));
+      formData.append("delivery", JSON.stringify(delivery));
+      formData.append("pricing", JSON.stringify(pricing));
+
+      for (const file of images) {
+        const compressed = await imageCompression(file, {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1200,
+          useWebWorker: true,
+        });
+        formData.append("image", compressed);
+      }
+
+      const res = await fetch("/api/customize-order", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setSubmitted(true);
+        setImages([]);
+      } else {
+        alert(data.error || "Failed to submit order");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main
@@ -16,7 +142,6 @@ export default function CustomizeCakePage() {
       }`}
     >
       <section className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
-
         {/* LEFT SIDE - IMAGE + INFO */}
         <div className="space-y-6">
           <div className="relative">
@@ -30,7 +155,9 @@ export default function CustomizeCakePage() {
           </div>
 
           <div className="space-y-4">
-            <h1 className={`${playFair.className} text-4xl font-semibold text-main`}>
+            <h1
+              className={`${playFair.className} text-4xl font-semibold text-main`}
+            >
               {t("Customize Your Cake", "صمّم كيكك الخاص", lang)}
             </h1>
 
@@ -47,14 +174,7 @@ export default function CustomizeCakePage() {
         {/* RIGHT SIDE - FORM */}
         <div className=" text-[13px] p-5">
           {!submitted ? (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSubmitted(true);
-              }}
-              className="space-y-6"
-            >
-
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Full Name */}
               <div>
                 <label className="block mb-2">
@@ -63,6 +183,9 @@ export default function CustomizeCakePage() {
                 <input
                   type="text"
                   required
+                  name="fullName"
+                  value={details.fullName}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 />
               </div>
@@ -75,6 +198,9 @@ export default function CustomizeCakePage() {
                 <input
                   type="email"
                   required
+                  name="email"
+                  value={details.email}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 />
               </div>
@@ -87,6 +213,9 @@ export default function CustomizeCakePage() {
                 <input
                   type="tel"
                   required
+                  name="phone"
+                  value={details.phone}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 />
               </div>
@@ -98,9 +227,14 @@ export default function CustomizeCakePage() {
                 </label>
                 <select
                   required
+                  name="cakeSize"
+                  value={details.cakeSize}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 >
-                  <option value="">{t("Select size", "اختر الحجم", lang)}</option>
+                  <option value="">
+                    {t("Select size", "اختر الحجم", lang)}
+                  </option>
                   <option>6 inch (6-8 servings)</option>
                   <option>8 inch (12-14 servings)</option>
                   <option>10 inch (16-20 servings)</option>
@@ -110,119 +244,135 @@ export default function CustomizeCakePage() {
               </div>
 
               {/* Tier Cake Size */}
-<div>
-  <label className="block mb-2">
-    {t("Tier Cake Size", "حجم الكيك متعدد الطبقات", lang)} *
-  </label>
-  <select
-    required
-    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
-  >
-    <option value="">
-      {t("Select tier size", "اختر حجم الطبقات", lang)}
-    </option>
-    <option>Two Tier (6 + 8 inch)</option>
-    <option>Two Tier (8 + 10 inch)</option>
-    <option>Three Tier (6 + 8 + 10 inch)</option>
-    <option>Custom Tier Size</option>
-  </select>
-</div>
+              <div>
+                <label className="block mb-2">
+                  {t("Tier Cake Size", "حجم الكيك متعدد الطبقات", lang)} *
+                </label>
+                <select
+                  required
+                  name="tierCakeSize"
+                  value={details.tierCakeSize}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
+                >
+                  <option value="">
+                    {t("Select tier size", "اختر حجم الطبقات", lang)}
+                  </option>
+                  <option>Two Tier (6 + 8 inch)</option>
+                  <option>Two Tier (8 + 10 inch)</option>
+                  <option>Three Tier (6 + 8 + 10 inch)</option>
+                  <option>Custom Tier Size</option>
+                </select>
+              </div>
 
-{/* Cake Flavor Top Tier */}
-<div>
-  <label className="block mb-2">
-    {t("Cake Flavor (Top Tier)", "نكهة الطبقة العلوية", lang)} *
-  </label>
-  <select
-    required
-    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
-  >
-    <option value="">
-      {t("Select flavor", "اختر النكهة", lang)}
-    </option>
-    <option>Vanilla</option>
-    <option>Chocolate</option>
-    <option>Red Velvet</option>
-    <option>Lotus</option>
-    <option>Pistachio</option>
-  </select>
-</div>
+              {/* Cake Flavor Top Tier */}
+              <div>
+                <label className="block mb-2">
+                  {t("Cake Flavor (Top Tier)", "نكهة الطبقة العلوية", lang)} *
+                </label>
+                <select
+                  required
+                  name="cakeFlavorTopTier"
+                  value={details.cakeFlavorTopTier}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
+                >
+                  <option value="">
+                    {t("Select flavor", "اختر النكهة", lang)}
+                  </option>
+                  <option>Vanilla</option>
+                  <option>Chocolate</option>
+                  <option>Red Velvet</option>
+                  <option>Lotus</option>
+                  <option>Pistachio</option>
+                </select>
+              </div>
 
-{/* Cake Flavor Bottom Tier */}
-<div>
-  <label className="block mb-2">
-    {t("Cake Flavor (Bottom Tier)", "نكهة الطبقة السفلية", lang)}
-  </label>
-  <select
-    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
-  >
-    <option value="">
-      {t("Select flavor", "اختر النكهة", lang)}
-    </option>
-    <option>Vanilla</option>
-    <option>Chocolate</option>
-    <option>Red Velvet</option>
-    <option>Lotus</option>
-    <option>Pistachio</option>
-  </select>
-</div>
+              {/* Cake Flavor Bottom Tier */}
+              <div>
+                <label className="block mb-2">
+                  {t("Cake Flavor (Bottom Tier)", "نكهة الطبقة السفلية", lang)}
+                </label>
+                <select
+                  name="cakeFlavorBottomTier"
+                  value={details.cakeFlavorBottomTier}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
+                >
+                  <option value="">
+                    {t("Select flavor", "اختر النكهة", lang)}
+                  </option>
+                  <option>Vanilla</option>
+                  <option>Chocolate</option>
+                  <option>Red Velvet</option>
+                  <option>Lotus</option>
+                  <option>Pistachio</option>
+                </select>
+              </div>
 
-{/* Add Personalized Message */}
-<div>
-  <label className="block mb-2">
-    {t("Add Personalized Message", "إضافة رسالة مخصصة", lang)} *
-  </label>
-  <select
-    required
-    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
-  >
-    <option value="">
-    {t("Select option", "اختر خيار", lang)}
-    </option>
-    <option value="board">
-    {t("On the Board", "على اللوحة", lang)}
-    </option>
-    <option value="plaque">
-    {t("On the Plaque", "على اللوحة التذكارية", lang)}
-    </option>
-    <option value="no">
-    {t("No Message", "بدون رسالة", lang)}
-    </option>
-  </select>
-</div>
+              {/* Add Personalized Message */}
+              <div>
+                <label className="block mb-2">
+                  {t("Add Personalized Message", "إضافة رسالة مخصصة", lang)} *
+                </label>
+                <select
+                  required
+                  name="messageOn"
+                  value={details.messageOn}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
+                >
+                  <option value="">{t("Select option", "اختر خيار", lang)}</option>
+                  <option value="board">
+                    {t("On the Board", "على اللوحة", lang)}
+                  </option>
+                  <option value="plaque">
+                    {t("On the Plaque", "على اللوحة التذكارية", lang)}
+                  </option>
+                  <option value="no">
+                    {t("No Message", "بدون رسالة", lang)}
+                  </option>
+                </select>
+              </div>
 
-{/* Message Field */}
-<div>
-  <label className="block mb-2">
-    {t("Message", "الرسالة", lang)}
-  </label>
-  <input
-    type="text"
-    placeholder={t(
-      "Please type your message",
-      "يرجى كتابة رسالتك",
-      lang
-    )}
-    maxLength={40}
-    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
-  />
-</div>
+              {/* Message Field */}
+              {(details.messageOn === "board" || details.messageOn === "plaque") && (<div>
+                <label className="block mb-2">
+                  {t("Message", "الرسالة", lang)}
+                </label>
+                <input
+                  type="text"
+                  name="message"
+                  value={details.message}
+                  onChange={handleChange}
+                  placeholder={t(
+                    "Please type your message",
+                    "يرجى كتابة رسالتك",
+                    lang
+                  )}
+                  maxLength={40}
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
+                />
+              </div>)}
 
-{/* Special Instructions */}
-<div>
-  <label className="block mb-2">
-    {t("Special Instructions", "تعليمات خاصة", lang)}
-  </label>
-  <textarea
-    rows={4}
-    placeholder={t(
-      "Any additional details about design, theme, allergies, etc.",
-      "أي تفاصيل إضافية حول التصميم أو المناسبة أو الحساسية وغيرها",
-      lang
-    )}
-    className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main resize-none"
-  />
-</div>
+              {/* Special Instructions */}
+              <div>
+                <label className="block mb-2">
+                  {t("Special Instructions", "تعليمات خاصة", lang)}
+                </label>
+                <textarea
+                  rows={4}
+                  name="specialInstruction"
+                  value={details.specialInstruction}
+                  onChange={handleChange}
+                  placeholder={t(
+                    "Any additional details about design, theme, allergies, etc.",
+                    "أي تفاصيل إضافية حول التصميم أو المناسبة أو الحساسية وغيرها",
+                    lang
+                  )}
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main resize-none"
+                />
+              </div>
 
               {/* Date */}
               <div>
@@ -232,24 +382,56 @@ export default function CustomizeCakePage() {
                 <input
                   type="datetime-local"
                   required
+                  name="deliveryDate"
+                  value={details.deliveryDate}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
                 />
+              </div>
+
+              <div>
+                <label className="block mb-2">
+                  {t("City", "المدينة", lang)} *
+                </label>
+                <select 
+                  name="city" 
+                  value={details.city} 
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:border-main"
+                >
+                  <option value="">{t("Select City", "اختر المدينة", lang)}</option>
+                  <option value="al-khobar">Al Khobar</option>
+                  <option value="damam">Dammam</option>
+                </select>
               </div>
 
               {/* File Upload */}
               <div>
                 <label className="block mb-2">
-                  {t("Upload Design (Optional)", "رفع صورة التصميم (اختياري)", lang)}
+                  {t(
+                    "Upload Design (Optional)",
+                    "رفع صورة التصميم (اختياري)",
+                    lang
+                  )}
                 </label>
-                <input type="file" className="w-full border border-zinc-300 rounded-sm p-3 " />
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  className="w-full border border-zinc-300 rounded-sm p-3 "
+                />
               </div>
 
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full bg-main text-white py-3 rounded-sm hover:opacity-90 transition"
+                disabled={loading}
+                className="w-full bg-main text-white py-3 rounded-sm hover:opacity-90 transition disabled:bg-gray-400"
               >
-                {t("Submit Order", "إرسال الطلب", lang)}
+                {loading
+                  ? t("Submitting...", "جاري الإرسال...", lang)
+                  : t("Submit Order", "إرسال الطلب", lang)}
               </button>
 
               <p className="text-xs text-gray-500 mt-4">
