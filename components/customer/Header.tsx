@@ -73,7 +73,7 @@ export default function Header() {
       alt="header logo image"
       width={90}
       height={90}
-      className="object-contain rounded-lg"
+      className="object-contain rounded-3xl"
       priority
     />
   </Link>

@@ -69,41 +69,64 @@ export default function CustomizeCakePage() {
   };
 
   useEffect(() => {
-    const calculatePrice = () => {
-      let basePrice = 0;
-      let deliveryPrice = 0;
-
-      // Logic: If a field is selected (not empty), add 1
-      if (details.cakeSize) basePrice += 1;
-      if (details.tierCakeSize) basePrice += 1;
-      if (details.cakeFlavorTopTier) basePrice += 1;
-      if (details.cakeFlavorBottomTier) basePrice += 1;
-      if (details.messageOn && details.messageOn !== "no") basePrice += 1;
-
-      // Delivery Logic based on City
-      if (details.city === "al-khobar") {
-        deliveryPrice = 300;
-      } else if (details.city === "damam") {
-        deliveryPrice = 200;
-      }
-
-      setDetails((prev) => ({
-        ...prev,
-        totalPrice: basePrice,
-        deliveryCharges: deliveryPrice,
-        totalAmount: basePrice + deliveryPrice,
-      }));
+  const calculatePrice = () => {
+    // 1. Define your price lists here
+    const sizePrices: Record<string, number> = {
+      "6 inch (6-8 servings)": 150,
+      "8 inch (12-14 servings)": 200,
+      "10 inch (16-20 servings)": 250,
+      "Two Tier Cake": 400,
+      "Three Tier Cake": 600,
     };
 
-    calculatePrice();
-  }, [
-    details.cakeSize,
-    details.tierCakeSize,
-    details.cakeFlavorTopTier,
-    details.cakeFlavorBottomTier,
-    details.messageOn,
-    details.city,
-  ]);
+    const tierPrices: Record<string, number> = {
+      "Two Tier (6 + 8 inch)": 50,
+      "Two Tier (8 + 10 inch)": 70,
+      "Three Tier (6 + 8 + 10 inch)": 100,
+      "Custom Tier Size": 150,
+    };
+
+    let basePrice = 0;
+    let deliveryPrice = 0;
+
+    // 2. Apply specific pricing for Size and Tiers
+    if (details.cakeSize) {
+      basePrice += sizePrices[details.cakeSize] || 0;
+    }
+    
+    if (details.tierCakeSize) {
+      basePrice += tierPrices[details.tierCakeSize] || 0;
+    }
+
+    // 3. Apply flat rate (1) for everything else as requested
+    if (details.cakeFlavorTopTier) basePrice += 1;
+    if (details.cakeFlavorBottomTier) basePrice += 1;
+    if (details.messageOn && details.messageOn !== "no") basePrice += 1;
+
+    // 4. Delivery Charges
+    if (details.city === "al-khobar") {
+      deliveryPrice = 300;
+    } else if (details.city === "damam") {
+      deliveryPrice = 200;
+    }
+
+    setDetails((prev) => ({
+      ...prev,
+      totalPrice: basePrice,
+      deliveryCharges: deliveryPrice,
+      totalAmount: basePrice + deliveryPrice,
+    }));
+  };
+
+  calculatePrice();
+}, [
+  details.cakeSize,
+  details.tierCakeSize,
+  details.cakeFlavorTopTier,
+  details.cakeFlavorBottomTier,
+  details.messageOn,
+  details.city,
+]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
