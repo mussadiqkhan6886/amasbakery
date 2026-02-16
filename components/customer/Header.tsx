@@ -7,12 +7,15 @@ import { ChangeEvent, useState } from "react";
 import {FiMenu, FiPhoneCall, FiSearch, FiShoppingCart} from "react-icons/fi"
 import SIdeBar from "./SIdeBar";
 import { usePathname } from "next/navigation";
+import SideBarCart from "./SideBarCart";
+import { useCart } from "@/context/CartContext";
 
 export default function Header() {
   const { lang, switchLang } = useLanguage();
     const [showSideBar, setShowSideBar] = useState(false)
+    const [open, setOpen] = useState(false)
     const pathname = usePathname()
-
+    const {totalItems} = useCart()
     const headerLinks = [
     { name: lang === 'en' ? 'About' : 'من نحن', link: '/about' },
     { name: lang === 'en' ? 'Menu' : 'قائمة الطعام', link: '/collections/menu' },
@@ -76,7 +79,19 @@ export default function Header() {
     </button>
 
     <div className="flex items-center gap-3 text-lg">
-      <FiShoppingCart className="cursor-pointer hover:scale-110 transition" />
+      <div className="relative">
+        <FiShoppingCart
+          onClick={() => setOpen(true)}
+          className="cursor-pointer hover:scale-110 transition"
+          size={20}
+        />
+
+        {totalItems > 0 && (
+          <span className="absolute -top-3 -right-2 bg-main text-white text-[9px] px-1 py-0.5 rounded-full">
+            {totalItems}
+          </span>
+        )}
+      </div>
       <FiSearch className="cursor-pointer hover:scale-110 transition" />
     </div>
 
@@ -89,6 +104,7 @@ export default function Header() {
       <option value="ar" className="text-black">AR</option>
     </select>
   </div>
+      {open && <SideBarCart open={open} onClose={() => setOpen(false)} />}
 </header>
   );
 }
