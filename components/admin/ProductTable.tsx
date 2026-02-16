@@ -6,7 +6,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 import Link from 'next/link';
-import { Edit, Trash } from 'lucide-react';
+import { FiEdit, FiTrash } from 'react-icons/fi';
 import { ProductType } from '@/type';
 
 interface ProductTableProps {
@@ -100,10 +100,10 @@ export default function ProductTable({ products, setProducts }: ProductTableProp
     renderCell: (params) => (
       <Box>
         <IconButton color="primary">
-          <Link href={`/admin-dashboard/update-${params.row.type === "menu" ? "menu" : "occasion"}/${params.row._id}`}><Edit /></Link>
+          <Link href={`/admin-dashboard/update-${params.row.type === "menu" ? "menu" : "occasion"}/${params.row._id}`}><FiEdit /></Link>
         </IconButton>
         <IconButton color="error" onClick={() => handleDelete(params.row._id)}>
-          <Trash />
+          <FiTrash />
         </IconButton>
       </Box>
     ),
