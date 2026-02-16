@@ -154,9 +154,10 @@ const SideBarCart = ({ open, onClose }: Props) => {
             </span>
           </div>
 
-          <button
+          <div className="flex gap-2 w-full">
+            <button
             disabled={!deliveryDate || !deliveryTime || cart.length === 0}
-            className={`py-3 rounded font-medium transition
+            className={`py-3 rounded font-medium transition w-full
               ${
                 deliveryDate && deliveryTime && cart.length > 0
                   ? "bg-main text-white hover:bg-main/90"
@@ -164,8 +165,21 @@ const SideBarCart = ({ open, onClose }: Props) => {
               }
             `}
           >
-            {t("Proceed to Checkout", "المتابعة للدفع", lang)}
+            <Link href="/checkout">{t("Proceed to Checkout", "المتابعة للدفع", lang)}</Link>
           </button>
+          <button
+            disabled={!deliveryDate || !deliveryTime || cart.length === 0}
+            className={`py-3 rounded font-medium transition w-full
+              ${
+                deliveryDate && deliveryTime && cart.length > 0
+                  ? "border border-main text-main hover:bg-main hover:text-white"
+                  : "bg-gray-300 text-gray-600 cursor-not-allowed"
+              }
+            `}
+          >
+            <Link href="/cart">{t("Proceed to Cart", " انتقل إلى سلة التسوق", lang)}</Link>
+          </button>
+          </div>
           </>) : (
             <Link className="border text-center py-2" href="/collections/menu">{t("Continue to Menu", "المتابعة إلى القائمة", lang)}</Link>
           )}
