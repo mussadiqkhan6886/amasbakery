@@ -36,15 +36,6 @@ const singleProduct = async ({ params }: { params: Promise<{ slug: string }> }) 
     <main className="max-w-6xl mx-auto px-3 py-12">
       <section className="flex flex-col gap-10 lg:flex-row justify-between">
         {/* Product Image */}
-        <div className="flex-1">
-          <Image
-            src={product.image[0]}
-            alt={product.name.en}
-            width={600}
-            height={600}
-            className="w-full h-auto object-cover"
-          />
-        </div>
 
         {/* Product Details */}
         <ProductDetails product={product} />

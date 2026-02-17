@@ -10,7 +10,7 @@ export interface ProductType {
   type: "menu" | "occasion-cakes";
   category: { en: string; ar: string };
   description: { en: string; ar: string };
-  image: string;
+  image: string[];
   varieties: Variety[];           // unified sizes + prices
   flavors?: string[];             // optional
   tiers?: string[];               // optional

@@ -6,10 +6,10 @@ import { ProductType } from "@/type";
 import React, { useMemo, useState } from "react";
 import CurrenncyT from "./CurrenncyT";
 import AddToCart from "./AddToCart";
+import Image from "next/image";
 
 const ProductDetails = ({ product }: { product: ProductType }) => {
   const { t, lang } = useLanguage();
-
   // ---------------- STATE ----------------
   const [selectedSize, setSelectedSize] = useState(
     product.varieties[0]
@@ -30,8 +30,35 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
     return selectedSize.price * quantity;
   }, [selectedSize, quantity]);
 
+  const [currentImage, setCurrentImage] = useState(product.image[0])
+
   return (
-    <div className="flex-1 flex flex-col gap-6">
+    <>
+      <div className="flex-1">
+        <div className="rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+          <Image
+            src={currentImage}
+            alt={product.name.en}
+            width={600}
+            height={600}
+            className="w-full h-auto object-cover transition-all duration-300"
+          />
+        </div>
+        <div className="flex gap-4 mt-4 overflow-x-auto pb-2">
+          {product.image.map((item, idx) => (
+            <div 
+              key={idx}
+              onClick={() => setCurrentImage(item)}
+              className={`cursor-pointer rounded-md overflow-hidden border-2 transition ${
+                currentImage === item ? "border-black" : "border-transparent"
+              }`}
+            >
+              <Image src={item} alt="thumbnail" width={80} height={80} className="object-cover w-20 h-20" />
+            </div>
+          ))}
+        </div>
+      </div>
+        <div className="flex-1 flex flex-col gap-6">
       <h1
         className={`${playFair.className} text-5xl ${
           lang === "en" ? "text-left" : "text-right"
@@ -183,6 +210,8 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
         specialInstruction={specialInstruction}
       />
     </div>
+    </>
+    
   );
 };
 
