@@ -5,6 +5,7 @@ import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import imageCompression from "browser-image-compression";
 import { useLanguage } from "@/context/LanguageContext";
 import { playFair } from "@/lib/fonts";
+import axios from "axios";
 
 interface Details {
   fullName: string;
@@ -29,6 +30,8 @@ export default function CustomizeCakePage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const { t, lang } = useLanguage();
+  const [dailyLimit, setDailyLimit] = useState("")
+  const [totalLimit, setTotalLimit] = useState("")
   const [details, setDetails] = useState<Details>({
     fullName: "",
     email: "",
@@ -51,7 +54,7 @@ export default function CustomizeCakePage() {
   const [images, setImages] = useState<File[]>([]);
 
   const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 2);
+  tomorrow.setDate(tomorrow.getDate() + 1);
   
   const minDate = tomorrow.toISOString().split("T")[0];
 
@@ -196,6 +199,24 @@ export default function CustomizeCakePage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+  const fetchOrderControl = async () => {
+    try {
+      const res = await axios.get("/api/orderControl");
+      const data = res.data.data;
+
+      setDailyLimit(data.dailyLimits.customLimit.toString());
+      setTotalLimit(data.todayOrders.customCount.toString());
+
+    } catch (error) {
+      console.error("Failed to fetch order control:", error);
+    }
+  };
+
+  fetchOrderControl();
+}, []);
+
 
   return (
     <main
@@ -516,7 +537,7 @@ export default function CustomizeCakePage() {
               {/* Submit */}
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading ||  Number(totalLimit) >= Number(dailyLimit)}
                 className="w-full bg-main text-white py-3 rounded-sm hover:opacity-90 transition disabled:bg-gray-400"
               >
                 {loading
@@ -525,7 +546,7 @@ export default function CustomizeCakePage() {
               </button>
 
               <p className="text-xs text-gray-500 mt-4">
-                {t(
+                {Number(totalLimit) >= Number(dailyLimit) ? <span className="text-base text-red-500 text-center">{ t("Customize Cake Booking is done for today please try tomorrow","تم إغلاق حجز الكيك المخصص لهذا اليوم، يرجى المحاولة غداً." ,lang) }</span> : t(
                   "Our team will contact you within 24 hours to confirm details and pricing.",
                   "سيتواصل فريقنا معك خلال 24 ساعة لتأكيد التفاصيل والسعر.",
                   lang

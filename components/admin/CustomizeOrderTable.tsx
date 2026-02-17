@@ -75,7 +75,6 @@ export default function CustomizeOrderTable({
     { field: "email", headerName: "Email", width: 180 },
     { field: "phone", headerName: "Phone", width: 130 },
     { field: "city", headerName: "City", width: 120 },
-    { field: "cakeFlavor", headerName: "Flavor", width: 130 },
     { field: "cakeSize", headerName: "Size", width: 100 },
     { field: "cakeFlavorTopTier", headerName: "Cake Flavor Top Tier", width: 110 },
     { field: "cakeFlavorBottomTier", headerName: "Cake Flavor Bottom Tier", width: 110 },
