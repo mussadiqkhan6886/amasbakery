@@ -1,23 +1,48 @@
+import { Metadata } from 'next';
 import MayLike from '@/components/customer/MayLike';
 import ProductDetails from '@/components/customer/ProductDetails';
 import { connectDB } from '@/lib/config/db';
 import { playFair } from '@/lib/fonts';
 import { getAndResetOrderControl } from '@/lib/helper';
 import { Product } from '@/lib/models/ProductSchema';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+export async function generateStaticParams() {
+  await connectDB();
+  const products = await Product.find({ isActive: true }).select('slug');
+  
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
+}
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  await connectDB();
+  const product = await Product.findOne({ slug }).select('name description image');
+
+  if (!product) return { title: "Product Not Found" };
+
+  return {
+    title: `${product.name.en} | Amas Bakery`,
+    description: product.description.en.substring(0, 160), // SEO snippet
+    openGraph: {
+      title: product.name.en,
+      description: product.description.en,
+      images: [{ url: product.image[0] }], // First image as preview
+    },
+  };
+}
+
+// 3. Main Component
 const singleProduct = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
 
-  await connectDB()
-
-  const res = await Product.findOne({slug:slug})
+  await connectDB();
+  const res = await Product.findOne({ slug });
   const orderControl = await getAndResetOrderControl();
-  const product = JSON.parse(JSON.stringify(res))
-
+  const product = JSON.parse(JSON.stringify(res));
 
   if (!product) {
     return (
