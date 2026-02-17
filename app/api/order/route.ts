@@ -107,6 +107,82 @@ export const POST = async (req: NextRequest) => {
       }
     );
 
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_APP_PASSWORD,
+      },
+    });
+
+    const itemsHtml = orderData.items
+      .map(
+        (item: any) => `
+      <li>
+        <strong>${item.name}</strong> (Qty: ${item.quantity})<br/>
+        Size: ${item.size} | Flavor: ${item.flavor || "N/A"}<br/>
+        ${item.message ? `<em>Msg: ${item.message}</em>` : ""}
+      </li>`
+      )
+      .join("");
+
+    // --- ADMIN EMAIL ---
+    const adminHtml = `
+      <div style="font-family:Arial;padding:20px;border:1px solid #eee">
+        <h2 style="color:#d946ef">🎂 New Order Received</h2>
+        <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
+        <p><strong>Customer:</strong> ${orderData.customer.fullName}</p>
+        <p><strong>Phone:</strong> ${orderData.customer.phone}</p>
+        <p><strong>City:</strong> ${orderData.customer.city}</p>
+        <hr/>
+        <h3>Items:</h3>
+        <ul>${itemsHtml}</ul>
+        <hr/>
+        <p><strong>Delivery Date:</strong> ${new Date(orderData.delivery.deliveryDate).toDateString()}</p>
+        <p><strong>Time Slot:</strong> ${orderData.delivery.deliveryTimeSlot}</p>
+        <p><strong>Total Amount:</strong> Rs. ${orderData.pricing.total}</p>
+        <p><strong>Payment Proof:</strong> <a href="${paymentProofUrl}">View Image</a></p>
+        <br/>
+        <a href="https://amasbakery.vercel.app/admin-dashboard" style="background:#000;color:#fff;padding:10px;text-decoration:none;border-radius:5px">
+          Open Admin Dashboard
+        </a>
+      </div>
+    `;
+
+    await transporter.sendMail({
+      from: `"Amas Bakery" <${process.env.EMAIL_USER}>`,
+      to: "mussadiqkhan6886@gmail.com",
+      subject: `New Order Alert! #${newOrder.orderId}`,
+      html: adminHtml,
+    });
+
+    // --- CUSTOMER EMAIL ---
+    const customerHtml = `
+      <div style="font-family:Arial;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:10px">
+        <h2 style="color:#d946ef">🎉 Thank you for your order!</h2>
+        <p>Hi <strong>${orderData.customer.fullName}</strong>,</p>
+        <p>Your order has been received and is currently <strong>Pending Verification</strong> of your payment.</p>
+        <hr/>
+        <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
+        <p><strong>Estimated Delivery:</strong> ${new Date(orderData.delivery.deliveryDate).toDateString()}</p>
+        <p><strong>Time Slot:</strong> ${orderData.delivery.deliveryTimeSlot}</p>
+        <hr/>
+        <h3>Order Summary:</h3>
+        <ul>${itemsHtml}</ul>
+        <p><strong>Total Paid:</strong> Rs. ${orderData.pricing.total}</p>
+        <hr/>
+        <p style="font-size:14px;color:#6b7280;">Our team will contact you shortly if we need any further details for your order.</p>
+        <p style="margin-top:20px;">— <strong>Amas Bakery Team</strong> 🍰</p>
+      </div>
+    `;
+
+    await transporter.sendMail({
+      from: `"Amas Bakery" <${process.env.EMAIL_USER}>`,
+      to: orderData.customer.email,
+      subject: "Order Confirmation - Amas Bakery",
+      html: customerHtml,
+    });
+
     return NextResponse.json({
       success: true,
       message: "Order placed successfully",
