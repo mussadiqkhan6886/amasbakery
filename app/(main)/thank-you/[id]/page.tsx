@@ -3,7 +3,7 @@
 import React, { use } from 'react';
 import Link from 'next/link';
 import { useLanguage } from "@/context/LanguageContext";
-import { CheckCircle, Clock, Truck, Smartphone } from "lucide-react";
+import { FiCheckCircle, FiClock, FiSmartphone } from 'react-icons/fi';
 
 const ThankYou = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
@@ -15,7 +15,7 @@ const ThankYou = ({ params }: { params: Promise<{ id: string }> }) => {
         {/* Success Icon */}
         <div className="flex justify-center mb-6">
           <div className="bg-green-100 p-4 rounded-full">
-            <CheckCircle className="w-16 h-16 text-green-600" />
+            <FiCheckCircle className="w-16 h-16 text-green-600" />
           </div>
         </div>
 
@@ -37,7 +37,7 @@ const ThankYou = ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="grid md:grid-cols-2 gap-6 text-left mb-12">
           <div className={`p-6 border border-gray-100 rounded-2xl shadow-sm ${lang === "ar" ? "text-right" : "text-left"}`}>
             <div className="flex items-center gap-3 mb-3">
-              <Clock className="w-5 h-5 text-main" />
+              <FiClock className="w-5 h-5 text-main" />
               <h3 className="font-bold text-gray-800">{t("Production Slot", "موعد الإنتاج", lang)}</h3>
             </div>
             <p className="text-sm text-gray-600 leading-relaxed">
@@ -51,7 +51,7 @@ const ThankYou = ({ params }: { params: Promise<{ id: string }> }) => {
 
           <div className={`p-6 border border-gray-100 rounded-2xl shadow-sm ${lang === "ar" ? "text-right" : "text-left"}`}>
             <div className="flex items-center gap-3 mb-3">
-              <Smartphone className="w-5 h-5 text-main" />
+              <FiSmartphone className="w-5 h-5 text-main" />
               <h3 className="font-bold text-gray-800">{t("Stay Connected", "ابقَ على تواصل", lang)}</h3>
             </div>
             <p className="text-sm text-gray-600 leading-relaxed">
@@ -93,13 +93,13 @@ const ThankYou = ({ params }: { params: Promise<{ id: string }> }) => {
           >
             {t("Return Home", "العودة للرئيسية", lang)}
           </Link>
-          <a 
+          <Link
             href="https://wa.me/966583522616" 
             target="_blank"
             className="px-8 py-3 border border-gray-300 rounded-full font-medium hover:bg-gray-50 transition"
           >
             {t("Contact Support", "تواصل مع الدعم", lang)}
-          </a>
+          </Link>
         </div>
       </div>
     </main>
