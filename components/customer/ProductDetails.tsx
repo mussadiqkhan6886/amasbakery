@@ -94,7 +94,7 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
       )}
 
       <div className="flex flex-col gap-2">
-        <label className="font-medium">
+       {product.category.en.toLowerCase() === "cake" && <> <label className="font-medium">
           {t("Add Personalized Message", "إضافة رسالة شخصية", lang)}
         </label>
 
@@ -113,6 +113,7 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
             {t("No Message", "بدون رسالة", lang)}
           </option>
         </select>
+        </>}
 
         {messageOn !== "noMessage" && (
           <input
