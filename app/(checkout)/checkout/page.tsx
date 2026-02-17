@@ -240,8 +240,8 @@ const Checkout = () => {
             </p>
             <div>
               <p>STC BANK</p>
-              <p>IBAN: SA9278</p>
-              <p></p>
+              <p><span>IBAN:</span> SA9278000000001258715768</p>
+              <p><span>Account:</span> 561812342</p>
             </div>
             <label className="block text-sm font-medium mt-2">
              {t("Upload Payment Proof", "رفع إثبات الدفع", lang)}

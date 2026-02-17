@@ -11,7 +11,11 @@ const Footer = () => {
   return (
     <footer className='pt-7 flex flex-col border-t border-main'>
       <div className="text-center flex gap-4 text-main text-lg items-center justify-center p-2">
-        <FiInstagram />
+        <Link href={"https://www.instagram.com/amassbakery/?__pwa=1"}>
+          <FiInstagram />
+        </Link>
+          <Link href="mailto:sadafsafdar18@gmail.com">
+        </Link>
         <FiMail />
       </div>
       <div className='flex gap-4 flex-col md:flex-row justify-between py-5 px-2 items-center'>

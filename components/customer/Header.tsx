@@ -82,9 +82,9 @@ export default function Header() {
 
   {/* Right Side */}
   <div className="flex items-center gap-4">
-    <button className="bg-green-500/80 hidden lg:block hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
+    <Link href={"https://api.whatsapp.com/send/?phone=966583522616&text&type=phone_number&app_absent=0"} className="bg-green-500/80 hidden lg:block hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
       <FiPhoneCall size={16} />
-    </button>
+    </Link>
 
     <div className="flex items-center gap-3 text-lg">
       <div className="relative">
