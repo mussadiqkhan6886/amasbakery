@@ -1,6 +1,5 @@
 "use client";
 
-import CustomizeOrderTable from "@/components/admin/CustomizeOrderTable";
 import MenuOrderTable from "@/components/admin/MenuOrderTable";
 import { MenuOccasionOrderType } from "@/type";
 import axios from "axios";

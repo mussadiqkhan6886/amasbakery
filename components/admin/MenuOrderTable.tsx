@@ -66,6 +66,7 @@ export default function MenuOrderTable({
     { field: "phone", headerName: "Phone", width: 130 },
     { field: "city", headerName: "City", width: 100 },
     { field: "cakeSize", headerName: "Size", width: 130 },
+    { field: "cakeFlavor", headerName: "Flavor", width: 130 },
     { field: "messageOn", headerName: "Msg On", width: 100 },
     { field: "message", headerName: "Message", width: 130 },
     { field: "specialInstruction", headerName: "Special Instructions", width: 150 },
