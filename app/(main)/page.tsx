@@ -1,3 +1,4 @@
+import ResetOrder from '@/components/admin/OrderControlReset'
 import Language from '@/components/customer/Language'
 import AboutUs from '@/sections/AboutUs'
 import CanDo from '@/sections/CanDo'
@@ -15,6 +16,7 @@ const Home = () => {
       <AboutUs />
       <Categories />
       <Review />
+      <ResetOrder />
     </main>
   )
 }
