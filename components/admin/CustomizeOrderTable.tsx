@@ -211,7 +211,7 @@ export default function CustomizeOrderTable({
         rows={rows}
         columns={columns}
         disableRowSelectionOnClick
-        autoHeight
+        getRowHeight={() => "auto"}
       />
     </div>
   );
