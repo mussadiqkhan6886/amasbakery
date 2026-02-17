@@ -35,9 +35,6 @@ const singleProduct = async ({ params }: { params: Promise<{ slug: string }> }) 
   return (
     <main className="max-w-6xl mx-auto px-3 py-12">
       <section className="flex flex-col gap-10 lg:flex-row justify-between">
-        {/* Product Image */}
-
-        {/* Product Details */}
         <ProductDetails product={product} />
       </section>
       <MayLike type={product.type} excludeIds={product._id} />
