@@ -16,9 +16,9 @@ const Footer = () => {
       </div>
       <div className='flex gap-4 flex-col md:flex-row justify-between py-5 px-2 items-center'>
         <div className='flex flex-col gap-2 text-[12px]'>
-          <Link href={"/"}>{t("Shipping & Returns", "الشحن والإرجاع", lang)}</Link>
-          <Link href={"/"}>{t("Terms & Condition", "الشروط والأحكام" ,lang)}</Link>
-          <Link href={"/"}> {t("Privacy Policy", "سياسة الخصوصية",lang)} </Link>
+          <Link href={"/shipping-and-returns"}>{t("Shipping & Returns", "الشحن والإرجاع", lang)}</Link>
+          <Link href={"/terms-and-condition"}>{t("Terms & Condition", "الشروط والأحكام" ,lang)}</Link>
+          <Link href={"/privacy-policy"}> {t("Privacy Policy", "سياسة الخصوصية",lang)} </Link>
         </div>
         <h6 className={`${playFair.className} text-main text-7xl text-center `}>{t("Amas Bakery", "مخبز أماس", lang)}</h6>
         <div className="text-[12px]">
