@@ -14,7 +14,7 @@ const ShippingAndReturns = () => {
 
       {/* 1. DELIVERY & PICKUP */}
       <section className="mb-12">
-        <h2 className={`text-2xl font-semibold mb-4 text-pink-600 border-pink-600 ${lang === "ar" ? "border-r-4 pr-3 text-right" : "border-l-4 pl-3 text-left"}`}>
+        <h2 className={`text-2xl font-semibold mb-4 text-main border-main ${lang === "ar" ? "border-r-4 pr-3 text-right" : "border-l-4 pl-3 text-left"}`}>
           {t("1. Delivery & Pickup", "١. التوصيل والاستلام", lang)}
         </h2>
         <div className={`space-y-4 leading-relaxed ${lang === "ar" ? "text-right" : "text-left"}`}>
@@ -30,7 +30,7 @@ const ShippingAndReturns = () => {
                 <strong>{t("Lead Times:", "مدة الطلب مسبقاً:", lang)}</strong> 
                 <ul className="mt-2 space-y-1 opacity-90">
                     <li>{t("Menu Items: 24 Hours", "منتجات القائمة: ٢٤ ساعة", lang)}</li>
-                    <li>{t("Occasion & Custom Cakes: 2 Days", "كيكات المناسبات والكيك المخصص: يومين", lang)}</li>
+                    <li>{t("Customize Cakes: 3 Days", "كيكات المناسبات والكيك المخصص: يومين", lang)}</li>
                     <li>{t("Wedding Cakes: 5 Days", "كيكات الزفاف: ٥ أيام", lang)}</li>
                 </ul>
             </li>
@@ -44,7 +44,7 @@ const ShippingAndReturns = () => {
 
       {/* 2. CANCELLATION & REFUNDS */}
       <section className="mb-12">
-        <h2 className={`text-2xl font-semibold mb-4 text-pink-600 border-pink-600 ${lang === "ar" ? "border-r-4 pr-3 text-right" : "border-l-4 pl-3 text-left"}`}>
+        <h2 className={`text-2xl font-semibold mb-4 text-main border-main ${lang === "ar" ? "border-r-4 pr-3 text-right" : "border-l-4 pl-3 text-left"}`}>
           {t("2. Cancellation & Refunds", "٢. الإلغاء والاسترداد", lang)}
         </h2>
         <div className={`space-y-4 leading-relaxed ${lang === "ar" ? "text-right" : "text-left"}`}>
@@ -69,7 +69,7 @@ const ShippingAndReturns = () => {
 
       {/* 3. QUALITY ASSURANCE */}
       <section className="mb-12">
-        <h2 className={`text-2xl font-semibold mb-4 text-pink-600 border-pink-600 ${lang === "ar" ? "border-r-4 pr-3 text-right" : "border-l-4 pl-3 text-left"}`}>
+        <h2 className={`text-2xl font-semibold mb-4 text-main border-main ${lang === "ar" ? "border-r-4 pr-3 text-right" : "border-l-4 pl-3 text-left"}`}>
           {t("3. Quality Assurance", "٣. ضمان الجودة", lang)}
         </h2>
         <p className={`${lang === "ar" ? "text-right" : "text-left"}`}>
@@ -86,7 +86,7 @@ const ShippingAndReturns = () => {
         <p className="font-bold text-lg">
             {t("Questions? Contact us via WhatsApp", "لديك أسئلة؟ تواصل معنا عبر الواتساب", lang)}
         </p>
-        <p className="text-pink-600 font-bold text-xl mt-2" dir="ltr">+966 5X XXX XXXX</p>
+        <p className="text-pink-600 font-bold text-xl mt-2" dir="ltr">+966 58 352 2616</p>
         <p className="text-sm text-gray-500 mt-2">Ama's Bakery - Al-Khobar & Dammam</p>
       </div>
     </main>

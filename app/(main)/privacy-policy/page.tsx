@@ -50,7 +50,7 @@ const PrivacyPolicy = () => {
   ];
 
   return (
-    <main className="max-w-4xl mx-auto px-6 py-16 text-gray-800">
+    <main className="max-w-4xl mx-auto px-6 py-16 pt-40 text-gray-800">
       <h1 className={`text-4xl font-bold mb-4 ${lang === "ar" ? "text-right" : "text-left"}`}>
         {t("Privacy Policy", "سياسة الخصوصية", lang)}
       </h1>
@@ -61,7 +61,7 @@ const PrivacyPolicy = () => {
       <div className="space-y-10">
         {sections.map((section, index) => (
           <div key={index} className={lang === "ar" ? "text-right" : "text-left"}>
-            <h2 className="text-xl font-bold text-pink-600 mb-3 uppercase tracking-tight">
+            <h2 className="text-xl font-bold text-main mb-3 uppercase tracking-tight">
               {section.title}
             </h2>
             <p className="leading-relaxed text-gray-600">

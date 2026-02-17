@@ -58,7 +58,7 @@ const TermsAndConditions = () => {
   ];
 
   return (
-    <main className="max-w-4xl mx-auto px-6 py-16 text-white bg-main pt-30">
+    <main className="max-w-4xl mx-auto px-6 py-16  pt-40">
       <h1 className={`text-4xl font-bold mb-4 ${lang === "ar" ? "text-right" : "text-left"}`}>
         {t("Terms & Conditions", "الشروط والأحكام", lang)}
       </h1>
