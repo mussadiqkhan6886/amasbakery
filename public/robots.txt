@@ -1,0 +1,17 @@
+# Allow all search engines
+User-agent: *
+
+# 1. Prevent indexing of private/admin areas
+Disallow: /admin-dashboard
+Disallow: /api/
+
+# 2. Prevent indexing of sensitive order/checkout paths
+Disallow: /checkout
+Disallow: /cart
+Disallow: /thank-you/
+
+# 3. Allow everything else (Home, Categories, Products)
+Allow: /
+
+# 4. Point to your Sitemap (Crucial for SEO)
+Sitemap: https://amasbakery.vercel.app/sitemap.xml
