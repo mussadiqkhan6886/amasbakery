@@ -1,11 +1,335 @@
-import React from 'react'
+"use client";
 
-const CheckoutPage = () => {
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import { useCart } from "@/context/CartContext";
+import { CartItem } from "../../../type";
+import { useLanguage } from "@/context/LanguageContext";
+
+const Checkout = () => {
+  const router = useRouter();
+  const { cart: cartItems, clearCart, totalAmount } = useCart();
+  const {t, lang} = useLanguage()
+  const [deliveryDate, setDeliveryDate] = useState("");
+  const [deliveryTiming, setDeliveryTiming] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
+
+  const [paymentProof, setPaymentProof] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    notes: "",
+    paymentMethod: "online",
+    address: "",
+    city: "",
+  });
+
+  const [deliveryCharges, setDeliveryCharges] = useState(0);
+
+  // Load delivery date/time from localStorage
+  useEffect(() => {
+    const savedDate = localStorage.getItem("deliveryDate");
+    const savedTime = localStorage.getItem("deliveryTime");
+
+    if (savedDate) setDeliveryDate(savedDate);
+    if (savedTime) setDeliveryTiming(savedTime);
+  }, []);
+
+  // Update delivery charges based on city
+  useEffect(() => {
+  if (formData.city === "al-khobar") setDeliveryCharges(300);
+  else if (formData.city === "damam") setDeliveryCharges(200);
+  else setDeliveryCharges(0);
+}, [formData.city]);
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      setPaymentProof(e.target.files[0]);
+      setPreview(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!paymentProof) {
+      alert("Please upload payment proof");
+      return;
+    }
+
+    if (!deliveryDate || !deliveryTiming) {
+      alert("Please select delivery date and time");
+      return;
+    }
+
+    setLoading(true);
+    setStatus("Placing order...");
+
+    try {
+      const orderData = {
+        customer: {
+          fullName: formData.fullName,
+          phone: formData.phone,
+          email: formData.email,
+          city: formData.city,
+          address: formData.address,
+        },
+        items: cartItems.map((item) => ({
+          productId: item._id,
+          name: item.title,
+          size: item.size,
+          flavor: item.flavor || "",
+          quantity: item.quantity,
+          messageOn: item.messageOn || "",
+          message: item.message || "",
+          specialInstructions: item.specialInstructions || "",
+        })),
+        pricing: {
+          subtotal: totalAmount,
+          deliveryCharges,
+          total: totalAmount + deliveryCharges,
+        },
+        delivery: {
+          deliveryDate,
+          deliveryTimeSlot: deliveryTiming,
+          deliveryType: "DELIVERY",
+        },
+        payment: {
+          method: formData.paymentMethod,
+        },
+        notes: formData.notes || "No notes",
+      };
+
+      const fd = new FormData();
+      fd.append("paymentProof", paymentProof);
+      fd.append("orderData", JSON.stringify(orderData));
+
+      const res = await axios.post("/api/order", fd);
+
+      clearCart();
+      router.push(`/thank-you/${res.data.order._id}`);
+    } catch (err) {
+      console.error(err);
+      setStatus("Order failed. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <main>
-      
-    </main>
-  )
-}
+    <main className="flex flex-col md:flex-row justify-between">
+      {/* LEFT: FORM */}
+      <div className="w-full py-5 border-r lg:pl-20 pl-5 pr-5 border-gray-300 md:w-2/3">
+        <h1 className="text-3xl text-center font-bold mb-6 border-b border-gray-300 pb-2">
+          <Link href={"/"}>Checkout</Link>
+        </h1>
 
-export default CheckoutPage
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6"
+        >
+          {/* Customer Info */}
+          <div className="space-y-4">
+            <input
+              name="fullName"
+              type="text"
+              placeholder="Full Name"
+              required
+              value={formData.fullName}
+              onChange={handleChange}
+              className="border-gray-300 outline-none w-full p-3 border rounded-md"
+            />
+            <input
+              name="phone"
+              type="tel"
+              placeholder="Phone Number"
+              required
+              value={formData.phone}
+              onChange={handleChange}
+              className="border-gray-300 outline-none w-full p-3 border rounded-md"
+            />
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              className="border-gray-300 outline-none w-full p-3 border rounded-md"
+            />
+            <select
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              className="border w-full p-2 rounded-md"
+            >
+              <option value="">City</option>
+              <option value="al-khobar">al-khobar</option>
+              <option value="damam">damam</option>
+            </select>
+            <input
+              name="address"
+              type="text"
+              placeholder="Address"
+              required
+              value={formData.address}
+              onChange={handleChange}
+              className="border-gray-300 outline-none w-full p-3 border rounded-md"
+            />
+          </div>
+
+          {/* Notes */}
+          <div className="space-y-4">
+            <textarea
+              name="notes"
+              placeholder="Order Notes (optional)"
+              value={formData.notes}
+              onChange={handleChange}
+              rows={7}
+              className="w-full p-3 border-gray-300 outline-none border rounded-md"
+            />
+          </div>
+
+          {/* Payment */}
+          <div className="md:col-span-2 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+            <h3 className="mb-3 text-sm font-semibold text-gray-800">
+              Payment Method
+            </h3>
+            <select
+              name="paymentMethod"
+              value={formData.paymentMethod}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+            >
+              <option value="online">Bank Payment</option>
+            </select>
+            <p className="mt-2 text-xs text-gray-500">
+              Secure bank transfer. Your payment details are safe.
+            </p>
+
+            <label className="block text-sm font-medium mt-2">
+              Upload Payment Proof
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="block w-full mt-2 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-gray-300 file:bg-gray-200 hover:file:bg-gray-300"
+            />
+            {preview && (
+              <div className="mt-3">
+                <Image
+                  src={preview}
+                  alt="Payment proof"
+                  width={200}
+                  height={200}
+                  className="rounded-md border"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Delivery Date/Time */}
+          <div className="md:col-span-2">
+            <label className="block mb-1">Delivery Date</label>
+            <input
+              type="date"
+              value={deliveryDate}
+              onChange={(e) => {
+                setDeliveryDate(e.target.value);
+                localStorage.setItem("deliveryDate", e.target.value);
+              }}
+              className="border w-full p-2 rounded-md"
+            />
+            <label className="block mt-2 mb-1">Delivery Time</label>
+            <select
+              value={deliveryTiming}
+              onChange={(e) => {
+                setDeliveryTiming(e.target.value);
+                localStorage.setItem("deliveryTime", e.target.value);
+              }}
+              className="border w-full p-2 rounded-md"
+            >
+              <option value="">Select time</option>
+              <option value="10-12">10 AM - 12 PM</option>
+              <option value="12-3">12 PM - 3 PM</option>
+              <option value="3-6">3 PM - 6 PM</option>
+              <option value="6-9">6 PM - 9 PM</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading || cartItems.length === 0 || !paymentProof}
+            className={`md:col-span-2 w-full cursor-pointer text-white py-3 rounded-md transition ${
+              loading ? "bg-gray-600" : "bg-black hover:bg-gray-800"
+            }`}
+          >
+            {loading ? "Placing Order..." : "Place Order"}
+          </button>
+        </form>
+
+        {status && <p className="my-6 text-center text-black font-medium">{status}</p>}
+      </div>
+
+      {/* RIGHT: CART SUMMARY */}
+      <div className="w-full md:w-1/3 bg-gray-100 py-6 px-6">
+        <h3 className="text-xl font-semibold mb-4">Your Cart</h3>
+        {cartItems.length === 0 ? (
+          <p className="text-gray-500">Your cart is empty.</p>
+        ) : (
+          <>
+            {cartItems.map((item, i) => (
+              <div key={i} className="flex justify-between items-center border-b py-2">
+                <div className="flex gap-5">
+                  {item.image ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      className="w-[70px] h-[70px] object-cover rounded"
+                      src={item.image}
+                      alt={item.titleEn}
+                    />
+                  ) : (
+                    <div className="w-[70px] h-[70px] bg-gray-200 flex items-center justify-center text-xs">
+                      No Img
+                    </div>
+                  )}
+                  <div>
+                    <p className="font-medium">{t(item.titleEn, item.titleAr,lang)}</p>
+                    <p className="text-sm">{item.flavor && item.flavor}</p>
+                    <p className="text-sm">{item.size}</p>
+                    <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                  </div>
+                </div>
+                <p className="font-medium">{item.price * item.quantity} PKR</p>
+              </div>
+            ))}
+            <div className="flex justify-between mt-4 font-bold text-lg">
+              <span>Shipping:</span>
+              <span>{deliveryCharges} PKR</span>
+            </div>
+            <div className="flex justify-between mt-4 font-bold text-lg">
+              <span>Total:</span>
+              <span>{totalAmount + deliveryCharges} PKR</span>
+            </div>
+          </>
+        )}
+      </div>
+    </main>
+  );
+};
+
+export default Checkout;

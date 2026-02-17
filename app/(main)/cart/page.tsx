@@ -5,7 +5,7 @@ import { useCart } from "@/context/CartContext";
 import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, totalAmount } = useCart();
@@ -22,6 +22,15 @@ const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 2);
 
 const minDate = tomorrow.toISOString().split("T")[0];
+
+  useEffect(() => {
+    const savedDate = localStorage.getItem("deliveryDate");
+    const savedTime = localStorage.getItem("deliveryTime");
+
+    if (savedDate) setDeliveryDate(savedDate);
+    if (savedTime) setDeliveryTime(savedTime);
+  }, []);
+
 
 
   return (
@@ -194,7 +203,7 @@ const minDate = tomorrow.toISOString().split("T")[0];
                 }
               `}
             >
-              {t("Proceed to Checkout", "المتابعة للدفع", lang)}
+              <Link href="/checkout">{t("Proceed to Checkout", "المتابعة للدفع", lang)}</Link>
             </button>
           </div>
         </div>

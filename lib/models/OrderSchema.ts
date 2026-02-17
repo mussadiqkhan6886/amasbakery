@@ -62,7 +62,7 @@ notes: { type: String, default: "No notes" },
         type: String,
         enum: ["PENDING", "PAID", "FAILED"],
         default: "PENDING"
-    },
+      },
       paymentProofImage: String, // image URL
     },
 

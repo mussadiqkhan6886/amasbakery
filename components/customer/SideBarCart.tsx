@@ -2,7 +2,7 @@
 
 import { useCart } from "@/context/CartContext";
 import { useLanguage } from "@/context/LanguageContext";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
 import CurrenncyT from "./CurrenncyT";
 import Image from "next/image";
@@ -21,9 +21,18 @@ const SideBarCart = ({ open, onClose }: Props) => {
   const [deliveryTime, setDeliveryTime] = useState("");
 
     const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 2);
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
     const minDate = tomorrow.toISOString().split("T")[0];
+
+    useEffect(() => {
+      const savedDate = localStorage.getItem("deliveryDate");
+      const savedTime = localStorage.getItem("deliveryTime");
+
+      if (savedDate) setDeliveryDate(savedDate);
+      if (savedTime) setDeliveryTime(savedTime);
+    }, []);
+
 
 
   return (
@@ -130,7 +139,11 @@ const SideBarCart = ({ open, onClose }: Props) => {
                 type="date"
                 value={deliveryDate}
                 min={minDate} // 👈 prevents selecting today or past
-                onChange={(e) => setDeliveryDate(e.target.value)}
+                 onChange={(e) => {
+                  const date = e.target.value;
+                  setDeliveryDate(date);
+                  localStorage.setItem("deliveryDate", date); // ✅ store in localStorage
+                }}
                 className="w-full border rounded px-3 text-sm py-1 mt-1"
                 />
           </div>
@@ -141,7 +154,11 @@ const SideBarCart = ({ open, onClose }: Props) => {
             </label>
             <select
               value={deliveryTime}
-              onChange={(e) => setDeliveryTime(e.target.value)}
+              onChange={(e) => {
+                const time = e.target.value;
+                setDeliveryTime(time);
+                localStorage.setItem("deliveryTime", time); // ✅ store in localStorage
+              }}
               className="w-full border rounded px-3 text-sm py-1 mt-1"
             >
               <option value="">
