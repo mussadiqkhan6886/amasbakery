@@ -9,10 +9,12 @@ import SIdeBar from "./SIdeBar";
 import { usePathname } from "next/navigation";
 import SideBarCart from "./SideBarCart";
 import { useCart } from "@/context/CartContext";
+import Search from "./Search";
 
 export default function Header() {
   const { lang, switchLang } = useLanguage();
     const [showSideBar, setShowSideBar] = useState(false)
+    const [searchOpen, setSearchOpen] = useState(false)
     const [open, setOpen] = useState(false)
     const pathname = usePathname()
     const {totalItems} = useCart()
@@ -98,7 +100,8 @@ export default function Header() {
           </span>
         )}
       </div>
-      <FiSearch className="cursor-pointer hover:scale-110 transition" />
+      <FiSearch onClick={() => setSearchOpen(true)} className="cursor-pointer hover:scale-110 transition" />
+        {searchOpen && <Search setSearchOpen={setSearchOpen} />}
     </div>
 
     <select
