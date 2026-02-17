@@ -47,7 +47,7 @@ export default function Header() {
     backdrop-blur-md
     bg-white/10
     border border-white/20
-  ${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/add-review") || pathname.includes("/cart") || pathname.includes("/search") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") ? "text-black" : "text-zinc-100"}
+  ${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/add-review") || pathname.includes("/cart") || pathname.includes("/search") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") || pathname.includes("/thank-you/") ? "text-black" : "text-zinc-100"}
     z-50
   `}
 >
@@ -56,7 +56,7 @@ export default function Header() {
       <Link
         key={i}
         href={link.link}
-        className={`${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal font-light tracking-wider`}
+        className={`${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") || pathname.includes("/thank-you/") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal font-light tracking-wider`}
       >
         {link.name}
       </Link>
