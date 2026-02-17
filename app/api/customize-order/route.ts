@@ -118,10 +118,10 @@ export const POST = async (req: NextRequest) => {
         </a>
       </div>
     `;
-
+// sadafsafdar18@gmail.com
     await transporter.sendMail({
       from: `"Amas Bakery Orders" <${process.env.EMAIL_USER}>`,
-      to: "sadafsafdar18@gmail.com",
+      to: "mussadiqkhan6886@gmail.com",
       subject: "New Custom Cake Order 🎂",
       html: adminHtml,
     });
