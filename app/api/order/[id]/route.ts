@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/config/db";
-import { CustomOrder } from "@/lib/models/CustomizeOrderSchema";
+import { MenuOccasionOrder } from "@/lib/models/OrderSchema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const DELETE = async (
@@ -9,7 +9,7 @@ export const DELETE = async (
   try {
     await connectDB();
     const id = (await params).id
-    const deletedOrder = await CustomOrder.findByIdAndDelete(id);
+    const deletedOrder = await MenuOccasionOrder.findByIdAndDelete(id);
 
     if (!deletedOrder) {
       return NextResponse.json({ success: false, message: "Order not found" }, { status: 404 });
@@ -39,7 +39,7 @@ export const PATCH = async (
       return NextResponse.json({ success: false, message: "Status is required" }, { status: 400 });
     }
 
-    const updatedOrder = await CustomOrder.findByIdAndUpdate(
+    const updatedOrder = await MenuOccasionOrder.findByIdAndUpdate(
       id,
       { orderStatus },
       { new: true }

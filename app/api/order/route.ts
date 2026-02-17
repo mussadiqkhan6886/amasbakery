@@ -125,7 +125,7 @@ export const POST = async (req: NextRequest) => {
 export const GET = async () => {
   await connectDB();
 
-  const orders = await CustomOrder.find().sort({ createdAt: -1 });
+  const orders = await MenuOccasionOrder.find().sort({ createdAt: -1 });
 
   return NextResponse.json({
     success: true,
