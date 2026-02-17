@@ -77,7 +77,7 @@ const minDate = tomorrow.toISOString().split("T")[0];
                         : item.titleAr}
                     </h2>
 
-                    <p className="text-sm text-gray-500">
+                    <p dir="ltr" className="text-sm text-gray-500">
                       {item.size}{" "}
                       {item.flavor && `• ${item.flavor}`}
                     </p>
@@ -169,6 +169,7 @@ const minDate = tomorrow.toISOString().split("T")[0];
                 {t("Delivery Time", "وقت التوصيل", lang)}
               </label>
               <select
+              dir="ltr"
                 value={deliveryTime}
                 onChange={(e) =>
                   setDeliveryTime(e.target.value)

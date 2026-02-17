@@ -87,7 +87,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
                   {lang === "en" ? item.titleEn : item.titleAr}
                 </h3>
 
-                <p className="text-xs text-gray-500">
+                <p dir="ltr" className="text-xs text-gray-500">
                   {item.size} {item.flavor && `• ${item.flavor}`}
                 </p>
 

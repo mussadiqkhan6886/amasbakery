@@ -333,8 +333,8 @@ const Checkout = () => {
                   )}
                   <div>
                     <p className="font-medium">{t(item.titleEn, item.titleAr,lang)}</p>
-                    <p className="text-sm">{item.flavor && item.flavor}</p>
-                    <p className="text-sm">{item.size}</p>
+                    <p dir="ltr" className="text-sm">{item.flavor && item.flavor}</p>
+                    <p dir="ltr" className="text-sm">{item.size}</p>
                     <p className="text-sm text-gray-600">{t("Qty", "الكمية", lang)}: {item.quantity}</p>
                   </div>
                 </div>
