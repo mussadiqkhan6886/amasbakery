@@ -45,8 +45,8 @@ const Checkout = () => {
 
   // Update delivery charges based on city
   useEffect(() => {
-  if (formData.city === "al-khobar") setDeliveryCharges(300);
-  else if (formData.city === "damam") setDeliveryCharges(200);
+  if (formData.city === "al-khobar") setDeliveryCharges(25);
+  else if (formData.city === "damam") setDeliveryCharges(35);
   else setDeliveryCharges(0);
 }, [formData.city]);
 
@@ -192,7 +192,7 @@ const Checkout = () => {
               name="city"
               value={formData.city}
               onChange={handleChange}
-              className="border w-full p-2 rounded-md"
+              className="border w-full border-gray-300 p-2 rounded-md"
               required
             >
               <option value="">{t("City", "المدينة", lang)}</option>
@@ -238,10 +238,10 @@ const Checkout = () => {
             <p className="mt-2 text-xs text-gray-500">
               {t("Secure bank transfer. Your payment details are safe.", "تحويل بنكي آمن. تفاصيل الدفع الخاصة بك آمنة.", lang)}
             </p>
-            <div>
-              <p>STC BANK</p>
-              <p><span>IBAN:</span> SA9278000000001258715768</p>
-              <p><span>Account:</span> 561812342</p>
+            <div className="p-3 flex flex-col gap-2 px-5 bg-zinc-100 shadow-inner text-sm">
+              <p className="font-semibold">STC BANK</p>
+              <p><span className="font-semibold">IBAN:</span> SA9278000000001258715768</p>
+              <p><span className="font-semibold">Account:</span> 561812342</p>
             </div>
             <label className="block text-sm font-medium mt-2">
              {t("Upload Payment Proof", "رفع إثبات الدفع", lang)}

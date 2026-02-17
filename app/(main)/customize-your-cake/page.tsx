@@ -108,9 +108,9 @@ export default function CustomizeCakePage() {
 
     // 4. Delivery Charges
     if (details.city === "al-khobar") {
-      deliveryPrice = 300;
+      deliveryPrice = 25;
     } else if (details.city === "damam") {
-      deliveryPrice = 200;
+      deliveryPrice = 35;
     }
 
     setDetails((prev) => ({
