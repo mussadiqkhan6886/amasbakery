@@ -121,7 +121,7 @@ export const POST = async (req: NextRequest) => {
 
     await transporter.sendMail({
       from: `"Amas Bakery Orders" <${process.env.EMAIL_USER}>`,
-      to: "mussadiqkhan6886@gmail.com",
+      to: "sadafsafdar18@gmail.com",
       subject: "New Custom Cake Order 🎂",
       html: adminHtml,
     });

@@ -164,10 +164,8 @@ const SideBarCart = ({ open, onClose }: Props) => {
               <option value="">
                 {t("Select time", "اختر الوقت", lang)}
               </option>
-              <option value="10-12">10 AM - 12 PM</option>
-              <option value="12-3">12 PM - 3 PM</option>
-              <option value="3-6">3 PM - 6 PM</option>
-              <option value="6-9">6 PM - 9 PM</option>
+              <option value="4-6">4 PM - 6 PM</option>
+              <option value="6-10">6 PM - 10 PM</option>
             </select>
           </div>
 

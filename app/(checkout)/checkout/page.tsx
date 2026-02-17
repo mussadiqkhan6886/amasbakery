@@ -238,7 +238,11 @@ const Checkout = () => {
             <p className="mt-2 text-xs text-gray-500">
               {t("Secure bank transfer. Your payment details are safe.", "تحويل بنكي آمن. تفاصيل الدفع الخاصة بك آمنة.", lang)}
             </p>
-
+            <div>
+              <p>STC BANK</p>
+              <p>IBAN: SA9278</p>
+              <p></p>
+            </div>
             <label className="block text-sm font-medium mt-2">
              {t("Upload Payment Proof", "رفع إثبات الدفع", lang)}
             </label>
@@ -284,10 +288,9 @@ const Checkout = () => {
               className="border w-full p-2 rounded-md"
             >
               <option value="">{t("Select time", "اختر الوقت", lang)}</option>
-              <option value="10-12">10 AM - 12 PM</option>
-              <option value="12-3">12 PM - 3 PM</option>
-              <option value="3-6">3 PM - 6 PM</option>
-              <option value="6-9">6 PM - 9 PM</option>
+              <option value="4-6">4 PM - 6 PM</option>
+              <option value="6-10">6 PM - 10 PM</option>
+
             </select>
           </div>
 
