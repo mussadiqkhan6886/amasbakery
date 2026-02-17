@@ -12,17 +12,17 @@ const orderItemSchema = new mongoose.Schema({
   quantity: Number,
   messageOn: String,
   message: String,
-  specialInstructions: String
+  specialInstructions: String,
+  orderType: {
+      type: String,
+      enum: ["MENU", "OCCASION-CAKES"],
+      required: true,
+    },
 });
 
 const menuOccasionOrderSchema = new mongoose.Schema(
   {
     orderId: {type: String, default: () => uuidv4(), unique: true},
-    orderType: {
-      type: String,
-      enum: ["MENU", "OCCASION-CAKES"],
-      required: true,
-    },
     customer: {
       fullName: { type: String, required: true },
       phone: { type: String, required: true },

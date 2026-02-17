@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { CartItem } from "../../../type";
 import { useLanguage } from "@/context/LanguageContext";
+import imageCompression from "browser-image-compression";
 
 const Checkout = () => {
   const router = useRouter();
@@ -16,6 +17,7 @@ const Checkout = () => {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [deliveryTiming, setDeliveryTiming] = useState("");
   const [loading, setLoading] = useState(false);
+  console.log(cartItems)
   const [status, setStatus] = useState("");
 
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
@@ -26,7 +28,7 @@ const Checkout = () => {
     phone: "",
     email: "",
     notes: "",
-    paymentMethod: "online",
+    paymentMethod: "ONLINE",
     address: "",
     city: "",
   });
@@ -88,14 +90,15 @@ const Checkout = () => {
           address: formData.address,
         },
         items: cartItems.map((item) => ({
-          productId: item._id,
-          name: item.title,
+          productId: item.id,
+          name: item.titleEn,
           size: item.size,
           flavor: item.flavor || "",
           quantity: item.quantity,
           messageOn: item.messageOn || "",
           message: item.message || "",
-          specialInstructions: item.specialInstructions || "",
+          specialInstructions: item.specialInstruction || "",
+          orderType: item.type
         })),
         pricing: {
           subtotal: totalAmount,
@@ -114,16 +117,32 @@ const Checkout = () => {
       };
 
       const fd = new FormData();
-      fd.append("paymentProof", paymentProof);
+        const compressedFile = await imageCompression(paymentProof, {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1200,
+          useWebWorker: true,
+        });
+
+      fd.append("paymentProof", compressedFile);
       fd.append("orderData", JSON.stringify(orderData));
 
       const res = await axios.post("/api/order", fd);
 
+      if (res.data.success) {
       clearCart();
-      router.push(`/thank-you/${res.data.order._id}`);
-    } catch (err) {
+      localStorage.removeItem("deliveryDate");
+      localStorage.removeItem("deliveryTime");
+      
+      // Ensure we access the ID correctly from the response
+      const orderId = res.data.order?._id || res.data.data?._id; 
+      router.push(`/thank-you/${orderId}`);
+    } else {
+      setStatus(res.data.message || "Order failed.");
+    }
+    } catch (err:any) {
       console.error(err);
-      setStatus("Order failed. Try again.");
+      const errorMsg = err.response?.data?.message || "Order failed. Try again.";
+      setStatus(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -174,6 +193,7 @@ const Checkout = () => {
               value={formData.city}
               onChange={handleChange}
               className="border w-full p-2 rounded-md"
+              required
             >
               <option value="">City</option>
               <option value="al-khobar">al-khobar</option>

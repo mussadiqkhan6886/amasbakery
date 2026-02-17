@@ -4,190 +4,121 @@ import { CustomOrder } from "@/lib/models/CustomizeOrderSchema";
 import { OrderControl } from "@/lib/models/ControlSchema";
 import cloudinary from "@/lib/config/cloudinary";
 import nodemailer from "nodemailer";
+import { MenuOccasionOrder } from "@/lib/models/OrderSchema";
+
 
 export const POST = async (req: NextRequest) => {
   await connectDB();
 
   try {
     const formData = await req.formData();
+    const file = formData.get("paymentProof");
+    const orderDataString = formData.get("orderData");
 
-    const customer = JSON.parse(formData.get("customer") as string);
-    const cakeDetails = JSON.parse(formData.get("cakeDetails") as string);
-    const delivery = JSON.parse(formData.get("delivery") as string);
-    const pricing = JSON.parse(formData.get("pricing") as string);
-
-    const files = formData.getAll("image");
-
-    const uploadedImages: string[] = [];
-
-    // ✅ Upload images to Cloudinary
-    for (const file of files) {
-      if (!(file instanceof File)) continue;
-
-      const buffer = Buffer.from(await file.arrayBuffer());
-
-      const result: any = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream(
-            { folder: "amasbakery", resource_type: "image" },
-            (error, result) => (error ? reject(error) : resolve(result))
-          )
-          .end(buffer);
-      });
-
-      uploadedImages.push(result.secure_url);
+    if (!orderDataString) {
+      return NextResponse.json({ success: false, message: "Missing order data" }, { status: 400 });
     }
 
-    // ✅ Check daily limit
-    const control = await OrderControl.findOne();
+    const orderData = JSON.parse(orderDataString as string);
 
+    if (!(file instanceof File)) {
+      return NextResponse.json({ success: false, message: "Payment proof image required" }, { status: 400 });
+    }
+
+    // 1. Upload payment proof to Cloudinary
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const uploadedResult: any = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream(
+          { folder: "amasbakery", resource_type: "image" },
+          (error, result) => (error ? reject(error) : resolve(result))
+        )
+        .end(buffer);
+    });
+    const paymentProofUrl = uploadedResult.secure_url;
+
+    // 2. Load and Reset Order Control if it's a new day
+    let control = await OrderControl.findOne();
     if (!control) {
-      return NextResponse.json(
-        { success: false, message: "Order control not configured" },
-        { status: 500 }
-      );
+      return NextResponse.json({ success: false, message: "Order control not configured" }, { status: 500 });
     }
 
-    if (
-      control.todayOrders.customCount >= control.dailyLimits.customLimit
-    ) {
-      return NextResponse.json(
+    const now = new Date();
+    const lastReset = new Date(control.lastResetDate);
+
+    // If dates don't match, reset counts to 0 for the new day
+    if (now.toDateString() !== lastReset.toDateString()) {
+      control = await OrderControl.findOneAndUpdate(
+        {},
         {
-          success: false,
-          message: "Custom cake bookings are full for today. Try tomorrow.",
+          $set: {
+            "todayOrders.menuCount": 0,
+            "todayOrders.occasionCount": 0,
+            "todayOrders.customCount": 0,
+            lastResetDate: now,
+          },
         },
-        { status: 400 }
+        { new: true }
       );
     }
 
-    // ✅ Create order
-    const newOrder = await CustomOrder.create({
-      customer,
-      cakeDetails: {
-        ...cakeDetails,
-        referenceImage: uploadedImages,
+    // 3. Binary Logic: Determine if order contains specific types
+    // 1 full menu order (even with 10 items) = 1 limit increase
+    const hasMenu = orderData.items.some((i: any) => i.orderType === "MENU") ? 1 : 0;
+    const hasOccasion = orderData.items.some((i: any) => i.orderType === "OCCASION-CAKES") ? 1 : 0;
+
+    // 4. Validate Limits
+    if (hasMenu && control.todayOrders.menuCount + hasMenu > control.dailyLimits.menuLimit) {
+      return NextResponse.json({
+        success: false,
+        message: "Menu bookings are full for today. Please try again tomorrow.",
+      }, { status: 400 });
+    }
+
+    if (hasOccasion && control.todayOrders.occasionCount + hasOccasion > control.dailyLimits.occasionLimit) {
+      return NextResponse.json({
+        success: false,
+        message: "Occasion Cake bookings are full for today. Please try again tomorrow.",
+      }, { status: 400 });
+    }
+
+    // 5. Create the Order
+    const newOrder = await MenuOccasionOrder.create({
+      customer: orderData.customer,
+      items: orderData.items, // items now include orderType from frontend
+      pricing: orderData.pricing,
+      delivery: orderData.delivery,
+      payment: {
+        method: "ONLINE", // Matches Schema Enum
+        paymentStatus: "PENDING",
+        paymentProofImage: paymentProofUrl,
       },
-      delivery,
-      pricing,
+      notes: orderData.notes || "No notes",
     });
 
-    // ✅ Increment today's custom order count
+    // 6. Update OrderControl counts (Increment by 1 or 0, not item length)
     await OrderControl.updateOne(
       {},
-      { $inc: { "todayOrders.customCount": 1 } }
-    );
-
-    // ✅ Nodemailer setup
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD,
-      },
-    });
-
-    // ================= ADMIN EMAIL =================
-    const adminHtml = `
-      <div style="font-family:Arial;padding:20px">
-        <h2>🎂 New Custom Cake Order</h2>
-
-        <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
-        <p><strong>Customer:</strong> ${customer.fullName}</p>
-        <p><strong>Email:</strong> ${customer.email}</p>
-        <p><strong>Phone:</strong> ${customer.phone}</p>
-        <p><strong>City:</strong> ${customer.city}</p>
-        <p><strong>Cake Size:</strong> ${
-          cakeDetails.cakeSize || "Not specified"
-        }</p>
-        <hr/>
-
-        <p><strong>Delivery Date:</strong> ${new Date(
-          delivery.deliveryDate
-        ).toDateString()}</p>
-        <p><strong>Delivery Time:</strong> ${
-          delivery.deliveryTime || "Not specified"
-        }</p>
-
-        <p><strong>Total Amount:</strong> Rs. ${
-          pricing?.totalAmount || 0
-        }</p>
-
-        <br/>
-        <a href="https://amasbakery.vercel.app/admin-dashboard">
-          👉 View in Admin Dashboard
-        </a>
-      </div>
-    `;
-
-    await transporter.sendMail({
-      from: `"Amas Bakery Orders" <${process.env.EMAIL_USER}>`,
-      to: "mussadiqkhan6886@gmail.com",
-      subject: "New Custom Cake Order 🎂",
-      html: adminHtml,
-    });
-
-    // ================= CUSTOMER EMAIL =================
-    const customerHtml = `
-      <div style="font-family:Arial;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;">
-        <h2>🎉 Your Custom Cake Order is Confirmed!</h2>
-
-        <p>Hi <strong>${customer.fullName}</strong>,</p>
-
-        <p>Thank you for choosing <strong>Amas Bakery</strong> 💕</p>
-
-        <hr/>
-
-        <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
-        <p><strong>Delivery Date:</strong> ${new Date(
-          delivery.deliveryDate
-        ).toDateString()}</p>
-        <p><strong>Delivery Time:</strong> ${
-          delivery.deliveryTime || "Not specified"
-        }</p>
-        <p><strong>Cake Size:</strong> ${
-          cakeDetails.cakeSize || "Not specified"
-        }</p>
-
-        <p><strong>Total Amount:</strong> Rs. ${
-          pricing?.totalAmount || 0
-        }</p>
-
-        <hr/>
-
-        <p style="font-size:14px;color:#6b7280;">
-          We will contact you soon for design confirmation.
-        </p>
-
-        <p style="margin-top:20px;">
-          — <strong>Amas Bakery Team</strong> 🎂
-        </p>
-      </div>
-    `;
-
-    await transporter.sendMail({
-      from: `"Amas Bakery Orders" <${process.env.EMAIL_USER}>`,
-      to: customer.email,
-      subject: "Your Custom Cake Order 🎂",
-      html: customerHtml,
-    });
-
-    return NextResponse.json(
       {
-        success: true,
-        message: "Order placed successfully",
-        data: newOrder,
-      },
-      { status: 201 }
+        $inc: {
+          "todayOrders.menuCount": hasMenu,
+          "todayOrders.occasionCount": hasOccasion,
+        },
+      }
     );
-  } catch (error) {
-    console.error("Custom Order Error:", error);
 
-    return NextResponse.json(
-      { success: false, message: "Failed to place order" },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      success: true,
+      message: "Order placed successfully",
+      order: newOrder,
+    }, { status: 201 });
+
+  } catch (error) {
+    console.error("Order Error:", error);
+    return NextResponse.json({ success: false, message: "Failed to place order" }, { status: 500 });
   }
 };
+
 
 // ================= GET ALL ORDERS =================
 
