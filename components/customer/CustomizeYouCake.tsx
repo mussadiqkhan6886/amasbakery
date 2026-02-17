@@ -78,15 +78,18 @@ export default function CustomizeYourCake() {
       "6 inch (6-8 servings)": 150,
       "8 inch (12-14 servings)": 200,
       "10 inch (16-20 servings)": 250,
+      "12 inch (20-24 servings)": 300,
       "Two Tier Cake": 400,
       "Three Tier Cake": 600,
     };
 
     const tierPrices: Record<string, number> = {
-      "Two Tier (6 + 8 inch)": 50,
-      "Two Tier (8 + 10 inch)": 70,
-      "Three Tier (6 + 8 + 10 inch)": 100,
-      "Custom Tier Size": 150,
+      "Two Tier (6 & 8 inch)": 50,
+      "Two Tier (8 & 10 inch)": 70,
+      "Two Tier (10 & 12 inch)": 70,
+      "Three Tier (6, 8 & 10 inch)": 100,
+      "Three Tier (4, 6 & 8 inch)": 150,
+      "bottom dummy tier": 0
     };
 
     let basePrice = 0;
@@ -320,6 +323,7 @@ export default function CustomizeYourCake() {
                   <option>6 inch (6-8 servings)</option>
                   <option>8 inch (12-14 servings)</option>
                   <option>10 inch (16-20 servings)</option>
+                  <option>12 inch (20-24 servings)</option>
                   <option>Two Tier Cake</option>
                   <option>Three Tier Cake</option>
                 </select>
@@ -340,10 +344,12 @@ export default function CustomizeYourCake() {
                   <option value="">
                     {t("Select tier size", "اختر حجم الطبقات", lang)}
                   </option>
-                  <option>Two Tier (6 + 8 inch)</option>
-                  <option>Two Tier (8 + 10 inch)</option>
-                  <option>Three Tier (6 + 8 + 10 inch)</option>
-                  <option>Custom Tier Size</option>
+                  <option>Two Tier (6 & 8 inch)</option>
+                  <option>Two Tier (8 & 10 inch)</option>
+                  <option>Two Tier (10 & 12 inch)</option>
+                  <option>Three Tier (4, 6 & 8 inch)</option>
+                  <option>Three Tier (6, 8 & 10 inch)</option>
+                  <option>bottom dummy tier</option>
                 </select>
               </div>
 
@@ -362,11 +368,16 @@ export default function CustomizeYourCake() {
                   <option value="">
                     {t("Select flavor", "اختر النكهة", lang)}
                   </option>
-                  <option>Vanilla</option>
-                  <option>Chocolate</option>
-                  <option>Red Velvet</option>
-                  <option>Lotus</option>
-                  <option>Pistachio</option>
+                  <option>Vanilla Cake with Mix berries</option>
+                    <option>Vanilla cake with Raspberry</option>
+                    <option>Vanilla cake with Strawberry</option>
+                    <option>Vanilla cake with caramel</option>
+                    <option>Vanilla Cloud Cake</option>
+                    <option>Speculoos Cake (Lotus)</option>
+                    <option>Classic Chocolate Cake</option>
+                    <option>Super Moist Chocolate cake</option>
+                    <option>Chocolate Raspberry mousse cake</option>
+                    <option>Pistachio cake</option>
                 </select>
               </div>
 
@@ -384,11 +395,16 @@ export default function CustomizeYourCake() {
                   <option value="">
                     {t("Select flavor", "اختر النكهة", lang)}
                   </option>
-                  <option>Vanilla</option>
-                  <option>Chocolate</option>
-                  <option>Red Velvet</option>
-                  <option>Lotus</option>
-                  <option>Pistachio</option>
+                  <option>Vanilla Cake with Mix berries</option>
+                  <option>Vanilla cake with Raspberry</option>
+                  <option>Vanilla cake with Strawberry</option>
+                  <option>Vanilla cake with caramel</option>
+                  <option>Vanilla Cloud Cake</option>
+                  <option>Speculoos Cake (Lotus)</option>
+                  <option>Classic Chocolate Cake</option>
+                  <option>Super Moist Chocolate cake</option>
+                  <option>Chocolate Raspberry mousse cake</option>
+                  <option>Pistachio cake</option>
                 </select>
               </div>
 
