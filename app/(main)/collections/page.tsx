@@ -10,11 +10,11 @@ const collectionsCatalog = [
   {
     id: 1,
     name: {
-      en: "All",
-      ar: "الكل"
+      en: "Menu",
+      ar: "قائمة طعام"
     },
-    image: "/cake.webp",
-    link: "/collections/all"
+    image: "/logo.webp",
+    link: "/collections/menu"
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ const collectionsCatalog = [
       en: "Occasion Cakes",
       ar: "كيكات المناسبات"
     },
-    image: "/cake.webp",
+    image: "/occ.jpg",
     link: "/collections/occasion-cakes"
   },
   {
@@ -31,7 +31,7 @@ const collectionsCatalog = [
       en: "Customize Cake",
       ar: "كيك حسب الطلب"
     },
-    image: "/cake.webp",
+    image: "/customizePage.webp",
     link: "/customize-your-cake"
   },
   {
@@ -40,7 +40,7 @@ const collectionsCatalog = [
       en: "Dates",
       ar: "تمور"
     },
-    image: "/cake.webp",
+    image: "/dates.webp",
     link: "/collections/menu"
   },
   {
@@ -58,7 +58,7 @@ const collectionsCatalog = [
       en: "Pastry",
       ar: "معجنات"
     },
-    image: "/cake.webp",
+    image: "/pastry.webp",
     link: "/collections/menu"
   },
   {
@@ -67,7 +67,7 @@ const collectionsCatalog = [
       en: "Cookies",
       ar: "كوكيز"
     },
-    image: "/cake.webp",
+    image: "/cookies.webp",
     link: "/collections/menu"
   },
   {
@@ -76,7 +76,7 @@ const collectionsCatalog = [
       en: "Brownie",
       ar: "براونيز"
     },
-    image: "/cake.webp",
+    image: "/brownie.webp",
     link: "/collections/menu"
   },
   {
@@ -85,7 +85,7 @@ const collectionsCatalog = [
       en: "Cupcake",
       ar: "كب كيك"
     },
-    image: "/cake.webp",
+    image: "/cupcake.webp",
     link: "/collections/menu"
   }
 ];
@@ -129,7 +129,7 @@ const Collections = () => {
                 alt={item.name.en}
                 width={400}
                 height={400}
-                className="object-cover group-hover:scale-105 transition duration-700"
+                className="object-cover h-full w-full group-hover:scale-105 transition duration-700"
               />
             </div>
 
