@@ -9,17 +9,16 @@ import { useCart } from "@/context/CartContext";
 import { CartItem } from "../../../type";
 import { useLanguage } from "@/context/LanguageContext";
 import imageCompression from "browser-image-compression";
+import CurrenncyT from "@/components/customer/CurrenncyT";
 
 const Checkout = () => {
   const router = useRouter();
   const { cart: cartItems, clearCart, totalAmount } = useCart();
-  const {t, lang} = useLanguage()
   const [deliveryDate, setDeliveryDate] = useState("");
   const [deliveryTiming, setDeliveryTiming] = useState("");
   const [loading, setLoading] = useState(false);
-  console.log(cartItems)
   const [status, setStatus] = useState("");
-
+  const {t, lang} = useLanguage()
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -68,12 +67,12 @@ const Checkout = () => {
     e.preventDefault();
 
     if (!paymentProof) {
-      alert("Please upload payment proof");
+      alert(t("Please upload payment proof", "يرجى رفع إثبات الدفع", lang));
       return;
     }
 
     if (!deliveryDate || !deliveryTiming) {
-      alert("Please select delivery date and time");
+      alert(t("Please select delivery date and time", "يرجى اختيار تاريخ ووقت التوصيل", lang));
       return;
     }
 
@@ -153,7 +152,8 @@ const Checkout = () => {
       {/* LEFT: FORM */}
       <div className="w-full py-5 border-r lg:pl-20 pl-5 pr-5 border-gray-300 md:w-2/3">
         <h1 className="text-3xl text-center font-bold mb-6 border-b border-gray-300 pb-2">
-          <Link href={"/"}>Checkout</Link>
+          <Link href={"/"}>{t("Checkout", "الدفع", lang)}</Link>
+
         </h1>
 
         <form
@@ -165,7 +165,7 @@ const Checkout = () => {
             <input
               name="fullName"
               type="text"
-              placeholder="Full Name"
+              placeholder={t("Full Name", "الاسم الكامل", lang)}
               required
               value={formData.fullName}
               onChange={handleChange}
@@ -174,7 +174,7 @@ const Checkout = () => {
             <input
               name="phone"
               type="tel"
-              placeholder="Phone Number"
+              placeholder={t("Phone Number", "رقم الهاتف", lang)}
               required
               value={formData.phone}
               onChange={handleChange}
@@ -183,7 +183,7 @@ const Checkout = () => {
             <input
               name="email"
               type="email"
-              placeholder="Email"
+              placeholder={t("Email", "البريد الإلكتروني", lang)}
               value={formData.email}
               onChange={handleChange}
               className="border-gray-300 outline-none w-full p-3 border rounded-md"
@@ -195,14 +195,14 @@ const Checkout = () => {
               className="border w-full p-2 rounded-md"
               required
             >
-              <option value="">City</option>
-              <option value="al-khobar">al-khobar</option>
-              <option value="damam">damam</option>
+              <option value="">{t("City", "المدينة", lang)}</option>
+              <option value="al-khobar">{t("Al Khobar", "الخبر", lang)}</option>
+              <option value="damam">{t("Dammam", "الدمام", lang)}</option>
             </select>
             <input
               name="address"
               type="text"
-              placeholder="Address"
+              placeholder={t("Address", "العنوان", lang)}
               required
               value={formData.address}
               onChange={handleChange}
@@ -214,7 +214,7 @@ const Checkout = () => {
           <div className="space-y-4">
             <textarea
               name="notes"
-              placeholder="Order Notes (optional)"
+              placeholder={t("Order Notes (optional)", "ملاحظات الطلب (اختياري)", lang)}
               value={formData.notes}
               onChange={handleChange}
               rows={7}
@@ -225,7 +225,7 @@ const Checkout = () => {
           {/* Payment */}
           <div className="md:col-span-2 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
             <h3 className="mb-3 text-sm font-semibold text-gray-800">
-              Payment Method
+              {t("Payment Method", "طريقة الدفع", lang)}
             </h3>
             <select
               name="paymentMethod"
@@ -233,17 +233,18 @@ const Checkout = () => {
               onChange={handleChange}
               className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
             >
-              <option value="online">Bank Payment</option>
+              <option value="online">{t("Bank Payment", "تحويل بنكي", lang)}</option>
             </select>
             <p className="mt-2 text-xs text-gray-500">
-              Secure bank transfer. Your payment details are safe.
+              {t("Secure bank transfer. Your payment details are safe.", "تحويل بنكي آمن. تفاصيل الدفع الخاصة بك آمنة.", lang)}
             </p>
 
             <label className="block text-sm font-medium mt-2">
-              Upload Payment Proof
+             {t("Upload Payment Proof", "رفع إثبات الدفع", lang)}
             </label>
             <input
               type="file"
+              required
               accept="image/*"
               onChange={handleFileChange}
               className="block w-full mt-2 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-gray-300 file:bg-gray-200 hover:file:bg-gray-300"
@@ -263,7 +264,7 @@ const Checkout = () => {
 
           {/* Delivery Date/Time */}
           <div className="md:col-span-2">
-            <label className="block mb-1">Delivery Date</label>
+            <label className="block mb-1">{t("Delivery Date", "تاريخ التوصيل", lang)}</label>
             <input
               type="date"
               value={deliveryDate}
@@ -273,7 +274,7 @@ const Checkout = () => {
               }}
               className="border w-full p-2 rounded-md"
             />
-            <label className="block mt-2 mb-1">Delivery Time</label>
+            <label className="block mt-2 mb-1">{t("Delivery Time", "وقت التوصيل", lang)}</label>
             <select
               value={deliveryTiming}
               onChange={(e) => {
@@ -282,7 +283,7 @@ const Checkout = () => {
               }}
               className="border w-full p-2 rounded-md"
             >
-              <option value="">Select time</option>
+              <option value="">{t("Select time", "اختر الوقت", lang)}</option>
               <option value="10-12">10 AM - 12 PM</option>
               <option value="12-3">12 PM - 3 PM</option>
               <option value="3-6">3 PM - 6 PM</option>
@@ -297,7 +298,9 @@ const Checkout = () => {
               loading ? "bg-gray-600" : "bg-black hover:bg-gray-800"
             }`}
           >
-            {loading ? "Placing Order..." : "Place Order"}
+           {loading
+  ? t("Placing Order...", "جاري تنفيذ الطلب...", lang)
+  : t("Place Order", "إتمام الطلب", lang)}
           </button>
         </form>
 
@@ -306,9 +309,10 @@ const Checkout = () => {
 
       {/* RIGHT: CART SUMMARY */}
       <div className="w-full md:w-1/3 bg-gray-100 py-6 px-6">
-        <h3 className="text-xl font-semibold mb-4">Your Cart</h3>
+        <h3 className="text-xl font-semibold mb-4">{t("Your Cart", "سلة المشتريات", lang)}
+</h3>
         {cartItems.length === 0 ? (
-          <p className="text-gray-500">Your cart is empty.</p>
+          <p className="text-gray-500">{t("Your cart is empty.", "سلة المشتريات فارغة.", lang)}</p>
         ) : (
           <>
             {cartItems.map((item, i) => (
@@ -331,19 +335,19 @@ const Checkout = () => {
                     <p className="font-medium">{t(item.titleEn, item.titleAr,lang)}</p>
                     <p className="text-sm">{item.flavor && item.flavor}</p>
                     <p className="text-sm">{item.size}</p>
-                    <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                    <p className="text-sm text-gray-600">{t("Qty", "الكمية", lang)}: {item.quantity}</p>
                   </div>
                 </div>
-                <p className="font-medium">{item.price * item.quantity} PKR</p>
+                <p className="font-medium">{item.price * item.quantity} <CurrenncyT /> </p>
               </div>
             ))}
             <div className="flex justify-between mt-4 font-bold text-lg">
-              <span>Shipping:</span>
-              <span>{deliveryCharges} PKR</span>
+              <span>{t("Shipping", "الشحن", lang)}:</span>
+              <span>{deliveryCharges} <CurrenncyT /> </span>
             </div>
             <div className="flex justify-between mt-4 font-bold text-lg">
-              <span>Total:</span>
-              <span>{totalAmount + deliveryCharges} PKR</span>
+              <span>{t("Total", "الإجمالي", lang)}:</span>
+              <span>{totalAmount + deliveryCharges} <CurrenncyT /> </span>
             </div>
           </>
         )}
