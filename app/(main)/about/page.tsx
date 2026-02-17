@@ -15,11 +15,11 @@ const Page = () => {
       }`}
     >
       {/* ===== FIRST SECTION ===== */}
-    <div className="mt-32 bg-normal/70 py-20 md:rounded-t-[90%]">
-      <div className="grid md:grid-cols-2 gap-6 px-4 md:px-30 items-center max-w-8xl mx-auto">
+    <div className="">
+      <div className="grid md:grid-cols-2 gap-6 px-4 md:px-10 items-center max-w-8xl mx-auto">
 
         {/* Content */}
-        <div className="space-y-6 px-3 md:scale-90">
+        <div className="space-y-6 px-3 ">
           <h2 className={`${playFair.className} text-main text-center text-3xl md:text-4xl`}>
             {t("Meet the Baker, Sadaf", "تعرف على الخبازة، صدف", lang)}
           </h2>
@@ -86,10 +86,10 @@ const Page = () => {
 
       </div>
     </div>
-            <div className="grid md:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+      <div className="mt-32 bg-normal/70 py-20 md:rounded-t-[90%] flex flex-col md:flex-row items-center md:px-10">
 
         {/* Image Column */}
-        <div className="flex justify-center md:justify-start">
+        <div className="flex justify-center">
           <div className="relative w-[280px] h-[380px] md:w-[450px] md:h-[580px] overflow-hidden rounded-[50%/40%] border border-main shadow-xl">
             <Image
               src="/About2.webp"
@@ -102,7 +102,7 @@ const Page = () => {
         </div>
 
         {/* Content Column */}
-        <div className="space-y-6 px-3">
+        <div className="space-y-6 px-6 mt-10 md:mt-0 md:scale-90">
           <h1 className={`${playFair.className} text-main text-center text-4xl md:text-5xl`}>
             {t('About Ama\'s Bakery', 'عن أماس بيكري', lang)}
           </h1>
