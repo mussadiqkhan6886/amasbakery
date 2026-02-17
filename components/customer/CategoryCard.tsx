@@ -28,9 +28,6 @@ const CategoryCard = ({header, link, data, delay}: Props) => {
         <div className='w-full'>
         <SwiperCard data={data} delay={delay} />
         </div>
-        <Link className='text-center border border-light px-3 py-1 rounded-md italic block my-2 text-sm' href={link}>
-        {t("View All", "عرض الكل", lang)}
-        </Link>
     </div>
   )
 }
