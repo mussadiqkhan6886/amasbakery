@@ -7,12 +7,6 @@ const orderControlSchema = new mongoose.Schema(
       default: true,
     },
 
-    shopStatus: {
-      type: String,
-      enum: ["OPEN", "CLOSED"],
-      default: "OPEN",
-    },
-
     dailyLimits: {
       menuLimit: { type: Number, default: 2 },
       occasionLimit: { type: Number, default: 2 },

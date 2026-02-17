@@ -47,3 +47,54 @@ export interface CartItem {
   specialInstruction?: string
   cartKey?: string
 }
+
+export type OrderStatus =
+  | "PENDING"
+  | "CONFIRMED"
+  | "DESIGN_APPROVED"
+  | "PREPARING"
+  | "READY"
+  | "OUT_FOR_DELIVERY"
+  | "DELIVERED"
+  | "CANCELLED";
+
+
+export interface CustomizeOrderType {
+  _id: string;
+  orderId: string;
+
+  customer: {
+    fullName: string;
+    phone: string;
+    email: string;
+    city: string;
+  };
+
+  cakeDetails?: {
+    cakeFlavor?: string;
+    cakeSize?: string;
+    tierCakeSize?: string;
+    cakeFlavorTopTier?: string;
+    cakeFlavorBottomTier?: string;
+    messageOn?: string;
+    message?: string;
+    specialInstruction?: string;
+    referenceImage?: string[];
+  };
+
+  delivery: {
+    deliveryDate: string;
+    deliveryTime?: string;
+  };
+
+  pricing?: {
+    totalPrice?: number;
+    deliveryCharges?: number;
+    totalAmount?: number;
+  };
+
+  orderStatus: OrderStatus;
+
+  createdAt: string;
+  updatedAt: string;
+}
