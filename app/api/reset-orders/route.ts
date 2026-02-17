@@ -13,8 +13,7 @@ export const GET = async (_req: NextRequest) => {
       orderControl = await OrderControl.create({});
     }
 
-    // Get today's date (midnight)
-    const today = new Date();
+    const today = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Riyadh"}));
     today.setHours(0, 0, 0, 0);
 
     // If last reset was before today, reset counts

@@ -6,6 +6,7 @@ import imageCompression from "browser-image-compression";
 import { useLanguage } from "@/context/LanguageContext";
 import { playFair } from "@/lib/fonts";
 import axios from "axios";
+import { getAndResetOrderControl } from "@/lib/helper";
 
 interface Details {
   fullName: string;
@@ -216,7 +217,6 @@ export default function CustomizeCakePage() {
 
   fetchOrderControl();
 }, []);
-
 
   return (
     <main

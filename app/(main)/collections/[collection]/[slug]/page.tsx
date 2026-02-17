@@ -2,6 +2,7 @@ import MayLike from '@/components/customer/MayLike';
 import ProductDetails from '@/components/customer/ProductDetails';
 import { connectDB } from '@/lib/config/db';
 import { playFair } from '@/lib/fonts';
+import { getAndResetOrderControl } from '@/lib/helper';
 import { Product } from '@/lib/models/ProductSchema';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,7 +15,7 @@ const singleProduct = async ({ params }: { params: Promise<{ slug: string }> }) 
   await connectDB()
 
   const res = await Product.findOne({slug:slug})
-
+  const orderControl = await getAndResetOrderControl();
   const product = JSON.parse(JSON.stringify(res))
 
 
