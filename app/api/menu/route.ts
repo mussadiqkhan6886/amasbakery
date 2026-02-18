@@ -39,7 +39,9 @@ export async function POST(req: NextRequest) {
     const description_en = formData.get("description_en") as string;
     const description_ar = formData.get("description_ar") as string;
     const isActive = formData.get("isActive") === "true";
-
+    const flavors = formData
+  .getAll("flavors")
+  .filter((x): x is string => typeof x === "string");
     const varietiesRaw = formData.get("varieties") as string;
     const varieties = JSON.parse(varietiesRaw).map((v: any) => ({
       size: v.size,
@@ -103,6 +105,7 @@ export async function POST(req: NextRequest) {
         en: description_en,
         ar: description_ar,
       },
+      flavors,
       image: uploadedImages,
       varieties,
       isActive,

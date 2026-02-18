@@ -11,11 +11,10 @@ export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, totalAmount } = useCart();
   const { lang, t } = useLanguage();
 
-  const [deliveryDate, setDeliveryDate] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("");
 
   const isDisabled =
-    cart.length === 0 || !deliveryDate || !deliveryTime;
+    cart.length === 0 || !deliveryTime;
 
     // get tomorrow's date in YYYY-MM-DD format
 const tomorrow = new Date();
@@ -24,10 +23,8 @@ tomorrow.setDate(tomorrow.getDate() + 2);
 const minDate = tomorrow.toISOString().split("T")[0];
 
   useEffect(() => {
-    const savedDate = localStorage.getItem("deliveryDate");
     const savedTime = localStorage.getItem("deliveryTime");
 
-    if (savedDate) setDeliveryDate(savedDate);
     if (savedTime) setDeliveryTime(savedTime);
   }, []);
 
@@ -146,22 +143,6 @@ const minDate = tomorrow.toISOString().split("T")[0];
             <h3 className="font-semibold text-xl">
               {t("Order Summary", "ملخص الطلب", lang)}
             </h3>
-
-            {/* Delivery Date */}
-            <div>
-              <label className="text-sm">
-                {t("Delivery Date", "تاريخ التوصيل", lang)}
-              </label>
-              <input
-                type="date"
-                min={minDate}
-                value={deliveryDate}
-                onChange={(e) =>
-                  setDeliveryDate(e.target.value)
-                }
-                className="w-full border rounded px-3 py-2 mt-1"
-              />
-            </div>
 
             {/* Delivery Time */}
             <div>

@@ -1,5 +1,5 @@
 export type Variety = {
-  size: string;   // e.g., "6inch", "box6", "box12", "box"
+  size: string;
   price: number;
 };
 
@@ -132,7 +132,6 @@ export interface MenuOccasionOrderType {
   };
   notes: string;
   delivery: {
-    deliveryDate: string | Date;
     deliveryTimeSlot: string;
     deliveryType: "DELIVERY" | "PICKUP";
   };

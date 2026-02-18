@@ -17,19 +17,15 @@ const SideBarCart = ({ open, onClose }: Props) => {
   const { cart, removeFromCart, updateQuantity, totalAmount } = useCart();
   const { lang, t } = useLanguage();
 
-  const [deliveryDate, setDeliveryDate] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("");
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    const minDate = tomorrow.toISOString().split("T")[0];
 
     useEffect(() => {
-      const savedDate = localStorage.getItem("deliveryDate");
       const savedTime = localStorage.getItem("deliveryTime");
 
-      if (savedDate) setDeliveryDate(savedDate);
       if (savedTime) setDeliveryTime(savedTime);
     }, []);
 
@@ -88,7 +84,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
                 </h3>
 
                 <p dir="ltr" className="text-xs text-gray-500">
-                  {item.size} {item.flavor && `• ${item.flavor}`}
+                  {item.size} {item.flavor !== "-" && `• ${item.flavor}`}
                 </p>
 
                 <p className="text-sm font-semibold">
@@ -131,23 +127,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
 
         {/* DELIVERY SECTION */}
         <div className="border-t p-3 overflow-y-auto thin-scrollbar flex flex-col gap-2">
-         {cart.length > 0 ? ( <> <div>
-            <label className="text-sm font-medium">
-              {t("Delivery Date", "تاريخ التوصيل", lang)}
-            </label>
-            <input
-                type="date"
-                value={deliveryDate}
-                min={minDate} // 👈 prevents selecting today or past
-                 onChange={(e) => {
-                  const date = e.target.value;
-                  setDeliveryDate(date);
-                  localStorage.setItem("deliveryDate", date); // ✅ store in localStorage
-                }}
-                className="w-full border rounded px-3 text-sm py-1 mt-1"
-                />
-          </div>
-
+         {cart.length > 0 ? ( <>
           <div>
               <label className="text-sm font-medium">
               {t("Delivery Time", "وقت التوصيل", lang)}
@@ -179,10 +159,10 @@ const SideBarCart = ({ open, onClose }: Props) => {
           <div className="flex gap-2 w-full">
             <button
             onClick={onClose}
-            disabled={!deliveryDate || !deliveryTime || cart.length === 0}
+            disabled={!deliveryTime || cart.length === 0}
             className={`py-3 rounded font-medium transition w-full
               ${
-                deliveryDate && deliveryTime && cart.length > 0
+                deliveryTime && cart.length > 0
                   ? "bg-main text-white hover:bg-main/90"
                   : "bg-gray-300 text-gray-600 cursor-not-allowed"
               }
@@ -191,11 +171,11 @@ const SideBarCart = ({ open, onClose }: Props) => {
             <Link href="/checkout">{t("Proceed to Checkout", "المتابعة للدفع", lang)}</Link>
           </button>
           <button
-            disabled={!deliveryDate || !deliveryTime || cart.length === 0}
+            disabled={!deliveryTime || cart.length === 0}
             onClick={onClose}
             className={`py-3 rounded font-medium transition w-full
               ${
-                deliveryDate && deliveryTime && cart.length > 0
+                 deliveryTime && cart.length > 0
                   ? "border border-main text-main hover:bg-main hover:text-white"
                   : "bg-gray-300 text-gray-600 cursor-not-allowed"
               }

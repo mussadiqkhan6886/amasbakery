@@ -43,7 +43,6 @@ const menuOccasionOrderSchema = new mongoose.Schema(
 notes: { type: String, default: "No notes" },
 
     delivery: {
-      deliveryDate: { type: Date, required: true },
       deliveryTimeSlot: String,
       deliveryType: {
         type: String,

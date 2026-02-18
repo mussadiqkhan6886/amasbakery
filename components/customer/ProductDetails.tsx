@@ -16,7 +16,7 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
   );
 
   const [selectedFlavor, setSelectedFlavor] = useState(
-    product.flavors?.[0] || ""
+    "-"
   );
 
   const [quantity, setQuantity] = useState(1);
@@ -99,7 +99,6 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
         </select>
       </div>
 
-      {product.flavors && product.flavors.length > 0 && (
         <div className="flex flex-col w-full gap-2">
           <label className="font-medium">
             {t("Flavor", "النكهة", lang)}
@@ -111,14 +110,17 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
             onChange={(e) => setSelectedFlavor(e.target.value)}
             className="border w-full border-gray-300 rounded px-3 py-2"
           >
-            {product.flavors.map((item, i) => (
+            <option value="-">-</option>
+            {product.flavors && product.flavors.length > 0 && (
+            product.flavors.map((item, i) => (
               <option key={i} value={item}>
                 {item}
               </option>
-            ))}
+            ))
+            )}
           </select>
         </div>
-      )}
+      
 
       <div className="flex flex-col gap-2">
        {product.category.en.toLowerCase() === "cake" && <> <label className="font-medium">

@@ -13,9 +13,9 @@ const Categories = async () => {
   const products = JSON.parse(JSON.stringify(res))
 
   const cake = products.filter((item: ProductType) => item.category.en.toLowerCase() === "cake")
-  const cupcake = products.filter((item: ProductType) => item.category.en.toLowerCase() === "cupcake")
-  const dates = products.filter((item: ProductType) => item.category.en.toLowerCase() === "dates")
-  const cookies = products.filter((item: ProductType) =>item.category.en.toLowerCase() === "cookies")
+  const cupcake = products.filter((item: ProductType) => item.category.en.toLowerCase() === "cupcake & bites")
+  const dates = products.filter((item: ProductType) => item.category.en.toLowerCase() === "dates & truffles")
+  const cookies = products.filter((item: ProductType) =>item.category.en.toLowerCase() === "cookies & desserts")
 
   return (
     <section className='my-20 max-w-8xl mx-auto'>

@@ -17,13 +17,13 @@ export default function AddProductPage() {
 
   const categories = [
   { en: "Cake", ar: "كيك" },
-  { en: "Cupcake", ar: "كب كيك" },
-  { en: "Cookies", ar: "كوكيز" },
-  { en: "Brownies", ar: "براونيز" },
-  { en: "Dates", ar: "تمور" },
-  { en: "Pastry", ar: "معجنات" },
+  { en: "Cupcake & Bites", ar: "كب كيك وقطع صغيرة" },
+  { en: "Cookies & Desserts", ar: "كوكيز وحلويات" },
+  { en: "Bread", ar: "مخبوزات" }, // 'Bread' is often 'Makhbouzat' in retail for a better feel
+  { en: "Dates & Truffles", ar: "تمور وترافل" },
+  { en: "Savory", ar: "موالح" }, // 'Savory' is better translated as 'Mawalih' in food contexts
+  { en: "Gift", ar: "هدايا" }, // Plural 'Gifts' usually sounds more natural for a category
 ];
-
 
   const [product, setProduct] = useState({
     name_en: "",
@@ -31,6 +31,7 @@ export default function AddProductPage() {
     slug: "",
     type: "menu",
     category_en: "",
+    flavors: [] as string[],
     category_ar: "",
     description_en: "",
     description_ar: "",
@@ -113,9 +114,15 @@ export default function AddProductPage() {
     try {
       const formData = new FormData();
 
-      Object.entries(product).forEach(([key, value]) =>
-        formData.append(key, value.toString())
-      );
+      Object.entries(product).forEach(([key, value]) => {
+        if (key !== "flavors") {
+          formData.append(key, value.toString());
+        }
+      });
+
+      product.flavors.forEach((flavor) => {
+        formData.append("flavors", flavor);
+      });
 
       formData.append("varieties", JSON.stringify(varieties));
 
@@ -146,6 +153,7 @@ export default function AddProductPage() {
           description_en: "",
           description_ar: "",
           isActive: true,
+          flavors: []
         });
 
         setVarieties([{ size: "", price: "" }]);
@@ -212,6 +220,19 @@ export default function AddProductPage() {
             className="input bg-gray-100"
           />
 
+        <input
+          value={product.flavors.join(",")}
+          onChange={(e) =>
+            setProduct((prev) => ({
+              ...prev,
+              flavors: e.target.value
+                .split(",")
+                .map((f) => f.trim()),
+            }))
+          }
+          placeholder="Flavors (Chocolate, Vanilla, Red Velvet)"
+          className="input"
+        />
 
         </div>
 

@@ -18,13 +18,14 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
   const [result, setResult] = useState("");
 
   const categories = [
-    { en: "Cake", ar: "كيك" },
-    { en: "Cupcake", ar: "كب كيك" },
-    { en: "Cookies", ar: "كوكيز" },
-    { en: "Brownies", ar: "براونيز" },
-    { en: "Dates", ar: "تمور" },
-    { en: "Pastry", ar: "معجنات" },
-  ];
+  { en: "Cake", ar: "كيك" },
+  { en: "Cupcake & Bites", ar: "كب كيك وقطع صغيرة" },
+  { en: "Cookies & Desserts", ar: "كوكيز وحلويات" },
+  { en: "Bread", ar: "مخبوزات" }, // 'Bread' is often 'Makhbouzat' in retail for a better feel
+  { en: "Dates & Truffles", ar: "تمور وترافل" },
+  { en: "Savory", ar: "موالح" }, // 'Savory' is better translated as 'Mawalih' in food contexts
+  { en: "Gift", ar: "هدايا" }, // Plural 'Gifts' usually sounds more natural for a category
+];
 
   const [product, setProduct] = useState({
     name_en: "",
@@ -33,6 +34,7 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
     type: "menu",
     category_en: "",
     category_ar: "",
+    flavors: [] as string[],
     description_en: "",
     description_ar: "",
     isActive: true,
@@ -78,6 +80,7 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
           name_ar: data.name.ar,
           slug: data.slug,
           type: "menu",
+          flavors: data.flavors,
           category_en: data.category.en,
           category_ar: data.category.ar,
           description_en: data.description.en,
@@ -158,9 +161,15 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
     try {
       const formData = new FormData();
 
-      Object.entries(product).forEach(([key, value]) =>
-        formData.append(key, value.toString())
-      );
+      Object.entries(product).forEach(([key, value]) => {
+        if (key !== "flavors") {
+          formData.append(key, value.toString());
+        }
+      });
+
+      product.flavors.forEach((flavor) => {
+        formData.append("flavors", flavor);
+      });
 
       formData.append("varieties", JSON.stringify(varieties));
 
@@ -209,7 +218,24 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
           />
           <label>Active</label>
         </div>
-    <div className="grid md:grid-cols-2 gap-6"> <input name="name_en" value={product.name_en} placeholder="Name (English)" onChange={handleChange} className="input" required /> <input name="name_ar" value={product.name_ar} placeholder="Name (Arabic)" onChange={handleChange} className="input" required /> <select name="category_en" value={product.category_en} onChange={(e) => { const selected = categories.find( (c) => c.en === e.target.value ); setProduct((prev) => ({ ...prev, category_en: selected?.en || "", category_ar: selected?.ar || "", })); }} className="input" required > <option value="">Select Category</option> {categories.map((item) => ( <option key={item.en} value={item.en}> {item.en} </option> ))} </select> <input readOnly value={product.category_ar} className="input bg-gray-100" /> </div> <input readOnly value={product.slug} className="input bg-gray-100" /> <textarea name="description_en" value={product.description_en} placeholder="Description (EN)" onChange={handleChange} className="input h-28" required /> <textarea name="description_ar" value={product.description_ar} placeholder="Description (AR)" onChange={handleChange} className="input h-28" required /> {/* Varieties */} <div> <h2 className="text-xl font-semibold mb-5"> Varieties & Pricing </h2> {varieties.map((v, i) => ( <div key={i} className="grid md:grid-cols-3 gap-4 mb-4 items-center"> <input placeholder="Size (6 inch, 1kg)" value={v.size} onChange={(e) => handleVarietyChange(i, "size", e.target.value) } className="input" required /> <input type="number" placeholder="Price" value={v.price} onChange={(e) => handleVarietyChange(i, "price", e.target.value) } className="input" required /> {varieties.length > 1 && ( <button type="button" onClick={() => removeVariety(i)} className="text-red-500 text-sm" > Remove </button> )} </div> ))} <button type="button" onClick={addVariety} className="bg-black text-white px-5 py-2 rounded-lg" > + Add Variety </button> </div> {/* Images */} <div> <label className="block mb-3 font-medium"> Upload Images </label> <input type="file" multiple accept="image/*" onChange={handleImageChange} className="block w-full shadow-xl p-2" /> {previews.length > 0 && ( <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 mt-4"> {previews.map((src, i) => ( <Image key={i} src={src} alt="preview" width={130} height={130} className="w-28 h-28 object-cover rounded-lg border" /> ))} </div> )} </div>
+    <div className="grid md:grid-cols-2 gap-6"> <input name="name_en" value={product.name_en} placeholder="Name (English)" onChange={handleChange} className="input" required /> 
+    <input name="name_ar" value={product.name_ar} placeholder="Name (Arabic)" onChange={handleChange} className="input" required /> 
+    <select name="category_en" value={product.category_en} onChange={(e) => { const selected = categories.find( (c) => c.en === e.target.value ); setProduct((prev) => ({ ...prev, category_en: selected?.en || "", category_ar: selected?.ar || "", })); }} className="input" required > <option value="">Select Category</option> {categories.map((item) => ( <option key={item.en} value={item.en}> {item.en} </option> ))} </select>
+     <input readOnly value={product.category_ar} className="input bg-gray-100" />
+     <input
+        value={product.flavors.join(",")}
+        onChange={(e) =>
+        setProduct((prev) => ({
+            ...prev,
+            flavors: e.target.value
+            .split(",")
+            .map((f) => f.trim()),
+        }))
+        }
+        placeholder="Flavors (Chocolate, Vanilla, Red Velvet)"
+        className="input"
+    />
+      </div> <input readOnly value={product.slug} className="input bg-gray-100" /> <textarea name="description_en" value={product.description_en} placeholder="Description (EN)" onChange={handleChange} className="input h-28" required /> <textarea name="description_ar" value={product.description_ar} placeholder="Description (AR)" onChange={handleChange} className="input h-28" required /> {/* Varieties */} <div> <h2 className="text-xl font-semibold mb-5"> Varieties & Pricing </h2> {varieties.map((v, i) => ( <div key={i} className="grid md:grid-cols-3 gap-4 mb-4 items-center"> <input placeholder="Size (6 inch, 1kg)" value={v.size} onChange={(e) => handleVarietyChange(i, "size", e.target.value) } className="input" required /> <input type="number" placeholder="Price" value={v.price} onChange={(e) => handleVarietyChange(i, "price", e.target.value) } className="input" required /> {varieties.length > 1 && ( <button type="button" onClick={() => removeVariety(i)} className="text-red-500 text-sm" > Remove </button> )} </div> ))} <button type="button" onClick={addVariety} className="bg-black text-white px-5 py-2 rounded-lg" > + Add Variety </button> </div> {/* Images */} <div> <label className="block mb-3 font-medium"> Upload Images </label> <input type="file" multiple accept="image/*" onChange={handleImageChange} className="block w-full shadow-xl p-2" /> {previews.length > 0 && ( <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 mt-4"> {previews.map((src, i) => ( <Image key={i} src={src} alt="preview" width={130} height={130} className="w-28 h-28 object-cover rounded-lg border" /> ))} </div> )} </div>
         {/* Existing Images */}
         {existingImages.length > 0 && (
           <div>

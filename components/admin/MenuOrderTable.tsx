@@ -31,7 +31,6 @@ export default function MenuOrderTable({
       messageOn: order.items.map((i) => i.messageOn).filter((m) => m !== "noMessage").join(" | ") || "-",
       message: order.items.map((i) => i.message).filter(Boolean).join(", ") || "-",
       specialInstruction: order.items.map((i) => i.specialInstructions).filter(Boolean).join(" | ") || "-",
-      deliveryDate: new Date(order.delivery.deliveryDate).toLocaleDateString(),
       deliveryTime: order.delivery.deliveryTimeSlot || "-",
       deliveryCharges: order.pricing.deliveryCharges,
       totalAmount: order.pricing.total,
@@ -70,7 +69,6 @@ export default function MenuOrderTable({
     { field: "messageOn", headerName: "Msg On", width: 100 },
     { field: "message", headerName: "Message", width: 130 },
     { field: "specialInstruction", headerName: "Special Instructions", width: 150 },
-    { field: "deliveryDate", headerName: "Date", width: 110 },
     { field: "deliveryTime", headerName: "Time", width: 100 },
     { field: "totalAmount", headerName: "Total (Rs)", width: 100 },
 

@@ -101,9 +101,6 @@ export const POST = async (req: NextRequest) => {
         }</p>
         <hr/>
 
-        <p><strong>Delivery Date:</strong> ${new Date(
-          delivery.deliveryDate
-        ).toDateString()}</p>
         <p><strong>Delivery Time:</strong> ${
           delivery.deliveryTime || "Not specified"
         }</p>
@@ -137,9 +134,7 @@ export const POST = async (req: NextRequest) => {
         <hr/>
 
         <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
-        <p><strong>Delivery Date:</strong> ${new Date(
-          delivery.deliveryDate
-        ).toDateString()}</p>
+       
         <p><strong>Delivery Time:</strong> ${
           delivery.deliveryTime || "Not specified"
         }</p>

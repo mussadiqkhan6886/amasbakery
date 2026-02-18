@@ -138,7 +138,6 @@ export const POST = async (req: NextRequest) => {
         <h3>Items:</h3>
         <ul>${itemsHtml}</ul>
         <hr/>
-        <p><strong>Delivery Date:</strong> ${new Date(orderData.delivery.deliveryDate).toDateString()}</p>
         <p><strong>Time Slot:</strong> ${orderData.delivery.deliveryTimeSlot}</p>
         <p><strong>Total Amount:</strong> Rs. ${orderData.pricing.total}</p>
         <p><strong>Payment Proof:</strong> <a href="${paymentProofUrl}">View Image</a></p>
@@ -164,7 +163,6 @@ export const POST = async (req: NextRequest) => {
         <p>Your order has been received and is currently <strong>Pending Verification</strong> of your payment.</p>
         <hr/>
         <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
-        <p><strong>Estimated Delivery:</strong> ${new Date(orderData.delivery.deliveryDate).toDateString()}</p>
         <p><strong>Time Slot:</strong> ${orderData.delivery.deliveryTimeSlot}</p>
         <hr/>
         <h3>Order Summary:</h3>

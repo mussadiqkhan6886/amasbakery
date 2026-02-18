@@ -163,7 +163,7 @@ export default function AddProductPage() {
 
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-      <h1 className="text-3xl font-bold mb-10">Add New Menu Product</h1>
+      <h1 className="text-3xl font-bold mb-10">Add New Occasion Cake</h1>
 
       <form onSubmit={handleSubmit} className="space-y-8">
 

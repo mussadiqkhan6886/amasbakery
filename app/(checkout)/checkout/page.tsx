@@ -14,7 +14,6 @@ import CurrenncyT from "@/components/customer/CurrenncyT";
 const Checkout = () => {
   const router = useRouter();
   const { cart: cartItems, clearCart, totalAmount } = useCart();
-  const [deliveryDate, setDeliveryDate] = useState("");
   const [deliveryTiming, setDeliveryTiming] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
@@ -36,10 +35,8 @@ const Checkout = () => {
 
   // Load delivery date/time from localStorage
   useEffect(() => {
-    const savedDate = localStorage.getItem("deliveryDate");
     const savedTime = localStorage.getItem("deliveryTime");
 
-    if (savedDate) setDeliveryDate(savedDate);
     if (savedTime) setDeliveryTiming(savedTime);
   }, []);
 
@@ -71,8 +68,8 @@ const Checkout = () => {
       return;
     }
 
-    if (!deliveryDate || !deliveryTiming) {
-      alert(t("Please select delivery date and time", "يرجى اختيار تاريخ ووقت التوصيل", lang));
+    if (!deliveryTiming) {
+      alert(t("Please select delivery  time", "يرجى اختيار تاريخ ووقت التوصيل", lang));
       return;
     }
 
@@ -105,7 +102,6 @@ const Checkout = () => {
           total: totalAmount + deliveryCharges,
         },
         delivery: {
-          deliveryDate,
           deliveryTimeSlot: deliveryTiming,
           deliveryType: "DELIVERY",
         },
@@ -129,7 +125,6 @@ const Checkout = () => {
 
       if (res.data.success) {
       clearCart();
-      localStorage.removeItem("deliveryDate");
       localStorage.removeItem("deliveryTime");
       
       // Ensure we access the ID correctly from the response
@@ -268,16 +263,7 @@ const Checkout = () => {
 
           {/* Delivery Date/Time */}
           <div className="md:col-span-2">
-            <label className="block mb-1">{t("Delivery Date", "تاريخ التوصيل", lang)}</label>
-            <input
-              type="date"
-              value={deliveryDate}
-              onChange={(e) => {
-                setDeliveryDate(e.target.value);
-                localStorage.setItem("deliveryDate", e.target.value);
-              }}
-              className="border w-full p-2 rounded-md"
-            />
+            
             <label className="block mt-2 mb-1">{t("Delivery Time", "وقت التوصيل", lang)}</label>
             <select
               value={deliveryTiming}
