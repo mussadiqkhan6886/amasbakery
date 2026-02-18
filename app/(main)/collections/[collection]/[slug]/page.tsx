@@ -8,6 +8,8 @@ import { Product } from '@/lib/models/ProductSchema';
 import Link from 'next/link';
 import React from 'react';
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   await connectDB();
   const products = await Product.find({ isActive: true }).select('slug');

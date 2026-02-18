@@ -6,6 +6,8 @@ import { Product } from '@/lib/models/ProductSchema';
 import { ProductType } from '@/type';
 import React from 'react';
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const categories = ["menu", "occasion-cakes"]
   
