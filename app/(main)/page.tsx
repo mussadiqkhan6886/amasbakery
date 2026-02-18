@@ -10,7 +10,7 @@ import React from 'react'
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Amas Bakery | Custom Cakes & Artisanal Treats in Al Khobar and Dammam",
+  title: "Cakes & Artisanal Treats in Al Khobar and Dammam",
   description: "Amas Bakery crafts premium custom cakes, tiered wedding cakes, and artisanal pastries. Delivering fresh, handcrafted sweets across Al Khobar and Dammam.",
   keywords: [
     "Amas Bakery",
