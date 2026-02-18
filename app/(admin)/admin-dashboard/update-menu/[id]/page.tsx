@@ -21,6 +21,7 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
   { en: "Cake", ar: "كيك" },
   { en: "Cupcake & Bites", ar: "كب كيك وقطع صغيرة" },
   { en: "Cookies & Desserts", ar: "كوكيز وحلويات" },
+  { en: "Tarts & Flans", ar: "الفطائر والحلويات " },
   { en: "Bread", ar: "مخبوزات" }, // 'Bread' is often 'Makhbouzat' in retail for a better feel
   { en: "Dates & Truffles", ar: "تمور وترافل" },
   { en: "Savory", ar: "موالح" }, // 'Savory' is better translated as 'Mawalih' in food contexts
