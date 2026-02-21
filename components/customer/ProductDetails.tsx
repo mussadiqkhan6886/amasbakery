@@ -28,20 +28,20 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
   // ---------------- DYNAMIC PRICE ----------------
   const totalPrice = useMemo(() => {
     return selectedSize.price * quantity;
-  }, [selectedSize, quantity]);
+  }, [selectedSize, quantity]); // flavor price extra
 
   const [currentImage, setCurrentImage] = useState(product.image[0])
 
   return (
     <>
       <div className="flex-1">
-        <div className="rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+        <div className="rounded-xl overflow-hidden">
           <Image
             src={currentImage}
             alt={product.name.en}
             width={600}
             height={600}
-            className="w-full h-auto object-cover transition-all duration-300"
+            className="w-full h-[70vh] lg:h-[80vh] object-cover object-center"
           />
         </div>
         <div className="flex gap-4 mt-4 overflow-x-auto pb-2">
@@ -58,20 +58,20 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
           ))}
         </div>
       </div>
-        <div className="flex-1 flex flex-col gap-6">
+        <div className="flex-1 flex flex-col gap-4">
       <h1
-        className={`${playFair.className} text-5xl ${
+        className={`${playFair.className} text-3xl sm:text-4xl md:text-5xl ${
           lang === "en" ? "text-left" : "text-right"
-        } my-12`}
+        } mt-4`}
       >
         {t(product.name.en, product.name.ar, lang)}
       </h1>
 
-      <p className="text-2xl font-bold text-gray-800">
+      <p className="text-xl mb-2 text-gray-800">
         {totalPrice.toFixed(2)} <CurrenncyT />
       </p>
 
-      <p>
+      <p className="text-sm leading-6 tracking-wide">
         {t(product.description.en, product.description.ar, lang)}
       </p>
 

@@ -60,7 +60,7 @@ const minDate = tomorrow.toISOString().split("T")[0];
               >
                 <Image
                   src={item.image}
-                  alt="product"
+                  alt="product image in cart page"
                   width={120}
                   height={120}
                   className="rounded-lg object-cover"

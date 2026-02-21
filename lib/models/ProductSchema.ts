@@ -50,6 +50,7 @@ const ProductSchema: Schema<IProduct> = new Schema(
       },
     ],
     flavors: { type: [String], default: [] },
+    // tiers: { type: [String], default: [] },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true }

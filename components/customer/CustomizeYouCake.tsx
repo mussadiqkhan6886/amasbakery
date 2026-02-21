@@ -231,7 +231,7 @@ export default function CustomizeYourCake() {
         <div className="space-y-6">
           <div className="relative">
             <Image
-              src="/customizePage.webp"
+              src="/custom.webp"
               alt="Customize Cake"
               width={500}
               height={500}

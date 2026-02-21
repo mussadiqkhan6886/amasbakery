@@ -31,7 +31,7 @@ const collectionsCatalog = [
       en: "Customize Cake",
       ar: "كيك حسب الطلب"
     },
-    image: "/customizePage.webp",
+    image: "/custom.webp",
     link: "/customize-your-cake"
   },
   {

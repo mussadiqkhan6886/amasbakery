@@ -22,7 +22,7 @@ const MayLike = async ({ type, excludeIds }: MayLikeProps) => {
 
   const res = await Product.aggregate([
     { $match: matchStage },
-    { $sample: { size: 6 } } // pick 4 random products
+    { $sample: { size: 8 } } // pick 4 random products
   ])
 
   const products = JSON.parse(JSON.stringify(res))
@@ -38,7 +38,7 @@ const MayLike = async ({ type, excludeIds }: MayLikeProps) => {
   return (
     <section>
       <MayLikeHeading en="You May Like" ar="قد ترغب" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {products.map((item: ProductType) => (
           <Card item={item} key={item._id.toString()} />
         ))}

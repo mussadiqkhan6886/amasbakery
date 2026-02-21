@@ -96,7 +96,7 @@ const ShippingAndReturns = () => {
         <p className="font-bold text-lg">
             {t("All confirmations and changes must be via official channels", "يجب أن تكون جميع التأكيدات والتغييرات عبر القنوات الرسمية", lang)}
         </p>
-        <p className="text-pink-600 font-bold text-xl mt-2" dir="ltr">+966 58 352 2616</p>
+        <p className="text-pink-600 font-bold text-xl mt-2" dir="ltr">+966 56 181 2342</p>
         <p className="text-sm text-gray-500 mt-2">Ama's Bakery - Al-Khobar & Dammam</p>
       </div>
     </main>

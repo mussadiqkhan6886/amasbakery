@@ -9,8 +9,8 @@ const orderControlSchema = new mongoose.Schema(
 
     dailyLimits: {
       menuLimit: { type: Number, default: 2 },
-      occasionLimit: { type: Number, default: 1 },
-      customLimit: { type: Number, default: 2 },
+      occasionLimit: { type: Number, default: 2 },
+      customLimit: { type: Number, default: 1 },
     },
 
     todayOrders: {

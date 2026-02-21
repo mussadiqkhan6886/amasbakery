@@ -33,8 +33,8 @@ export const POST = async () => {
 
       dailyLimits: {
         menuLimit: 2,
-        occasionLimit: 1,
-        customLimit: 2,
+        occasionLimit: 2,
+        customLimit: 1,
       },
 
       todayOrders: {

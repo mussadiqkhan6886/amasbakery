@@ -298,7 +298,7 @@ export default function AddProductPage() {
                 <Image
                   key={i}
                   src={src}
-                  alt="preview"
+                  alt="preview images"
                   width={130}
                   height={130}
                   className="w-28 h-28 object-cover rounded-lg border"

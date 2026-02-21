@@ -101,7 +101,7 @@ const AddToCart = ({
             ? "bg-gray-400 cursor-not-allowed" 
             : added
             ? "bg-green-600 text-white"
-            : "bg-black text-white hover:scale-[1.02] active:scale-95"
+            : "bg-main text-white hover:scale-[1.02] active:scale-95"
         }
         ${loading ? "opacity-70 cursor-not-allowed" : ""}
       `}

@@ -94,7 +94,7 @@ const ThankYou = ({ params }: { params: Promise<{ id: string }> }) => {
             {t("Return Home", "العودة للرئيسية", lang)}
           </Link>
           <Link
-            href="https://wa.me/966583522616" 
+            href="https://wa.me/966561812342" 
             target="_blank"
             className="px-8 py-3 border border-gray-300 rounded-full font-medium hover:bg-gray-50 transition"
           >

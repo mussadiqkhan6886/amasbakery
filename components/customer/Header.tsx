@@ -51,12 +51,12 @@ export default function Header() {
     z-50
   `}
 >
-  <nav className="hidden lg:flex gap-6 text-sm font-medium">
+  <nav className="hidden lg:flex gap-6 text-sm">
     {headerLinks.map((link, i) => (
       <Link
         key={i}
         href={link.link}
-        className={`${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") || pathname.includes("/thank-you/") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal font-light tracking-wider`}
+        className={`${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") || pathname.includes("/thank-you/") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal tracking-wider `}
       >
         {link.name}
       </Link>
@@ -82,7 +82,7 @@ export default function Header() {
 
   {/* Right Side */}
   <div className="flex items-center gap-4">
-    <Link target="_blank" href={"https://api.whatsapp.com/send/?phone=966583522616&text&type=phone_number&app_absent=0"} className="bg-green-500/80 hidden lg:block hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
+    <Link target="_blank" href={"https://api.whatsapp.com/send/?phone=966561812342&text&type=phone_number&app_absent=0"} className="bg-green-500/80 hidden lg:block hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
       <FiPhoneCall size={16} />
     </Link>
 

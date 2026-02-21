@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/customizePage.webp", // Create a specific image for the customize page
+        url: "/custom.webp", // Create a specific image for the customize page
         width: 1200,
         height: 630,
         alt: "Amas Bakery Cake Customization Tool",
