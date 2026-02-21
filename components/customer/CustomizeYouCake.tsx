@@ -222,7 +222,7 @@ export default function CustomizeYourCake() {
 
   return (
     <main
-      className={`min-h-screen pt-30 pb-20 px-4 ${
+      className={`min-h-screen pt-25 pb-20 px-4 ${
         lang === "ar" ? "rtl text-right" : "ltr text-left"
       }`}
     >

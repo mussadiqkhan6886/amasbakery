@@ -38,7 +38,7 @@ const MayLike = async ({ type, excludeIds }: MayLikeProps) => {
   return (
     <section>
       <MayLikeHeading en="You May Like" ar="قد ترغب" />
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
         {products.map((item: ProductType) => (
           <Card item={item} key={item._id.toString()} />
         ))}
