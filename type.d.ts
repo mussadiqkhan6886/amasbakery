@@ -83,6 +83,7 @@ export interface CustomizeOrderType {
     messageOn: string;   // "no", "cake", or "board"
     message?: string;
     specialInstruction?: string;
+    estimatedWeight: string;
     referenceImage?: string[];
   };
 
@@ -128,6 +129,7 @@ export interface MenuOccasionOrderType {
     email: string;
     address: string;
     city: string;
+    
   };
   items: IOrderItem[];
   pricing: {

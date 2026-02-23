@@ -25,12 +25,14 @@ export default function CustomizeOrderTable({
       city: order.customer.city,
       address: order.customer.address,
 
-      // NEW SCHEMA MAPPING
+      // UPDATED SCHEMA MAPPING
       occasion: order.cakeDetails?.occasion || "-",
       numTiers: order.cakeDetails?.numTiers || 1,
-      // Create a summary string of all tiers for easy viewing
+      estimatedWeight: order.cakeDetails?.estimatedWeight || 0,
+      
+      // Updated to use .inches instead of .size to match your new frontend logic
       tiersSummary: order.cakeDetails?.tiers?.map((t: any) => 
-        `${t.size}lb ${t.flavor} (${t.type})`
+        `${t.inches}" ${t.flavor || ""} (${t.type})`
       ).join(" | ") || "-",
       
       messageOn: order.cakeDetails?.messageOn || "-",
@@ -73,16 +75,21 @@ export default function CustomizeOrderTable({
     { field: "orderId", headerName: "ID", width: 90 },
     { field: "userName", headerName: "Customer", width: 140 },
     { field: "phone", headerName: "Phone", width: 120 },
-    { field: "email", headerName: "Email", width: 120 },
-    { field: "city", headerName: "City", width: 120 },
-    { field: "address", headerName: "Address", width: 120 },
+    { field: "city", headerName: "City", width: 100 },
+    { field: "address", headerName: "Address", width: 100 },
     { field: "occasion", headerName: "Occasion", width: 100, 
       renderCell: (params) => <span className="capitalize font-medium">{params.value}</span> 
     },
     { field: "numTiers", headerName: "Tiers", width: 70 },
     { 
+      field: "estimatedWeight", 
+      headerName: "Est. Weight (lb)", 
+      width: 120,
+      renderCell: (params) => <span className="font-bold text-main">{params.value} lb</span>
+    },
+    { 
       field: "tiersSummary", 
-      headerName: "Cake Configuration (Size/Flavor/Type)", 
+      headerName: "Cake Configuration (Inches/Flavor/Type)", 
       width: 300,
       renderCell: (params) => (
         <span className="text-xs italic whitespace-normal leading-relaxed">
@@ -92,10 +99,8 @@ export default function CustomizeOrderTable({
     },
     { field: "message", headerName: "Message", width: 150 },
     { field: "messageOn", headerName: "Message On", width: 150 },
-    { field: "specialInstruction", headerName: "Special Instruction", width: 150 },
-    { field: "orderType", headerName: "Order Type", width: 110 },
+    { field: "orderType", headerName: "Type", width: 90 },
     { field: "deliveryDate", headerName: "Date", width: 110 },
-    { field: "deliveryTime", headerName: "Time", width: 110 },
     { field: "totalAmount", headerName: "Total (SAR)", width: 110 },
 
     {
@@ -107,9 +112,10 @@ export default function CustomizeOrderTable({
           switch (status) {
             case "PENDING": return "#facc15";
             case "CONFIRMED": return "#60a5fa";
-            case "DESIGN_APPROVED": return "#ec4899"; // Pink for design
+            case "DESIGN_APPROVED": return "#ec4899";
             case "PREPARING": return "#a78bfa";
             case "READY": return "#34d399";
+            case "OUT_FOR_DELIVERY": return "#fb923c";
             case "DELIVERED": return "#16a34a";
             case "CANCELLED": return "#f87171";
             default: return "#9ca3af";
@@ -117,7 +123,7 @@ export default function CustomizeOrderTable({
         };
 
         const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-          const newStatus = e.target.value as CustomizeOrderType["orderStatus"];;
+          const newStatus = e.target.value as CustomizeOrderType["orderStatus"];
           setUpdating(true);
           try {
             const res = await axios.patch(`/api/customize-order/${params.row.id}`, { orderStatus: newStatus });
@@ -197,6 +203,10 @@ export default function CustomizeOrderTable({
         sx={{
           "& .MuiDataGrid-cell": {
             py: 2,
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            bgcolor: "#f9fafb",
+            fontWeight: "bold",
           },
         }}
       />

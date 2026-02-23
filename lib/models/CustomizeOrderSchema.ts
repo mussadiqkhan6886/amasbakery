@@ -13,14 +13,15 @@ const customOrderSchema = new mongoose.Schema(
       fullName: { type: String, required: true },
       phone: { type: String, required: true },
       email: { type: String, required: true },
-      city: {type: String, required: true},
-      address: {type: String, required: true}
+      city: { type: String, required: true },
+      address: { type: String, required: true }
     },
 
     cakeDetails: {
       occasion: String,
       numTiers: Number,
-      tiers: [],
+      tiers: [], // Stores the array of {inches, flavor, type}
+      estimatedWeight: Number, // ✅ ADDED: Stores the calculated weight from the frontend
       messageOn: String,
       message: String,
       specialInstruction: String,

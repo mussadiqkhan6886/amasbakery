@@ -17,7 +17,6 @@ export const POST = async (req: NextRequest) => {
     const pricing = JSON.parse(formData.get("pricing") as string);
 
     const files = formData.getAll("image");
-
     const uploadedImages: string[] = [];
 
     // ✅ Upload images to Cloudinary
@@ -37,7 +36,6 @@ export const POST = async (req: NextRequest) => {
 
       uploadedImages.push(result.secure_url);
     }
-
 
     const finalCustomer = {
       ...customer,
@@ -82,16 +80,16 @@ export const POST = async (req: NextRequest) => {
         <p><strong>Phone:</strong> ${customer.phone}</p>
         <p><strong>City:</strong> ${customer.city}</p>
         <p><strong>Occasion:</strong> ${cakeDetails.occasion}</p>
-    <p><strong>Total Weight:</strong> ${pricing.totalPrice / (cakeDetails.occasion === 'wedding' ? 90 : 70)} lb</p>
-    <p><strong>Tiers:</strong> ${cakeDetails.numTiers}</p>
-    <p><strong>Type:</strong> ${delivery.orderType}</p>
+        <p><strong>Est. Real Weight:</strong> ${cakeDetails.estimatedWeight || 0} lb</p>
+        <p><strong>Tiers:</strong> ${cakeDetails.numTiers}</p>
+        <p><strong>Type:</strong> ${delivery.orderType}</p>
         <hr/>
 
         <p><strong>Delivery Time:</strong> ${
           delivery.deliveryTime || "Not specified"
         }</p>
 
-        <p><strong>Total Amount:</strong> Rs. ${
+        <p><strong>Total Amount:</strong> SAR ${
           pricing?.totalAmount || 0
         }</p>
 
@@ -120,16 +118,16 @@ export const POST = async (req: NextRequest) => {
         <hr/>
 
         <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
-       
+        
         <p><strong>Delivery Time:</strong> ${
           delivery.deliveryTime || "Not specified"
         }</p>
         <p><strong>Occasion:</strong> ${cakeDetails.occasion}</p>
-    <p><strong>Total Weight:</strong> ${pricing.totalPrice / (cakeDetails.occasion === 'wedding' ? 90 : 70)} lb</p>
-    <p><strong>Tiers:</strong> ${cakeDetails.numTiers}</p>
-    <p><strong>Type:</strong> ${delivery.orderType}</p>
+        <p><strong>Est. Weight:</strong> ${cakeDetails.estimatedWeight || 0} lb</p>
+        <p><strong>Tiers:</strong> ${cakeDetails.numTiers}</p>
+        <p><strong>Type:</strong> ${delivery.orderType}</p>
 
-        <p><strong>Total Amount:</strong> Rs. ${
+        <p><strong>Total Amount:</strong> SAR ${
           pricing?.totalAmount || 0
         }</p>
 
