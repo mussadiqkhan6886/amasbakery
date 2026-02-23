@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import Image from "next/image";
-import { CustomizeOrderType, OrderStatus } from "@/type";
+import { CustomizeOrderType } from "@/type";
 import { FiTrash } from "react-icons/fi";
 import Link from "next/link";
 
@@ -15,7 +15,6 @@ export default function CustomizeOrderTable({
 }: {
   orders: CustomizeOrderType[];
 }) {
-    console.log(orders)
   const [rows, setRows] = React.useState(
     orders.map((order) => ({
       id: order._id,
@@ -24,20 +23,23 @@ export default function CustomizeOrderTable({
       email: order.customer.email,
       phone: order.customer.phone,
       city: order.customer.city,
+      address: order.customer.address,
 
-      cakeFlavor: order.cakeDetails?.cakeFlavor || "-",
-      cakeSize: order.cakeDetails?.cakeSize || "-",
-      tierCakeSize: order.cakeDetails?.tierCakeSize || "-",
-      cakeFlavorTopTier: order.cakeDetails?.cakeFlavorTopTier || "-",
-      cakeFlavorBottomTier: order.cakeDetails?.cakeFlavorBottomTier || "-",
+      // NEW SCHEMA MAPPING
+      occasion: order.cakeDetails?.occasion || "-",
+      numTiers: order.cakeDetails?.numTiers || 1,
+      // Create a summary string of all tiers for easy viewing
+      tiersSummary: order.cakeDetails?.tiers?.map((t: any) => 
+        `${t.size}lb ${t.flavor} (${t.type})`
+      ).join(" | ") || "-",
+      
       messageOn: order.cakeDetails?.messageOn || "-",
       message: order.cakeDetails?.message || "-",
       specialInstruction: order.cakeDetails?.specialInstruction || "-",
 
-      deliveryDate: new Date(
-        order.delivery.deliveryDate
-      ).toLocaleDateString(),
+      deliveryDate: new Date(order.delivery.deliveryDate).toLocaleDateString(),
       deliveryTime: order.delivery.deliveryTime || "-",
+      orderType: order.delivery.orderType || "-",
 
       totalAmount: order.pricing?.totalAmount || 0,
       deliveryCharges: order.pricing?.deliveryCharges || 0,
@@ -52,9 +54,7 @@ export default function CustomizeOrderTable({
   const [updating, setUpdating] = React.useState(false);
 
   const deleteOrder = async (id: string) => {
-    const confirmDelete = confirm(
-      "Are you sure you want to delete this order?"
-    );
+    const confirmDelete = confirm("Are you sure you want to delete this order?");
     if (!confirmDelete) return;
 
     try {
@@ -70,87 +70,74 @@ export default function CustomizeOrderTable({
   };
 
   const columns: GridColDef[] = [
-    { field: "orderId", headerName: "Order ID", width: 100 },
-    { field: "userName", headerName: "Customer", width: 150 },
-    { field: "email", headerName: "Email", width: 180 },
-    { field: "phone", headerName: "Phone", width: 130 },
+    { field: "orderId", headerName: "ID", width: 90 },
+    { field: "userName", headerName: "Customer", width: 140 },
+    { field: "phone", headerName: "Phone", width: 120 },
+    { field: "email", headerName: "Email", width: 120 },
     { field: "city", headerName: "City", width: 120 },
-    { field: "cakeSize", headerName: "Size", width: 100 },
-    { field: "cakeFlavorTopTier", headerName: "Cake Flavor Top Tier", width: 110 },
-    { field: "cakeFlavorBottomTier", headerName: "Cake Flavor Bottom Tier", width: 110 },
-    { field: "messageOn", headerName: "Message On", width: 110 },
-    { field: "message", headerName: "Message", width: 110 },
-    { field: "specialInstruction", headerName: "Special Instruction", width: 110 },
-    { field: "deliveryDate", headerName: "Delivery Date", width: 130 },
-    { field: "deliveryTime", headerName: "Delivery Time", width: 120 },
-    { field: "deliveryCharges", headerName: "Delivery (Rs)", width: 130 },
-    { field: "totalAmount", headerName: "Total (Rs)", width: 130 },
+    { field: "address", headerName: "Address", width: 120 },
+    { field: "occasion", headerName: "Occasion", width: 100, 
+      renderCell: (params) => <span className="capitalize font-medium">{params.value}</span> 
+    },
+    { field: "numTiers", headerName: "Tiers", width: 70 },
+    { 
+      field: "tiersSummary", 
+      headerName: "Cake Configuration (Size/Flavor/Type)", 
+      width: 300,
+      renderCell: (params) => (
+        <span className="text-xs italic whitespace-normal leading-relaxed">
+          {params.value}
+        </span>
+      )
+    },
+    { field: "message", headerName: "Message", width: 150 },
+    { field: "messageOn", headerName: "Message On", width: 150 },
+    { field: "specialInstruction", headerName: "Special Instruction", width: 150 },
+    { field: "orderType", headerName: "Order Type", width: 110 },
+    { field: "deliveryDate", headerName: "Date", width: 110 },
+    { field: "deliveryTime", headerName: "Time", width: 110 },
+    { field: "totalAmount", headerName: "Total (SAR)", width: 110 },
 
     {
       field: "orderStatus",
       headerName: "Status",
-      width: 190,
+      width: 180,
       renderCell: (params) => {
         const getColor = (status: string) => {
           switch (status) {
-            case "PENDING":
-              return "#facc15";
-            case "CONFIRMED":
-              return "#60a5fa";
-            case "PREPARING":
-              return "#a78bfa";
-            case "READY":
-              return "#34d399";
-            case "OUT_FOR_DELIVERY":
-              return "#22c55e";
-            case "DELIVERED":
-              return "#16a34a";
-            case "CANCELLED":
-              return "#f87171";
-            default:
-              return "#9ca3af";
+            case "PENDING": return "#facc15";
+            case "CONFIRMED": return "#60a5fa";
+            case "DESIGN_APPROVED": return "#ec4899"; // Pink for design
+            case "PREPARING": return "#a78bfa";
+            case "READY": return "#34d399";
+            case "DELIVERED": return "#16a34a";
+            case "CANCELLED": return "#f87171";
+            default: return "#9ca3af";
           }
         };
 
-        const handleChange = async (
-                e: React.ChangeEvent<HTMLSelectElement>
-                ) => {
-                const newStatus = e.target.value as CustomizeOrderType["orderStatus"];
-
-                setUpdating(true);
-
-                try {
-                    const res = await axios.patch(
-                    `/api/customize-order/${params.row.id}`,
-                    { orderStatus: newStatus }
-                    );
-
-                    if (res.data.success) {
-                    setRows((prev) =>
-                        prev.map((row) =>
-                        row.id === params.row.id
-                            ? { ...row, orderStatus: newStatus }
-                            : row
-                        )
-                    );
-                    }
-                } catch (error) {
-                    console.error(error);
-                } finally {
-                    setUpdating(false);
-                }
-                };
+        const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+          const newStatus = e.target.value as CustomizeOrderType["orderStatus"];;
+          setUpdating(true);
+          try {
+            const res = await axios.patch(`/api/customize-order/${params.row.id}`, { orderStatus: newStatus });
+            if (res.data.success) {
+              setRows((prev) => prev.map((row) => row.id === params.row.id ? { ...row, orderStatus: newStatus } : row));
+            }
+          } catch (error) {
+            console.error(error);
+          } finally {
+            setUpdating(false);
+          }
+        };
 
         return (
           <select
             disabled={updating}
             value={params.value}
             onChange={handleChange}
-            className="border rounded px-2 py-1 text-sm font-semibold"
-            style={{
-              backgroundColor: getColor(params.value),
-              color: "white",
-            }}
+            className="border rounded px-2 py-1 text-xs font-bold"
+            style={{ backgroundColor: getColor(params.value), color: "white" }}
           >
             <option value="PENDING">Pending</option>
             <option value="CONFIRMED">Confirmed</option>
@@ -167,52 +154,52 @@ export default function CustomizeOrderTable({
 
     {
       field: "referenceImage",
-      headerName: "Reference",
-      width: 120,
-      renderCell: (params) =>
-        params.row.referenceImage.length > 0 ? params.row.referenceImage.map((item: string) => (
-            <Link key={item} target="_blank" href={item}>
-                <Image
-                    src={item}
-                    alt="Reference"
-                    width={50}
-                    height={50}
-                    className="rounded border object-cover"
-                />
-            </Link>
-        )) : (
-          <span className="text-gray-400 text-sm">No Image</span>
-        ),
+      headerName: "Images",
+      width: 100,
+      renderCell: (params) => (
+        <div className="flex gap-1 overflow-x-auto py-2">
+          {params.row.referenceImage.length > 0 ? (
+            params.row.referenceImage.map((item: string, idx: number) => (
+              <Link key={idx} target="_blank" href={item}>
+                <Image src={item} alt="Ref" width={40} height={40} className="rounded border object-cover h-10 w-10" />
+              </Link>
+            ))
+          ) : (
+            <span className="text-gray-300 text-xs">None</span>
+          )}
+        </div>
+      ),
     },
-
-    { field: "createdAt", headerName: "Created At", width: 130 },
 
     {
       field: "actions",
       headerName: "Actions",
-      sortable: false,
-      width: 100,
+      width: 80,
       renderCell: (params) => (
-        <Box>
-          <IconButton
-            color="error"
-            onClick={() => deleteOrder(params.row.id)}
-          >
-            <FiTrash size={18} />
-          </IconButton>
-        </Box>
+        <IconButton color="error" onClick={() => deleteOrder(params.row.id)}>
+          <FiTrash size={16} />
+        </IconButton>
       ),
     },
   ];
 
   return (
-    <div style={{ width: "100%" }}>
+    <Box sx={{ height: 600, width: "100%", bgcolor: "white" }}>
       <DataGrid
         rows={rows}
         columns={columns}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 10 } },
+        }}
+        pageSizeOptions={[10, 25, 50]}
         disableRowSelectionOnClick
         getRowHeight={() => "auto"}
+        sx={{
+          "& .MuiDataGrid-cell": {
+            py: 2,
+          },
+        }}
       />
-    </div>
+    </Box>
   );
 }

@@ -38,31 +38,16 @@ export const POST = async (req: NextRequest) => {
       uploadedImages.push(result.secure_url);
     }
 
-    // ✅ Check daily limit
-    const control = await OrderControl.findOne();
 
-    if (!control) {
-      return NextResponse.json(
-        { success: false, message: "Order control not configured" },
-        { status: 500 }
-      );
-    }
-
-    if (
-      control.todayOrders.customCount >= control.dailyLimits.customLimit
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Custom cake bookings are full for today. Try tomorrow.",
-        },
-        { status: 400 }
-      );
-    }
+    const finalCustomer = {
+      ...customer,
+      city: delivery.orderType === "pickup" ? "Pickup" : customer.city,
+      address: delivery.orderType === "pickup" ? "Self Pickup" : customer.address,
+    };
 
     // ✅ Create order
     const newOrder = await CustomOrder.create({
-      customer,
+      customer: finalCustomer,
       cakeDetails: {
         ...cakeDetails,
         referenceImage: uploadedImages,
@@ -96,9 +81,10 @@ export const POST = async (req: NextRequest) => {
         <p><strong>Email:</strong> ${customer.email}</p>
         <p><strong>Phone:</strong> ${customer.phone}</p>
         <p><strong>City:</strong> ${customer.city}</p>
-        <p><strong>Cake Size:</strong> ${
-          cakeDetails.cakeSize || "Not specified"
-        }</p>
+        <p><strong>Occasion:</strong> ${cakeDetails.occasion}</p>
+    <p><strong>Total Weight:</strong> ${pricing.totalPrice / (cakeDetails.occasion === 'wedding' ? 90 : 70)} lb</p>
+    <p><strong>Tiers:</strong> ${cakeDetails.numTiers}</p>
+    <p><strong>Type:</strong> ${delivery.orderType}</p>
         <hr/>
 
         <p><strong>Delivery Time:</strong> ${
@@ -138,9 +124,10 @@ export const POST = async (req: NextRequest) => {
         <p><strong>Delivery Time:</strong> ${
           delivery.deliveryTime || "Not specified"
         }</p>
-        <p><strong>Cake Size:</strong> ${
-          cakeDetails.cakeSize || "Not specified"
-        }</p>
+        <p><strong>Occasion:</strong> ${cakeDetails.occasion}</p>
+    <p><strong>Total Weight:</strong> ${pricing.totalPrice / (cakeDetails.occasion === 'wedding' ? 90 : 70)} lb</p>
+    <p><strong>Tiers:</strong> ${cakeDetails.numTiers}</p>
+    <p><strong>Type:</strong> ${delivery.orderType}</p>
 
         <p><strong>Total Amount:</strong> Rs. ${
           pricing?.totalAmount || 0

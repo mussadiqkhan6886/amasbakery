@@ -14,14 +14,13 @@ const customOrderSchema = new mongoose.Schema(
       phone: { type: String, required: true },
       email: { type: String, required: true },
       city: {type: String, required: true},
+      address: {type: String, required: true}
     },
 
     cakeDetails: {
-      cakeFlavor: String,
-      cakeSize: String,
-      tierCakeSize: String,
-      cakeFlavorTopTier: String,
-      cakeFlavorBottomTier: String,
+      occasion: String,
+      numTiers: Number,
+      tiers: [],
       messageOn: String,
       message: String,
       specialInstruction: String,
@@ -29,6 +28,7 @@ const customOrderSchema = new mongoose.Schema(
     },
 
     delivery: {
+      orderType: String,
       deliveryDate: { type: Date, required: true },
       deliveryTime: String,
     },

@@ -48,16 +48,21 @@ export interface CartItem {
   cartKey?: string
 }
 
-export type OrderStatus =
-  | "PENDING"
-  | "CONFIRMED"
-  | "DESIGN_APPROVED"
-  | "PREPARING"
-  | "READY"
-  | "OUT_FOR_DELIVERY"
-  | "DELIVERED"
+export type OrderStatus = 
+  | "PENDING" 
+  | "CONFIRMED" 
+  | "DESIGN_APPROVED" 
+  | "PREPARING" 
+  | "READY" 
+  | "OUT_FOR_DELIVERY" 
+  | "DELIVERED" 
   | "CANCELLED";
 
+export interface TierConfig {
+  size: number;
+  flavor: string;
+  type: "Real" | "Dummy";
+}
 
 export interface CustomizeOrderType {
   _id: string;
@@ -68,29 +73,29 @@ export interface CustomizeOrderType {
     phone: string;
     email: string;
     city: string;
+    address?: string; // Added address for delivery
   };
 
-  cakeDetails?: {
-    cakeFlavor?: string;
-    cakeSize?: string;
-    tierCakeSize?: string;
-    cakeFlavorTopTier?: string;
-    cakeFlavorBottomTier?: string;
-    messageOn?: string;
+  cakeDetails: {
+    occasion: string; // "wedding", "birthday", etc.
+    numTiers: number;
+    tiers: TierConfig[]; // The array of tiers
+    messageOn: string;   // "no", "cake", or "board"
     message?: string;
     specialInstruction?: string;
     referenceImage?: string[];
   };
 
   delivery: {
+    orderType: "pickup" | "delivery";
     deliveryDate: string;
-    deliveryTime?: string;
+    deliveryTime: string;
   };
 
-  pricing?: {
-    totalPrice?: number;
-    deliveryCharges?: number;
-    totalAmount?: number;
+  pricing: {
+    totalPrice: number;     // Sum of cake tiers
+    deliveryCharges: number;
+    totalAmount: number;    // Final total
   };
 
   orderStatus: OrderStatus;
