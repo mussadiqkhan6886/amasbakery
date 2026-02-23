@@ -26,6 +26,7 @@ const Checkout = () => {
     phone: "",
     email: "",
     notes: "",
+    deliveryType: "",
     paymentMethod: "ONLINE",
     address: "",
     city: "",
@@ -42,10 +43,10 @@ const Checkout = () => {
 
   // Update delivery charges based on city
   useEffect(() => {
-  if (formData.city === "al-khobar") setDeliveryCharges(25);
-  else if (formData.city === "damam") setDeliveryCharges(35);
+  if (formData.city === "al-khobar" && formData.deliveryType !== "pickup") setDeliveryCharges(25);
+  else if (formData.city === "damam" && formData.deliveryType !== "pickup") setDeliveryCharges(35);
   else setDeliveryCharges(0);
-}, [formData.city]);
+}, [formData.city, formData.deliveryType]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -82,8 +83,8 @@ const Checkout = () => {
           fullName: formData.fullName,
           phone: formData.phone,
           email: formData.email,
-          city: formData.city,
-          address: formData.address,
+          city: formData.city || "-",
+          address: formData.address || "-",
         },
         items: cartItems.map((item) => ({
           productId: item.id,
@@ -103,7 +104,7 @@ const Checkout = () => {
         },
         delivery: {
           deliveryTimeSlot: deliveryTiming,
-          deliveryType: "DELIVERY",
+          deliveryType: formData.deliveryType,
         },
         payment: {
           method: formData.paymentMethod,
@@ -184,6 +185,30 @@ const Checkout = () => {
               className="border-gray-300 outline-none w-full p-3 border rounded-md"
             />
             <select
+              name="deliveryType"
+              value={formData.deliveryType}
+              onChange={handleChange}
+              className="border w-full border-gray-300 p-2 rounded-md"
+              required
+            >
+              <option value="">
+                {t("Select Delivery Type", "اختر نوع التوصيل", lang)}
+              </option>
+
+              <option value="pickup">
+                {t("Pick Up", "استلام", lang)}
+              </option>
+
+              <option value="delivery">
+                {t("Delivery", "توصيل", lang)}
+              </option>
+            </select>
+            {
+              formData.deliveryType === "pickup" && (<p className="text-sm text-zinc-600">{t("NOTE: Pickup Address will be whatsapp to you after order is confirm", "ملاحظة: سيتم إرسال عنوان الاستلام إليك عبر واتساب بعد تأكيد الطلب.", lang)}</p>)
+            }
+            {formData.deliveryType === "delivery" &&
+              (<>
+              <select
               name="city"
               value={formData.city}
               onChange={handleChange}
@@ -194,6 +219,7 @@ const Checkout = () => {
               <option value="al-khobar">{t("Al Khobar", "الخبر", lang)}</option>
               <option value="damam">{t("Dammam", "الدمام", lang)}</option>
             </select>
+            
             <input
               name="address"
               type="text"
@@ -203,6 +229,7 @@ const Checkout = () => {
               onChange={handleChange}
               className="border-gray-300 outline-none w-full p-3 border rounded-md"
             />
+            </>)}
           </div>
 
           {/* Notes */}
@@ -282,8 +309,8 @@ const Checkout = () => {
 
           <button
             type="submit"
-            disabled={loading || cartItems.length === 0 || !paymentProof}
-            className={`md:col-span-2 w-full cursor-pointer text-white py-3 rounded-md transition ${
+            disabled={loading || cartItems.length === 0 || !paymentProof || !formData.deliveryType}
+            className={`md:col-span-2 w-full disabled:opacity-40 cursor-pointer text-white py-3 rounded-md transition ${
               loading ? "bg-gray-600" : "bg-black hover:bg-gray-800"
             }`}
           >

@@ -133,6 +133,7 @@ export const POST = async (req: NextRequest) => {
         <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
         <p><strong>Customer:</strong> ${orderData.customer.fullName}</p>
         <p><strong>Phone:</strong> ${orderData.customer.phone}</p>
+        <p><strong>Delivery/Pickup:</strong> ${orderData.delivery.deliveryType}</p>
         <p><strong>City:</strong> ${orderData.customer.city}</p>
         <hr/>
         <h3>Items:</h3>
