@@ -13,6 +13,7 @@ const AdminHeader = () => {
     { name: 'Customize Orders', link: '/admin-dashboard/customize-orders' },
     { name: 'Customize Handler', link: '/admin-dashboard/customize-handler' },
     { name: 'Reviews', link: '/admin-dashboard/reviews' },
+    { name: 'Wedding', link: '/admin-dashboard/wedding-gallery' },
   ];
 
   return (

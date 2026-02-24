@@ -1,10 +1,9 @@
+import WeddingCakeOrder from '@/components/customer/WeddingCakeOrder'
 import React from 'react'
 
 const WeddingCake = () => {
   return (
-    <main>
-      
-    </main>
+      <WeddingCakeOrder />
   )
 }
 

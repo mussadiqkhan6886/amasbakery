@@ -22,7 +22,8 @@ export default function Header() {
     { name: lang === 'en' ? 'About' : 'من نحن', link: '/about' },
     { name: lang === 'en' ? 'Menu' : 'قائمة الطعام', link: '/collections/menu' },
     { name: lang === 'en' ? 'Customize Your Cake' : 'خصص كعكتك', link: '/customize-your-cake' },
-    { name: lang === 'en' ? 'Occasion Cakes' : 'كعكات المناسبات', link: '/collections/occasion-cakes' }
+    { name: lang === 'en' ? 'Occasion Cakes' : 'كعكات المناسبات', link: '/collections/occasion-cakes' },
+    { name: lang === 'en' ? 'Wedding Cake' : 'كعكة الزفاف ', link: '/wedding-cake' }
   ];
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -34,6 +35,7 @@ export default function Header() {
   pathname.includes("/collections/occasion-cakes") ||
   pathname.includes("/customize-your-cake") || 
   pathname.includes("/cart");
+  pathname.includes("/wedding-cake");
 
   return (
     <header
@@ -47,7 +49,7 @@ export default function Header() {
     backdrop-blur-md
     bg-white/10
     border border-white/20
-  ${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/add-review") || pathname.includes("/cart") || pathname.includes("/search") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") || pathname.includes("/thank-you/") ? "text-black" : "text-zinc-100"}
+  ${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/add-review") || pathname.includes("/cart") || pathname.includes("/search") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/wedding-cake") || pathname.includes("/shipping-and-returns") || pathname.includes("/thank-you/") ? "text-black" : "text-zinc-100"}
     z-50
   `}
 >
@@ -56,7 +58,7 @@ export default function Header() {
       <Link
         key={i}
         href={link.link}
-        className={`${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") || pathname.includes("/thank-you/") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal tracking-wider `}
+        className={`${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") || pathname.includes("/wedding-cake") || pathname.includes("/thank-you/") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal tracking-wider `}
       >
         {link.name}
       </Link>
