@@ -9,30 +9,76 @@ import Link from "next/link";
 import Image from "next/image";
 
 interface TierConfig {
-  inches: number;
+  lb: number;
   flavor: string;
   type: "Real" | "Dummy";
 }
 
-const STORAGE_KEY = "amas_cake_draft_v2";
+interface SettingsConfig {
+  realCakePricePerLb: number;
+  dummyCakePricePerLb: number;
+  minTotalWeight: number;
+  deliveryFeeKhobar: number;
+  deliveryFeeDammam: number;
+  flavors: string[];
+  maxTiers: number;
+}
+
+const STORAGE_KEY = "amas_cake_draft_v3";
 
 export default function CustomizeYourCake() {
   const { t, lang } = useLanguage();
   const [loading, setLoading] = useState(false);
+  const [loadingSettings, setLoadingSettings] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [step, setStep] = useState(1);
   const [bookedDates, setBookedDates] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
+  
+  // DYNAMIC SETTINGS FROM ADMIN
+  const [settings, setSettings] = useState<SettingsConfig | null>(null);
 
   // Form States
   const [occasion, setOccasion] = useState<string>("");
   const [orderType, setOrderType] = useState<"delivery" | "pickup">("pickup");
   const [numTiers, setNumTiers] = useState<number>(1);
-  const [tiers, setTiers] = useState<TierConfig[]>([
-    { inches: 0, flavor: "", type: "Real" },
-    { inches: 0, flavor: "", type: "Real" },
-    { inches: 0, flavor: "", type: "Real" },
-  ]);
+  // 1. Update the initial state to be more flexible
+const [tiers, setTiers] = useState<TierConfig[]>(
+  Array(6).fill(null).map(() => ({ lb: 0, flavor: "", type: "Real" }))
+);
+
+// 2. Add this useEffect to handle dynamic tier initialization 
+// based on the settings fetched from the admin
+useEffect(() => {
+  if (settings?.maxTiers) {
+    setTiers(prev => {
+      // If we already have enough tiers, don't reset (to keep user input)
+      if (prev.length >= settings.maxTiers) return prev;
+      
+      // Otherwise, expand the array to match maxTiers
+      const newTiers = [...prev];
+      while (newTiers.length < settings.maxTiers) {
+        newTiers.push({ lb: 0, flavor: "", type: "Real" });
+      }
+      return newTiers;
+    });
+  }
+}, [settings]);
+
+// 3. Update handleTierChange to be safe
+const handleTierChange = (index: number, field: keyof TierConfig, value: any) => {
+  setTiers((prev) => {
+    const newTiers = [...prev];
+    // Ensure the index exists before modifying
+    if (newTiers[index]) {
+      newTiers[index] = { 
+        ...newTiers[index], 
+        [field]: field === 'lb' ? Number(value) : value 
+      };
+    }
+    return newTiers;
+  });
+};
   
   const [details, setDetails] = useState({
     fullName: "",
@@ -46,6 +92,33 @@ export default function CustomizeYourCake() {
     messageOn: "no",
     message: ""
   });
+
+  // --- 0. FETCH SETTINGS ---
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await axios.get("/api/customize-settings");
+        if (res.data.success) {
+          setSettings(res.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch settings, using defaults");
+        // Fallback defaults if DB fails
+        setSettings({
+          realCakePricePerLb: 70,
+          dummyCakePricePerLb: 10,
+          minTotalWeight: 3,
+          deliveryFeeKhobar: 25,
+          deliveryFeeDammam: 35,
+          maxTiers: 3,
+          flavors: ["Vanilla Raspberry", "Chocolate Moist", "Pistachio"]
+        });
+      } finally {
+        setLoadingSettings(false);
+      }
+    };
+    fetchSettings();
+  }, []);
 
   // --- 1. PERSISTENCE LOGIC ---
   useEffect(() => {
@@ -66,11 +139,11 @@ export default function CustomizeYourCake() {
   }, []);
 
   useEffect(() => {
-    if (!submitted) {
+    if (!submitted && !loadingSettings) {
       const draft = { occasion, orderType, numTiers, tiers, details, step };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
     }
-  }, [occasion, orderType, numTiers, tiers, details, step, submitted]);
+  }, [occasion, orderType, numTiers, tiers, details, step, submitted, loadingSettings]);
 
   // --- 2. FETCH BOOKED DATES ---
   useEffect(() => {
@@ -82,66 +155,65 @@ export default function CustomizeYourCake() {
           return d.toISOString().split("T")[0];
         });
         setBookedDates(dates);
-      } catch (e) { console.error("Error fetching dates", e); }
+      } catch (e) { 
+        console.error("Error fetching dates", e); 
+      }
     };
     fetchOrders();
   }, []);
 
-  // --- 3. PRICING & VALIDATION (NEW INCH/DUMMY LOGIC) ---
+  // --- 3. DYNAMIC PRICING LOGIC ---
   const pricing = useMemo(() => {
-    const ratePerLb = occasion === "wedding" ? 90 : 70;
-    const dummyRatePerInch = 10;
-    const minRequired = occasion === "wedding" ? 6 : 3;
+    if (!settings) return { rate: 0, realWeight: 0, cakePrice: 0, deliveryPrice: 0, totalAmount: 0, isMinMet: false, minRequired: 0 };
 
-    let estimatedRealWeight = 0;
+    const ratePerLb = settings.realCakePricePerLb; 
+    const dummyRatePerLb = settings.dummyCakePricePerLb; 
+    const minRequired = settings.minTotalWeight; 
+
+    let totalRealWeight = 0;
     let totalCakePrice = 0;
 
     tiers.slice(0, numTiers).forEach((tier) => {
-      const inch = Number(tier.inches) || 0;
+      const weight = Number(tier.lb) || 0;
       
       if (tier.type === "Real") {
-        const estWeight = inch > 0 ? (inch * inch) / 24 : 0;
-        estimatedRealWeight += estWeight;
-        totalCakePrice += estWeight * ratePerLb;
+        totalRealWeight += weight;
+        totalCakePrice += weight * ratePerLb;
       } else {
-        totalCakePrice += inch * dummyRatePerInch;
+        totalCakePrice += weight * dummyRatePerLb;
       }
     });
 
-    estimatedRealWeight = Math.round(estimatedRealWeight * 10) / 10;
+    totalRealWeight = Math.round(totalRealWeight * 10) / 10;
     totalCakePrice = Math.round(totalCakePrice);
 
     let deliveryPrice = 0;
     if (orderType === "delivery") {
-      deliveryPrice = details.city === "al-khobar" ? 25 : details.city === "damam" ? 35 : 0;
+      if (details.city === "al-khobar") deliveryPrice = settings.deliveryFeeKhobar;
+      else if (details.city === "damam") deliveryPrice = settings.deliveryFeeDammam;
     }
 
     return {
       rate: ratePerLb,
-      realWeight: estimatedRealWeight,
+      realWeight: totalRealWeight,
       cakePrice: totalCakePrice,
       deliveryPrice,
       totalAmount: totalCakePrice + deliveryPrice,
-      isMinMet: estimatedRealWeight >= minRequired,
+      isMinMet: totalRealWeight >= minRequired,
       minRequired
     };
-  }, [occasion, tiers, numTiers, details.city, orderType]);
+  }, [tiers, numTiers, details.city, orderType, settings]);
 
   const minDate = useMemo(() => {
     const today = new Date();
-    const daysToAdd = occasion === "wedding" ? 4 : 2;
-    today.setDate(today.getDate() + daysToAdd);
+    today.setDate(today.getDate() + 2); // Minimum 2 days notice
     return today.toISOString().split("T")[0];
-  }, [occasion]);
-
-  const handleTierChange = (index: number, field: keyof TierConfig, value: any) => {
-    const newTiers = [...tiers];
-    newTiers[index] = { ...newTiers[index], [field]: field === 'inches' ? Number(value) : value };
-    setTiers(newTiers);
-  };
+  }, []);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) setImages(Array.from(e.target.files));
+    if (e.target.files) {
+      setImages(Array.from(e.target.files));
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -178,23 +250,38 @@ export default function CustomizeYourCake() {
       }));
 
       for (const file of images) {
-        const compressed = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 1200 });
+        const compressed = await imageCompression(file, { 
+          maxSizeMB: 1, 
+          maxWidthOrHeight: 1200 
+        });
         formData.append("image", compressed);
       }
 
-      const res = await fetch("/api/customize-order", { method: "POST", body: formData });
+      const res = await fetch("/api/customize-order", { 
+        method: "POST", 
+        body: formData 
+      });
+
       if (res.ok) {
         localStorage.removeItem(STORAGE_KEY);
         setSubmitted(true);
       } else {
-        alert(lang === "ar" ? "فشل تقديم الطلب" : "Submission failed");
+        alert(lang === "ar" ? "فشل تقديم الطلب. يرجى المحاولة لاحقاً" : "Submission failed. Please try again.");
       }
     } catch (error) {
-      alert(lang === "ar" ? "حدث خطأ ما" : "Something went wrong");
+      alert(lang === "ar" ? "حدث خطأ ما غير متوقع" : "An unexpected error occurred");
     } finally {
       setLoading(false);
     }
   };
+
+  if (loadingSettings || !settings) {
+    return (
+      <div className="min-h-screen pt-32 pb-20 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-main"></div>
+      </div>
+    );
+  }
 
   return (
     <main className={`min-h-screen pt-24 pb-20 px-4 bg-gray-50 ${lang === "ar" ? "rtl text-right" : "ltr text-left"}`} dir={lang === "ar" ? "rtl" : "ltr"}>
@@ -212,26 +299,24 @@ export default function CustomizeYourCake() {
           <div className="bg-white shadow-xl rounded-3xl overflow-hidden border border-gray-100">
             <form onSubmit={handleSubmit}>
               
-              {/* STEP 1: STRUCTURE */}
+              {/* STEP 1: BASIC INFO & OCCASION */}
               {step === 1 && (
                 <div className="p-8 space-y-8 animate-in fade-in duration-500">
                   <div>
                     <label className="block text-lg font-semibold mb-4">
                       {t("1. Select Occasion", "١. اختر المناسبة", lang)}
                     </label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {['Wedding', 'Birthday', 'Engagement', 'Corporate'].map((occ) => (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      {['Birthday', 'Engagement', 'Corporate'].map((occ) => (
                         <button
                           key={occ} type="button"
                           onClick={() => setOccasion(occ.toLowerCase())}
                           className={`p-4 rounded-xl border-2 transition-all ${occasion === occ.toLowerCase() ? "border-main bg-pink-50 text-main shadow-md" : "border-gray-100 hover:border-pink-200"}`}
                         >
                           <span className="block text-sm font-bold">
-                            {t(occ, occ === 'Wedding' ? 'زواج' : occ === 'Birthday' ? 'ميلاد' : occ === 'Engagement' ? 'خطوبة' : 'شركات', lang)}
+                            {t(occ, occ === 'Birthday' ? 'ميلاد' : occ === 'Engagement' ? 'خطوبة' : 'شركات', lang)}
                           </span>
-                          <span dir="ltr" className="text-[10px] opacity-70">
-                            {occ === 'Wedding' ? '90 SAR/lb' : '70 SAR/lb'}
-                          </span>
+                          <span className="text-[10px] opacity-70">{settings.realCakePricePerLb} SAR/lb</span>
                         </button>
                       ))}
                     </div>
@@ -241,16 +326,22 @@ export default function CustomizeYourCake() {
                     <label className="block text-lg font-semibold mb-4">
                       {t("2. Number of Tiers", "٢. عدد الأدوار", lang)}
                     </label>
-                    <div className="flex gap-4">
-                      {[1, 2, 3].map((n) => (
+                    <div className="flex flex-wrap gap-4">
+                      {Array.from({ length: settings.maxTiers }).map((_, i) => {
+                      const n = i + 1;
+                      return (
                         <button
-                          key={n} type="button"
+                          key={n}
+                          type="button"
                           onClick={() => setNumTiers(n)}
-                          className={`flex-1 p-4 rounded-xl border-2 transition-all ${numTiers === n ? "border-main bg-pink-50 text-main shadow-md" : "border-gray-100"}`}
+                          className={`flex-1 min-w-[80px] p-4 rounded-xl border-2 transition-all ${
+                            numTiers === n ? "border-main bg-pink-50 text-main shadow-md" : "border-gray-100"
+                          }`}
                         >
                           {n} {lang === 'ar' ? (n === 1 ? 'دور' : 'أدوار') : (n === 1 ? 'Tier' : 'Tiers')}
                         </button>
-                      ))}
+                      );
+                      })}
                     </div>
                   </div>
 
@@ -264,7 +355,7 @@ export default function CustomizeYourCake() {
                 </div>
               )}
 
-              {/* STEP 2: DESIGN & FLAVOR */}
+              {/* STEP 2: TIER SPECIFICATIONS */}
               {step === 2 && (
                 <div className="p-8 space-y-6 animate-in slide-in-from-right duration-500">
                   {Array.from({ length: numTiers }).map((_, i) => (
@@ -278,25 +369,23 @@ export default function CustomizeYourCake() {
                           <select 
                             value={tiers[i].type} 
                             className="w-full p-2 mt-1 border rounded-lg bg-white outline-none focus:border-main" 
-                            onChange={(e) => handleTierChange(i, 'type', e.target.value)}
+                            onChange={(e) => handleTierChange(i, 'type', e.target.value as "Real" | "Dummy")}
                           >
                             <option value="Real">{t("Real Cake", "كيك حقيقي", lang)}</option>
                             <option value="Dummy">{t("Dummy (Styrofoam)", "مجسم (فلين)", lang)}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="text-xs font-bold text-gray-400">{t("Size (Inches)", "الحجم (بوصة)", lang)}</label>
+                          <label className="text-xs font-bold text-gray-400">{t("Weight (lb)", "الوزن (باوند)", lang)}</label>
                           <input 
-                            value={tiers[i].inches || ""} 
+                            value={tiers[i].lb || ""} 
                             type="number" 
-                            placeholder="e.g. 6" 
+                            placeholder="e.g. 3" 
                             className="w-full p-2 mt-1 border rounded-lg bg-white outline-none focus:border-main" 
-                            onChange={(e) => handleTierChange(i, 'inches', e.target.value)} 
+                            onChange={(e) => handleTierChange(i, 'lb', e.target.value)} 
                           />
                           <p className="text-[10px] text-gray-400 mt-1">
-                            {tiers[i].type === 'Real' 
-                              ? t("Prices converted to lb automatically", "يتم تحويل السعر للوزن تلقائياً", lang) 
-                              : t("10 SAR per inch", "١٠ ريال لكل بوصة", lang)}
+                            {tiers[i].type === 'Real' ? `${settings.realCakePricePerLb} SAR/lb` : `${settings.dummyCakePricePerLb} SAR/lb`}
                           </p>
                         </div>
                         {tiers[i].type === 'Real' && (
@@ -308,9 +397,9 @@ export default function CustomizeYourCake() {
                               onChange={(e) => handleTierChange(i, 'flavor', e.target.value)}
                             >
                               <option value="">{t("Choose Flavor", "اختر النكهة", lang)}</option>
-                              <option value="Vanilla Raspberry">{t("Vanilla Raspberry", "فانيلا توت", lang)}</option>
-                              <option value="Chocolate Moist">{t("Chocolate Moist", "شوكلاتة مويست", lang)}</option>
-                              <option value="Pistachio">{t("Pistachio", "فستق", lang)}</option>
+                              {settings.flavors.map((flavor, fIdx) => (
+                                <option key={fIdx} value={flavor}>{flavor}</option>
+                              ))}
                             </select>
                           </div>
                         )}
@@ -343,26 +432,27 @@ export default function CustomizeYourCake() {
                   <div>
                     <label className="block font-semibold mb-2">{t("Reference Image (Optional)", "صورة مرجعية (اختياري)", lang)}</label>
                     <input type="file" multiple onChange={handleFileChange} className="w-full p-3 border-2 border-dashed rounded-xl cursor-pointer" />
+                    <p className="text-xs text-gray-400 mt-2">{t("Upload up to 3 images for inspiration.", "يمكنك رفع حتى ٣ صور للتصميم.", lang)}</p>
                   </div>
 
                   <div className="flex gap-4">
-                    <button type="button" onClick={() => setStep(1)} className="flex-1 border-2 py-4 rounded-xl font-bold hover:bg-gray-50">
+                    <button type="button" onClick={() => setStep(1)} className="flex-1 border-2 py-4 rounded-xl font-bold hover:bg-gray-50 transition-colors">
                       {t("Back", "رجوع", lang)}
                     </button>
-                    <button type="button" onClick={() => setStep(3)} className="flex-1 bg-main text-white py-4 rounded-xl font-bold shadow-lg">
+                    <button type="button" onClick={() => setStep(3)} className="flex-1 bg-main text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-all">
                       {t("Next: Delivery", "التالي: التوصيل", lang)}
                     </button>
                   </div>
                 </div>
               )}
 
-              {/* STEP 3: LOGISTICS & PRICE */}
+              {/* STEP 3: CUSTOMER & LOGISTICS */}
               {step === 3 && (
                 <div className="p-8 space-y-6 animate-in slide-in-from-right duration-500">
                   <div className="grid md:grid-cols-2 gap-4">
-                    <input value={details.fullName} type="text" placeholder={t("Full Name", "الاسم الكامل", lang)} required className="p-3 border rounded-xl" onChange={(e)=>setDetails({...details, fullName: e.target.value})} />
-                    <input value={details.phone} type="tel" placeholder={t("Phone (WhatsApp)", "رقم الجوال (واتساب)", lang)} required className="p-3 border rounded-xl" onChange={(e)=>setDetails({...details, phone: e.target.value})} />
-                    <input value={details.email} type="email" placeholder={t("Email", "البريد الإلكتروني", lang)} required className="p-3 border rounded-xl" onChange={(e)=>setDetails({...details, email: e.target.value})} />
+                    <input value={details.fullName} type="text" placeholder={t("Full Name", "الاسم الكامل", lang)} required className="p-3 border rounded-xl outline-none focus:border-main" onChange={(e)=>setDetails({...details, fullName: e.target.value})} />
+                    <input value={details.phone} type="tel" placeholder={t("Phone (WhatsApp)", "رقم الجوال (واتساب)", lang)} required className="p-3 border rounded-xl outline-none focus:border-main" onChange={(e)=>setDetails({...details, phone: e.target.value})} />
+                    <input value={details.email} type="email" placeholder={t("Email", "البريد الإلكتروني", lang)} required className="p-3 border rounded-xl outline-none focus:border-main" onChange={(e)=>setDetails({...details, email: e.target.value})} />
                   </div>
 
                   <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
@@ -378,7 +468,7 @@ export default function CustomizeYourCake() {
                     <div>
                       <label className="text-xs font-bold text-gray-400">{t("Date", "التاريخ", lang)}</label>
                       <input 
-                        type="date" min={minDate} value={details.deliveryDate} required className="w-full p-3 border rounded-xl"
+                        type="date" min={minDate} value={details.deliveryDate} required className="w-full p-3 border rounded-xl outline-none"
                         onChange={(e) => {
                           if(bookedDates.includes(e.target.value)) {
                             alert(lang === "ar" ? "هذا التاريخ محجوز بالكامل" : "This date is already fully booked.");
@@ -389,7 +479,7 @@ export default function CustomizeYourCake() {
                     </div>
                     <div>
                       <label className="text-xs font-bold text-gray-400">{t("Time Slot", "الوقت", lang)}</label>
-                      <select value={details.deliveryTime} required className="w-full p-3 border rounded-xl" onChange={(e)=>setDetails({...details, deliveryTime: e.target.value})}>
+                      <select value={details.deliveryTime} required className="w-full p-3 border rounded-xl outline-none" onChange={(e)=>setDetails({...details, deliveryTime: e.target.value})}>
                         <option value="">{t("Select Slot", "اختر الوقت", lang)}</option>
                         <option value="4-6">4 PM - 6 PM</option>
                         <option value="6-10">6 PM - 10 PM</option>
@@ -397,19 +487,14 @@ export default function CustomizeYourCake() {
                     </div>
                   </div>
 
-                  {orderType === 'delivery' ? (
+                  {orderType === 'delivery' && (
                     <div className="space-y-4 animate-in fade-in">
-                      <select value={details.city} required className="w-full p-3 border rounded-xl" onChange={(e)=>setDetails({...details, city: e.target.value})}>
+                      <select value={details.city} required className="w-full p-3 border rounded-xl outline-none" onChange={(e)=>setDetails({...details, city: e.target.value})}>
                         <option value="">{t("Select City", "اختر المدينة", lang)}</option>
-                        <option value="al-khobar">{t("Al Khobar (25 SAR)", "الخبر (٢٥ ريال)", lang)}</option>
-                        <option value="damam">{t("Dammam (35 SAR)", "الدمام (٣٥ ريال)", lang)}</option>
+                        <option value="al-khobar">{t(`Al Khobar (${settings.deliveryFeeKhobar} SAR)`, `الخبر (${settings.deliveryFeeKhobar} ريال)`, lang)}</option>
+                        <option value="damam">{t(`Dammam (${settings.deliveryFeeDammam} SAR)`, `الدمام (${settings.deliveryFeeDammam} ريال)`, lang)}</option>
                       </select>
-                      <input value={details.address} type="text" placeholder={t("Full Address", "العنوان بالكامل", lang)} className="w-full p-3 border rounded-xl" onChange={(e)=>setDetails({...details, address: e.target.value})} />
-                    </div>
-                  ) : (
-                    <div className="p-4 bg-blue-50 text-blue-700 rounded-xl text-sm border border-blue-100 flex items-center gap-2">
-                      <span>📍</span>
-                      {t("Shop address shared via WhatsApp after confirmation.", "سيتم مشاركة موقع المحل عبر الواتساب بعد التأكيد.", lang)}
+                      <input value={details.address} type="text" placeholder={t("Full Address (Street, District)", "العنوان بالكامل (الشارع، الحي)", lang)} className="w-full p-3 border rounded-xl outline-none" onChange={(e)=>setDetails({...details, address: e.target.value})} />
                     </div>
                   )}
                 
@@ -418,7 +503,7 @@ export default function CustomizeYourCake() {
                       <span className="text-sm text-gray-600">
                         {t("Total Cake Price", "سعر الكيك", lang)} <br/>
                         <span className="text-[10px] italic">
-                          ({t(`Real Est. ${pricing.realWeight} lb + Dummies`, `الوزن الحقيقي المتوقع ${pricing.realWeight} باوند + المجسمات`, lang)})
+                          ({t(`Total Real weight: ${pricing.realWeight} lb`, `إجمالي الوزن الحقيقي: ${pricing.realWeight} باوند`, lang)})
                         </span>
                       </span>
                       <span className="font-bold">{pricing.cakePrice} SAR</span>
@@ -439,16 +524,14 @@ export default function CustomizeYourCake() {
                     {!pricing.isMinMet && (
                       <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm font-bold text-center border border-red-200">
                         ⚠️ {lang === "ar" 
-                          ? `الحد الأدنى لـ ${t(occasion, "", lang)} هو ${pricing.minRequired} باوند. حالياً: ${pricing.realWeight} باوند.` 
-                          : `Minimum real cake size for ${occasion} is ${pricing.minRequired} lb. Current: ${pricing.realWeight} lb.`}
-                        <br/>
-                        {t("Please increase the size of your 'Real' tiers.", "يرجى زيادة حجم الأدوار 'الحقيقية'.", lang)}
+                          ? `الحد الأدنى للطلب هو ${pricing.minRequired} باوند كيك حقيقي. حالياً: ${pricing.realWeight} باوند.` 
+                          : `Minimum order is ${pricing.minRequired} lb of real cake. Current: ${pricing.realWeight} lb.`}
                       </div>
                     )}
                   </div>
 
                   <div className="flex gap-4">
-                    <button type="button" onClick={() => setStep(2)} className="flex-1 border-2 py-4 rounded-xl font-bold hover:bg-gray-50">
+                    <button type="button" onClick={() => setStep(2)} className="flex-1 border-2 py-4 rounded-xl font-bold hover:bg-gray-50 transition-colors">
                       {t("Back", "رجوع", lang)}
                     </button>
                     <button 
@@ -466,9 +549,9 @@ export default function CustomizeYourCake() {
           <div className="text-center p-20 bg-white rounded-3xl shadow-xl animate-in zoom-in duration-300">
               <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">✓</div>
               <h2 className="text-3xl font-bold text-gray-800">{t("Order Placed!", "تم استلام طلبك!", lang)}</h2>
-              <p className="text-gray-500 mt-4">{t("We'll contact you on WhatsApp soon.", "سنتواصل معك عبر الواتساب قريباً.", lang)}</p>
+              <p className="text-gray-500 mt-4">{t("We'll contact you on WhatsApp soon to confirm your design and payment.", "سنتواصل معك عبر الواتساب قريباً لتأكيد التصميم والدفع.", lang)}</p>
               <Link href="/">
-                <button className="mt-8 text-main font-bold underline hover:opacity-80 transition-all">
+                <button className="mt-8 px-8 py-3 bg-main text-white rounded-xl font-bold shadow-md hover:opacity-90 transition-all">
                   {t("Back to Home", "العودة للرئيسية", lang)}
                 </button>
               </Link>

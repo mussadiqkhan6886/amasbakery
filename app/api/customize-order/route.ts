@@ -69,74 +69,69 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
+    // ✅ Generate Tiers Summary for Email
+    const tiersHtml = cakeDetails.tiers?.map((t: any, i: number) => (
+      `<li style="font-size:14px;">Tier ${i + 1}: <strong>${t.lb} lb</strong> - ${t.flavor || 'N/A'} (${t.type})</li>`
+    )).join("") || "No tier info";
+
     // ================= ADMIN EMAIL =================
     const adminHtml = `
-      <div style="font-family:Arial;padding:20px">
-        <h2>🎂 New Custom Cake Order</h2>
+      <div style="font-family:Arial;padding:20px; color: #333;">
+        <h2 style="color: #db2777;">🎂 New Custom Cake Order</h2>
 
         <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
         <p><strong>Customer:</strong> ${customer.fullName}</p>
-        <p><strong>Email:</strong> ${customer.email}</p>
         <p><strong>Phone:</strong> ${customer.phone}</p>
-        <p><strong>City:</strong> ${customer.city}</p>
-        <p><strong>Occasion:</strong> ${cakeDetails.occasion}</p>
-        <p><strong>Est. Real Weight:</strong> ${cakeDetails.estimatedWeight || 0} lb</p>
-        <p><strong>Tiers:</strong> ${cakeDetails.numTiers}</p>
+        <p><strong>Occasion:</strong> <span style="text-transform: capitalize;">${cakeDetails.occasion}</span></p>
+        <p><strong>Total Weight:</strong> ${cakeDetails.estimatedWeight || 0} lb (Real Cake)</p>
+        
+        <p><strong>Tier Breakdown:</strong></p>
+        <ul>${tiersHtml}</ul>
+
+        <p><strong>Message:</strong> ${cakeDetails.message || "None"}</p>
         <p><strong>Type:</strong> ${delivery.orderType}</p>
-        <hr/>
+        <hr style="border:none; border-top: 1px solid #eee;"/>
 
-        <p><strong>Delivery Time:</strong> ${
-          delivery.deliveryTime || "Not specified"
-        }</p>
+        <p><strong>Delivery/Pickup Date:</strong> ${delivery.deliveryDate}</p>
+        <p><strong>Time Slot:</strong> ${delivery.deliveryTime || "Not specified"}</p>
 
-        <p><strong>Total Amount:</strong> SAR ${
-          pricing?.totalAmount || 0
-        }</p>
+        <p style="font-size: 18px;"><strong>Total Amount:</strong> <span style="color: #db2777;">SAR ${pricing?.totalAmount || 0}</span></p>
 
         <br/>
-        <a href="https://amasbakery.vercel.app/admin-dashboard">
+        <a href="https://amasbakery.vercel.app/admin-dashboard" style="background: #db2777; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
           👉 View in Admin Dashboard
         </a>
       </div>
     `;
+
     await transporter.sendMail({
       from: `"Amas Bakery Orders" <${process.env.EMAIL_USER}>`,
       to: "sadafsafdar18@gmail.com",
-      subject: "New Custom Cake Order 🎂",
+      subject: `New Custom Order #${newOrder.orderId} 🎂`,
       html: adminHtml,
     });
 
     // ================= CUSTOMER EMAIL =================
     const customerHtml = `
-      <div style="font-family:Arial;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;">
-        <h2>🎉 Your Custom Cake Order is Confirmed!</h2>
-
+      <div style="font-family:Arial;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb; color: #333;">
+        <h2 style="color: #db2777;">🎉 Your Custom Cake Order is Confirmed!</h2>
         <p>Hi <strong>${customer.fullName}</strong>,</p>
-
-        <p>Thank you for choosing <strong>Amas Bakery</strong> 💕</p>
-
-        <hr/>
+        <p>Thank you for choosing <strong>Amas Bakery</strong> 💕. We have received your customization request.</p>
+        <hr style="border:none; border-top: 1px solid #eee;"/>
 
         <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
-        
-        <p><strong>Delivery Time:</strong> ${
-          delivery.deliveryTime || "Not specified"
-        }</p>
         <p><strong>Occasion:</strong> ${cakeDetails.occasion}</p>
-        <p><strong>Est. Weight:</strong> ${cakeDetails.estimatedWeight || 0} lb</p>
-        <p><strong>Tiers:</strong> ${cakeDetails.numTiers}</p>
-        <p><strong>Type:</strong> ${delivery.orderType}</p>
+        <p><strong>Total Weight:</strong> ${cakeDetails.estimatedWeight || 0} lb</p>
+        
+        <p><strong>Configuration:</strong></p>
+        <ul>${tiersHtml}</ul>
 
-        <p><strong>Total Amount:</strong> SAR ${
-          pricing?.totalAmount || 0
-        }</p>
+        <p><strong>Total Amount:</strong> SAR ${pricing?.totalAmount || 0}</p>
 
-        <hr/>
-
+        <hr style="border:none; border-top: 1px solid #eee;"/>
         <p style="font-size:14px;color:#6b7280;">
-          We will contact you soon for design confirmation.
+          We will contact you soon on WhatsApp for design confirmation and payment details.
         </p>
-
         <p style="margin-top:20px;">
           — <strong>Amas Bakery Team</strong> 🎂
         </p>
@@ -168,13 +163,9 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-// ================= GET ALL ORDERS =================
-
 export const GET = async () => {
   await connectDB();
-
   const orders = await CustomOrder.find().sort({ createdAt: -1 });
-
   return NextResponse.json({
     success: true,
     data: orders,

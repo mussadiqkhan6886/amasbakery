@@ -11,6 +11,7 @@ const AdminHeader = () => {
     { name: 'Menu Orders', link: '/admin-dashboard/menu-orders' },
     { name: 'Occasion Orders', link: '/admin-dashboard/occasion-orders' },
     { name: 'Customize Orders', link: '/admin-dashboard/customize-orders' },
+    { name: 'Customize Handler', link: '/admin-dashboard/customize-handler' },
     { name: 'Reviews', link: '/admin-dashboard/reviews' },
   ];
 

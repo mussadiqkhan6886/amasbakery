@@ -25,14 +25,13 @@ export default function CustomizeOrderTable({
       city: order.customer.city,
       address: order.customer.address,
 
-      // UPDATED SCHEMA MAPPING
       occasion: order.cakeDetails?.occasion || "-",
       numTiers: order.cakeDetails?.numTiers || 1,
       estimatedWeight: order.cakeDetails?.estimatedWeight || 0,
       
-      // Updated to use .inches instead of .size to match your new frontend logic
+      // FIXED: Changed .inches to .lb to match your updated frontend logic
       tiersSummary: order.cakeDetails?.tiers?.map((t: any) => 
-        `${t.inches}" ${t.flavor || ""} (${t.type})`
+        `${t.lb}lb ${t.flavor || ""} (${t.type})`
       ).join(" | ") || "-",
       
       messageOn: order.cakeDetails?.messageOn || "-",
@@ -83,13 +82,14 @@ export default function CustomizeOrderTable({
     { field: "numTiers", headerName: "Tiers", width: 70 },
     { 
       field: "estimatedWeight", 
-      headerName: "Est. Weight (lb)", 
+      headerName: "Total Weight (lb)", 
       width: 120,
       renderCell: (params) => <span className="font-bold text-main">{params.value} lb</span>
     },
     { 
       field: "tiersSummary", 
-      headerName: "Cake Configuration (Inches/Flavor/Type)", 
+      // FIXED: Updated Header name to reflect Lb instead of Inches
+      headerName: "Cake Configuration (Lb/Flavor/Type)", 
       width: 300,
       renderCell: (params) => (
         <span className="text-xs italic whitespace-normal leading-relaxed">
