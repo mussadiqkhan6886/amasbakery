@@ -136,31 +136,59 @@ export const POST = async (req: NextRequest) => {
     });
 
     // ================= CUSTOMER EMAIL =================
-    const customerHtml = `
-      <div style="font-family:Arial;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb; color: #333;">
-        <h2 style="color: #db2777;">🎉 Your Custom Cake Order is Confirmed!</h2>
-        <p>Hi <strong>${customer.fullName}</strong>,</p>
-        <p>Thank you for choosing <strong>Amas Bakery</strong> 💕. We have received your customization request.</p>
-        <hr style="border:none; border-top: 1px solid #eee;"/>
+   const customerHtml = `
+  <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #f0f0f0; border-radius: 8px; color: #444; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="color: #db2777; margin-bottom: 5px;">🍰 We’ve Received Your Cake Request!</h2>
+      <p style="color: #6b7280; font-size: 14px; margin-top: 0;">Order Reference: #<strong>${newOrder.orderId}</strong></p>
+    </div>
 
-        <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
-        <p><strong>Occasion:</strong> ${cakeDetails.occasion}</p>
-        <p><strong>Total Weight:</strong> ${cakeDetails.estimatedWeight || 0} lb</p>
-        
-        <p><strong>Configuration:</strong></p>
-        <ul>${tiersHtml}</ul>
+    <p>Hi <strong>${customer.fullName}</strong>,</p>
+    
+    <p>Thank you for choosing <strong>Amas Bakery</strong> 💕. We’re excited to help make your celebration special! We have received your customization details and our team is currently reviewing them.</p>
+    
+    <div style="background-color: #fff5f7; padding: 15px; border-radius: 6px; margin: 20px 0;">
+      <h3 style="color: #db2777; margin-top: 0; font-size: 16px;">What Happens Next?</h3>
+      <p style="margin-bottom: 0; font-size: 15px;">
+        Our head baker will review your design. <strong>We will contact you shortly via WhatsApp</strong> to confirm the final design details, delivery timing, and provide you with the payment link.
+      </p>
+    </div>
 
-        <p><strong>Total Amount:</strong> SAR ${pricing?.totalAmount || 0}</p>
+    <hr style="border:none; border-top: 1px solid #eee; margin: 20px 0;"/>
 
-        <hr style="border:none; border-top: 1px solid #eee;"/>
-        <p style="font-size:14px;color:#6b7280;">
-          We will contact you soon on WhatsApp for design confirmation and payment details.
-        </p>
-        <p style="margin-top:20px;">
-          — <strong>Amas Bakery Team</strong> 🎂
-        </p>
-      </div>
-    `;
+    <h4 style="margin-bottom: 10px;">Summary of Your Request:</h4>
+    <table style="width: 100%; font-size: 14px;">
+      <tr>
+        <td style="padding: 5px 0; color: #6b7280;">Occasion:</td>
+        <td style="padding: 5px 0; text-align: right;"><strong>${cakeDetails.occasion}</strong></td>
+      </tr>
+      <tr>
+        <td style="padding: 5px 0; color: #6b7280;">Estimated Weight:</td>
+        <td style="padding: 5px 0; text-align: right;"><strong>${cakeDetails.estimatedWeight || 0} lb</strong></td>
+      </tr>
+      <tr>
+        <td style="padding: 5px 0; color: #6b7280;">Estimated Total:</td>
+        <td style="padding: 5px 0; text-align: right; color: #db2777; font-size: 16px;"><strong>SAR ${pricing?.totalAmount || 0}</strong></td>
+      </tr>
+    </table>
+
+    <div style="margin-top: 15px;">
+      <p style="font-size: 13px; color: #9ca3af; margin-bottom: 5px;">Configuration Details:</p>
+      <ul style="padding-left: 20px; font-size: 13px; color: #4b5563;">${tiersHtml}</ul>
+    </div>
+
+    <hr style="border:none; border-top: 1px solid #eee; margin: 20px 0;"/>
+
+    <p style="font-size: 14px; text-align: center; color: #6b7280;">
+      Keep an eye on your WhatsApp! We'll be in touch soon.
+    </p>
+    
+    <p style="margin-top: 30px; text-align: center; border-top: 1px solid #f9f9f9; padding-top: 20px;">
+      Best regards,<br/>
+      <strong>Amas Bakery Team</strong> 🎂
+    </p>
+  </div>
+`;
 
     await transporter.sendMail({
       from: `"Amas Bakery Orders" <${process.env.EMAIL_USER}>`,

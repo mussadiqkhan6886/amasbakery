@@ -89,7 +89,8 @@ const WeddingCakeOrder = () => {
             {images.map((img) => (
               <div key={img._id} className="relative group overflow-hidden rounded-2xl break-inside-avoid shadow-sm border border-gray-100">
                 <Image 
-                  fill
+                  width={300}
+                  height={400}
                   src={img.imageUrl} 
                   alt="Wedding Cake" 
                   className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"

@@ -34,10 +34,8 @@ export default function CustomizeYourCake() {
   const [step, setStep] = useState(1);
   const [bookedDates, setBookedDates] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
-  const [paymentProof, setPaymentProof] = useState<File>()
   // DYNAMIC SETTINGS FROM ADMIN
   const [settings, setSettings] = useState<SettingsConfig | null>(null);
-  const [paymentPreview, setPaymentPreview] = useState<string>("")
   // Form States
   const [occasion, setOccasion] = useState<string>("");
   const [orderType, setOrderType] = useState<"delivery" | "pickup">("pickup");
@@ -257,14 +255,6 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
         formData.append("image", compressed);
       }
 
-      if(paymentProof === undefined) return
-
-      const compressedPayment = await imageCompression(paymentProof, {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1200
-      })
-
-      formData.append("paymentProof", compressedPayment)
 
       const res = await fetch("/api/customize-order", { 
         method: "POST", 
@@ -283,13 +273,6 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
       setLoading(false);
     }
   };
-
-  const handleFileChangePayment = (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files?.[0]) {
-        setPaymentProof(e.target.files[0]);
-        setPaymentPreview(URL.createObjectURL(e.target.files[0]));
-      }
-    };
 
   if (loadingSettings || !settings) {
     return (
@@ -513,16 +496,9 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                       <input value={details.address} type="text" placeholder={t("Full Address (Street, District)", "العنوان بالكامل (الشارع، الحي)", lang)} className="w-full p-3 border rounded-xl outline-none" onChange={(e)=>setDetails({...details, address: e.target.value})} />
                     </div>
                   )}
-                    <p className="font-semibold text-lg">Payment:</p>
-                  <div className="p-3 flex flex-col gap-2 px-5 bg-zinc-100 shadow-inner text-sm">
-                    <p className="font-semibold">STC BANK</p>
-                    <p><span className="font-semibold">IBAN:</span> SA9278000000001258715768</p>
-                    <p><span className="font-semibold">Account:</span> 561812342</p>
-                  </div>
-                  <label className="block text-sm font-medium mt-2">
-                  {t("Upload Payment Proof", "رفع إثبات الدفع", lang)}
-                  </label>
-                  <div className="p-6 bg-pink-50 rounded-3xl border-2 border-main border-dashed">
+                  
+                  {/* <div className="p-6 bg-pink-50 rounded-3xl border-2 border-main border-dashed"> */}
+                  {/* 
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-gray-600">
                         {t("Total Cake Price", "سعر الكيك", lang)} <br/>
@@ -531,29 +507,47 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                         </span>
                       </span>
                       <span className="font-bold">{pricing.cakePrice} SAR</span>
-                    </div>
+                    </div> */}
 
-                    {orderType === 'delivery' && (
+                    {/* {orderType === 'delivery' && (
                       <div className="flex justify-between items-center mb-2">
                         <span className="text-sm">{t("Delivery Fee", "رسوم التوصيل", lang)}</span>
                         <span className="font-bold">{pricing.deliveryPrice} SAR</span>
                       </div>
-                    )}
+                    )} */}
 
-                    <div className="border-t border-pink-200 mt-4 pt-4 flex justify-between items-center">
+                    {/* <div className="border-t border-pink-200 mt-4 pt-4 flex justify-between items-center">
                       <span className="text-lg font-bold">{t("Total Amount", "المبلغ الإجمالي", lang)}</span>
                       <span className="text-3xl font-black text-main">{pricing.totalAmount} SAR</span>
-                    </div>
+                    </div> */}
 
-                    {!pricing.isMinMet && (
+                    
+                    
+                  {/* </div> */}
+
+                  {!pricing.isMinMet && (
                       <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm font-bold text-center border border-red-200">
                         ⚠️ {lang === "ar" 
                           ? `الحد الأدنى للطلب هو ${pricing.minRequired} باوند كيك حقيقي. حالياً: ${pricing.realWeight} باوند.` 
                           : `Minimum order is ${pricing.minRequired} lb of real cake. Current: ${pricing.realWeight} lb.`}
                       </div>
                     )}
-                    
-                  </div>
+
+                    <div className="mt-4 p-4 bg-blue-50 text-blue-800 rounded-lg text-sm font-bold text-center border border-blue-200 shadow-sm">
+  {lang === "ar" 
+    ? (
+      <>
+        <p>السعر النهائي يعتمد على تفاصيل التصميم المختارة.</p>
+        <p className="mt-1 text-xs font-medium">سنتواصل معك قريباً عبر الواتساب لتأكيد الطلب والدفع.</p>
+      </>
+    ) : (
+      <>
+        <p>Final payment depends on your specific design details.</p>
+        <p className="mt-1 text-xs font-medium">We will contact you soon via WhatsApp for confirmation and payment.</p>
+      </>
+    )
+  }
+</div>
 
                   <div className="flex gap-4">
                     <button type="button" onClick={() => setStep(2)} className="flex-1 border-2 py-4 rounded-xl font-bold hover:bg-gray-50 transition-colors">
