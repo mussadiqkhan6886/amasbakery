@@ -534,20 +534,20 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                     )}
 
                     <div className="mt-4 p-4 bg-blue-50 text-blue-800 rounded-lg text-sm font-bold text-center border border-blue-200 shadow-sm">
-  {lang === "ar" 
-    ? (
-      <>
-        <p>السعر النهائي يعتمد على تفاصيل التصميم المختارة.</p>
-        <p className="mt-1 text-xs font-medium">سنتواصل معك قريباً عبر الواتساب لتأكيد الطلب والدفع.</p>
-      </>
-    ) : (
-      <>
-        <p>Final payment depends on your specific design details.</p>
-        <p className="mt-1 text-xs font-medium">We will contact you soon via WhatsApp for confirmation and payment.</p>
-      </>
-    )
-  }
-</div>
+                      {lang === "ar" 
+                        ? (
+                          <>
+                            <p>السعر النهائي يعتمد على تفاصيل التصميم المختارة.</p>
+                            <p className="mt-1 text-xs font-medium">سنتواصل معك قريباً عبر الواتساب لتأكيد الطلب والدفع.</p>
+                          </>
+                        ) : (
+                          <>
+                            <p>Final payment depends on your specific design details.</p>
+                            <p className="mt-1 text-xs font-medium">We will contact you soon via WhatsApp for confirmation and payment.</p>
+                          </>
+                        )
+                      }
+                    </div>
 
                   <div className="flex gap-4">
                     <button type="button" onClick={() => setStep(2)} className="flex-1 border-2 py-4 rounded-xl font-bold hover:bg-gray-50 transition-colors">
