@@ -157,7 +157,7 @@ export default function CustomizeOrderTable({
         <div className="flex gap-1 overflow-x-auto py-2">
           {params.value?.map((item: string, idx: number) => (
             <Link key={idx} target="_blank" href={item}>
-              <Image src={item} alt="Ref" width={40} height={40} className="rounded border object-cover h-10 w-10" />
+              <Image src={item} alt="Ref" width={40} height={40} className="rounded border object-cover h-16 w-16" />
             </Link>
           ))}
         </div>
