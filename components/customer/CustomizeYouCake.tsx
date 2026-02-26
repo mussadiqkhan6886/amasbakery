@@ -34,10 +34,10 @@ export default function CustomizeYourCake() {
   const [step, setStep] = useState(1);
   const [bookedDates, setBookedDates] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
-  
+  const [paymentProof, setPaymentProof] = useState<File>()
   // DYNAMIC SETTINGS FROM ADMIN
   const [settings, setSettings] = useState<SettingsConfig | null>(null);
-
+  const [paymentPreview, setPaymentPreview] = useState<string>("")
   // Form States
   const [occasion, setOccasion] = useState<string>("");
   const [orderType, setOrderType] = useState<"delivery" | "pickup">("pickup");
@@ -257,6 +257,15 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
         formData.append("image", compressed);
       }
 
+      if(paymentProof === undefined) return
+
+      const compressedPayment = await imageCompression(paymentProof, {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1200
+      })
+
+      formData.append("paymentProof", compressedPayment)
+
       const res = await fetch("/api/customize-order", { 
         method: "POST", 
         body: formData 
@@ -274,6 +283,13 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
       setLoading(false);
     }
   };
+
+  const handleFileChangePayment = (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files?.[0]) {
+        setPaymentProof(e.target.files[0]);
+        setPaymentPreview(URL.createObjectURL(e.target.files[0]));
+      }
+    };
 
   if (loadingSettings || !settings) {
     return (
@@ -497,7 +513,33 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                       <input value={details.address} type="text" placeholder={t("Full Address (Street, District)", "العنوان بالكامل (الشارع، الحي)", lang)} className="w-full p-3 border rounded-xl outline-none" onChange={(e)=>setDetails({...details, address: e.target.value})} />
                     </div>
                   )}
-                
+                    <p className="font-semibold text-lg">Payment:</p>
+                  <div className="p-3 flex flex-col gap-2 px-5 bg-zinc-100 shadow-inner text-sm">
+                    <p className="font-semibold">STC BANK</p>
+                    <p><span className="font-semibold">IBAN:</span> SA9278000000001258715768</p>
+                    <p><span className="font-semibold">Account:</span> 561812342</p>
+                  </div>
+                  <label className="block text-sm font-medium mt-2">
+                  {t("Upload Payment Proof", "رفع إثبات الدفع", lang)}
+                  </label>
+                  <input
+                    type="file"
+                    required
+                    accept="image/*"
+                    onChange={handleFileChangePayment}
+                    className="block w-full mt-2 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-gray-300 file:bg-gray-200 hover:file:bg-gray-300"
+                  />
+                  {paymentPreview && (
+                    <div className="mt-3">
+                      <Image
+                        src={paymentPreview}
+                        alt="Payment proof"
+                        width={200}
+                        height={200}
+                        className="rounded-md border"
+                      />
+                    </div>
+                  )}
                   <div className="p-6 bg-pink-50 rounded-3xl border-2 border-main border-dashed">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-gray-600">
@@ -528,6 +570,7 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                           : `Minimum order is ${pricing.minRequired} lb of real cake. Current: ${pricing.realWeight} lb.`}
                       </div>
                     )}
+                    
                   </div>
 
                   <div className="flex gap-4">

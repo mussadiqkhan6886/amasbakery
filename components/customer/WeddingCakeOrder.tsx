@@ -6,6 +6,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { FaWhatsapp, FaInstagram } from "react-icons/fa";
 import axios from "axios";
 import Image from "next/image";
+import Link from 'next/link';
 
 interface GalleryImage {
   _id: string;
@@ -52,22 +53,22 @@ const WeddingCakeOrder = () => {
         
         {/* Contact Actions */}
         <div className="flex flex-wrap justify-center gap-4 mt-10">
-          <a 
+          <Link 
             href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
             className="flex items-center gap-3 bg-green-600 text-white px-8 py-4 rounded-full font-bold hover:bg-green-700 transition-all shadow-lg hover:scale-105"
           >
             <FaWhatsapp size={24} />
             {t("Book via WhatsApp", "احجز عبر الواتساب", lang)}
-          </a>
-          <a 
+          </Link>
+          <Link
             href={`https://instagram.com/${instagramUser}`}
             target="_blank"
             className="flex items-center gap-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white px-8 py-4 rounded-full font-bold hover:opacity-90 transition-all shadow-lg hover:scale-105"
           >
             <FaInstagram size={24} />
             {t("View Instagram", "شاهد الإنستقرام", lang)}
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -87,7 +88,8 @@ const WeddingCakeOrder = () => {
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
             {images.map((img) => (
               <div key={img._id} className="relative group overflow-hidden rounded-2xl break-inside-avoid shadow-sm border border-gray-100">
-                <img 
+                <Image 
+                  fill
                   src={img.imageUrl} 
                   alt="Wedding Cake" 
                   className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"

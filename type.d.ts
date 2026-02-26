@@ -99,6 +99,10 @@ export interface CustomizeOrderType {
     totalAmount: number;    // Final total
   };
 
+  payment: {
+    paymentProofImage: string
+  }
+
   orderStatus: OrderStatus;
 
   createdAt: string;

@@ -53,7 +53,7 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
                 currentImage === item ? "border-black" : "border-transparent"
               }`}
             >
-              <Image src={item} alt="thumbnail" width={80} height={80} className="object-cover w-20 h-20" />
+              <Image src={item} alt="thumbnail image" width={80} height={80} className="object-cover w-20 h-20" />
             </div>
           ))}
         </div>

@@ -84,8 +84,8 @@ export default function Header() {
 
   {/* Right Side */}
   <div className="flex items-center gap-4">
-    <Link target="_blank" href={"https://api.whatsapp.com/send/?phone=966561812342&text&type=phone_number&app_absent=0"} className="bg-green-500/80 hidden lg:block hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
-      <FiPhoneCall size={16} />
+    <Link aria-label="whatsapp link" target="_blank" href={"https://api.whatsapp.com/send/?phone=966561812342&text&type=phone_number&app_absent=0"} className="bg-green-500/80 hidden lg:block hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
+      <FiPhoneCall name="phonecall whatsapp icon" size={16} />
     </Link>
 
     <div className="flex items-center gap-3 text-lg">
@@ -111,8 +111,8 @@ export default function Header() {
       value={lang}
       className="bg-transparent hidden lg:block border border-white/20 rounded-md px-2 py-1 text-sm focus:outline-none"
     >
-      <option value="en" className="text-black">EN</option>
-      <option value="ar" className="text-black">AR</option>
+      <option aria-label="english" value="en" className="text-black">EN</option>
+      <option aria-label="arabic" value="ar" className="text-black">AR</option>
     </select>
   </div>
       {open && <SideBarCart open={open} onClose={() => setOpen(false)} />}

@@ -23,7 +23,7 @@ interface Props {
 const CategoryCard = ({header, link, data, delay}: Props) => {
   const {t, lang} = useLanguage()
   return (
-    <div className='rounded-md w-full max-w-[500px] flex flex-col items-center justify-center bg-main/80 text-light'>
+    <div className='rounded-md w-full max-w-[500px] flex flex-col items-center justify-center bg-main text-light'>
         <h4 className={`${playFair.className} p-1 ml-4 mt-3 text-3xl`}>{t(header.en, header.ar, lang)}</h4>
         <div className='w-full'>
         <SwiperCard data={data} delay={delay} />
