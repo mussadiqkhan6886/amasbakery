@@ -15,8 +15,8 @@ const Footer = () => {
           <FiInstagram />
         </Link>
           <Link href="mailto:sadafsafdar18@gmail.com">
-        </Link>
-        <FiMail />
+            <FiMail />
+          </Link>
       </div>
       <div className='flex gap-4 flex-col md:flex-row justify-between py-5 px-2 items-center'>
         <div className='flex flex-col gap-2 text-[12px]'>
