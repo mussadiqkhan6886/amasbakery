@@ -17,7 +17,7 @@ export default function MenuOrders() {
         );
         console.log(res)
         const filtered = res.data.data.filter((order: MenuOccasionOrderType) => 
-          order.items.some((item: {orderType: string}) => item.orderType === "MENU")
+          order.items.some((item: {orderType: string}) => item.orderType === "MENU" || item.orderType === "GIFT")
         );
         setOrders(filtered);
       } catch (error) {

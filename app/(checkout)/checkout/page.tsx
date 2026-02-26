@@ -104,7 +104,7 @@ const Checkout = () => {
         },
         delivery: {
           deliveryTimeSlot: deliveryTiming,
-          deliveryType: formData.deliveryType,
+          deliveryType: formData.deliveryType.toUpperCase(),
         },
         payment: {
           method: formData.paymentMethod,
