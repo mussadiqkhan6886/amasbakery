@@ -15,7 +15,7 @@ const orderItemSchema = new mongoose.Schema({
   specialInstructions: String,
   orderType: {
       type: String,
-      enum: ["MENU", "OCCASION-CAKES"],
+      enum: ["MENU", "OCCASION-CAKES", "GIFT"],
       required: true,
     },
 });

@@ -21,7 +21,8 @@ const AddToCart = ({
   specialInstruction,
 }: CartItem) => {
   const { t, lang } = useLanguage();
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
+
   
   // Initialize as numbers
   const [currentCount, setCurrentCount] = useState(0);

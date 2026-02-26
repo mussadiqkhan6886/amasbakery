@@ -199,7 +199,7 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
       {/* ADD TO CART */}
       <AddToCart
         id={product._id}
-        type={product.type.toUpperCase()}
+        type={product.category.en === "Gift" ? "GIFT" : product.type.toUpperCase()}
         titleEn={product.name.en}
         titleAr={product.name.ar}
         image={product.image[0]}
