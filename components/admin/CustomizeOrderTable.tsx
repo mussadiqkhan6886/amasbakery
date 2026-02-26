@@ -77,30 +77,6 @@ export default function CustomizeOrderTable({
     { field: "tiersSummary", headerName: "Cake Configuration", width: 250 },
     { field: "totalAmount", headerName: "Total (SAR)", width: 110 },
     
-    // PAYMENT PROOF COLUMN
-    { 
-      field: "paymentProof", 
-      headerName: "Payment", 
-      width: 100, 
-      renderCell: (params) => (
-        <div className="flex items-center h-full">
-          {params.value ? (
-            <Link target="_blank" href={params.value}>
-              <Image 
-                src={params.value} 
-                alt="Proof" 
-                width={60} 
-                height={60} 
-                className="rounded  object-cover h-16 w-16 hover:scale-110 transition-transform" 
-              />
-            </Link>
-          ) : (
-            <span className="text-red-400 text-[10px]">No Proof</span>
-          )}
-        </div>
-      ) 
-    },
-
     {
       field: "orderStatus",
       headerName: "Status",

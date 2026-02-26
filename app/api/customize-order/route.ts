@@ -143,10 +143,7 @@ export const POST = async (req: NextRequest) => {
         <td style="padding: 5px 0; color: #6b7280;">Estimated Weight:</td>
         <td style="padding: 5px 0; text-align: right;"><strong>${cakeDetails.estimatedWeight || 0} lb</strong></td>
       </tr>
-      <tr>
-        <td style="padding: 5px 0; color: #6b7280;">Estimated Total:</td>
-        <td style="padding: 5px 0; text-align: right; color: #db2777; font-size: 16px;"><strong>SAR ${pricing?.totalAmount || 0}</strong></td>
-      </tr>
+      
     </table>
 
     <div style="margin-top: 15px;">
