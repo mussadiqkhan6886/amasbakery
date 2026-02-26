@@ -4,6 +4,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import HtmlLangSetter from "@/components/customer/HTMLLangSelector";
 import { roboto } from "@/lib/fonts";
 import { CartContextProvider } from "@/context/CartContext";
+import Language from "@/components/customer/Language";
 
 export const metadata: Metadata = {
   title: {
@@ -65,6 +66,7 @@ export default function RootLayout({
         <LanguageProvider>
           <CartContextProvider>
             {children}
+            <Language />
           </CartContextProvider>
           <HtmlLangSetter />
         </LanguageProvider>

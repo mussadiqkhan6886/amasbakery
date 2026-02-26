@@ -23,7 +23,8 @@ export default function Header() {
     { name: lang === 'en' ? 'Menu' : 'قائمة الطعام', link: '/collections/menu' },
     { name: lang === 'en' ? 'Customize Your Cake' : 'خصص كعكتك', link: '/customize-your-cake' },
     { name: lang === 'en' ? 'Occasion Cakes' : 'كعكات المناسبات', link: '/collections/occasion-cakes' },
-    { name: lang === 'en' ? 'Wedding Cake' : 'كعكة الزفاف ', link: '/wedding-cake' }
+    { name: lang === 'en' ? 'Wedding Cake' : 'كعكة الزفاف ', link: '/wedding-cake' },
+    { name: lang === 'en' ? 'Gifts' : 'الهدايا  ', link: '/collections/gifts' }
   ];
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -32,6 +33,7 @@ export default function Header() {
 
   const isCollectionPage =
   pathname.includes("/collections/menu") ||
+  pathname.includes("/collections/gifts") ||
   pathname.includes("/collections/occasion-cakes") ||
   pathname.includes("/customize-your-cake") || 
   pathname.includes("/cart");
@@ -49,28 +51,10 @@ export default function Header() {
     backdrop-blur-md
     bg-white/10
     border border-white/20
-  ${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/add-review") || pathname.includes("/cart") || pathname.includes("/search") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/wedding-cake") || pathname.includes("/shipping-and-returns") || pathname.includes("/thank-you/") ? "text-black" : "text-zinc-100"}
+  ${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/collections/gifts") || pathname.includes("/customize-your-cake") || pathname.includes("/add-review") || pathname.includes("/cart") || pathname.includes("/search") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/wedding-cake") || pathname.includes("/shipping-and-returns") || pathname.includes("/thank-you/") ? "text-black" : "text-zinc-100"}
     z-50
   `}
 >
-  <nav className="hidden lg:flex gap-6 text-sm">
-    {headerLinks.map((link, i) => (
-      <Link
-        key={i}
-        href={link.link}
-        className={`${pathname.includes("/about") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") || pathname.includes("/wedding-cake") || pathname.includes("/thank-you/") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal tracking-wider `}
-      >
-        {link.name}
-      </Link>
-    ))}
-  </nav>
-
-  <nav className="block lg:hidden">
-    <FiMenu size={23} onClick={() => setShowSideBar(true)} />
-    {showSideBar && <SIdeBar setShowSideBar={setShowSideBar} headerLinks={headerLinks} />}
-  </nav>
-
-  {/* Logo */}
   <Link href="/" className={`${lang === "en" ? "lg:mr-35" : "lg:ml-50"} flex justify-center`}>
     <Image
       src="/logo.webp"
@@ -81,9 +65,24 @@ export default function Header() {
       priority
     />
   </Link>
+  
+  <nav className="hidden lg:flex gap-6 text-sm">
+    {headerLinks.map((link, i) => (
+      <Link
+        key={i}
+        href={link.link}
+        className={`${pathname.includes("/about") || pathname.includes("/collections/gifts") || pathname.includes("/collections") || pathname.includes("/customize-your-cake") || pathname.includes("/privacy-policy") || pathname.includes("/terms-and-condition") || pathname.includes("/shipping-and-returns") || pathname.includes("/wedding-cake") || pathname.includes("/thank-you/") ? "hover:text-main" : "hover:text-white"} transition duration-300 hover:scale-110 border-b border-transparent hover:border-normal tracking-wider `}
+      >
+        {link.name}
+      </Link>
+    ))}
+  </nav>
+
+  
 
   {/* Right Side */}
   <div className="flex items-center gap-4">
+    
     <Link aria-label="whatsapp link" target="_blank" href={"https://api.whatsapp.com/send/?phone=966561812342&text&type=phone_number&app_absent=0"} className="bg-green-500/80 hidden lg:block hover:bg-green-500 hover:scale-110 transition p-3 rounded-full backdrop-blur-md">
       <FiPhoneCall name="phonecall whatsapp icon" size={16} />
     </Link>
@@ -105,15 +104,11 @@ export default function Header() {
       <FiSearch onClick={() => setSearchOpen(true)} className="cursor-pointer hover:scale-110 transition" />
         {searchOpen && <Search setSearchOpen={setSearchOpen} />}
     </div>
-
-    <select
-      onChange={handleChange}
-      value={lang}
-      className="bg-transparent hidden lg:block border border-white/20 rounded-md px-2 py-1 text-sm focus:outline-none"
-    >
-      <option aria-label="english" value="en" className="text-black">EN</option>
-      <option aria-label="arabic" value="ar" className="text-black">AR</option>
-    </select>
+<nav className="block lg:hidden">
+    <FiMenu size={23} onClick={() => setShowSideBar(true)} />
+    {showSideBar && <SIdeBar setShowSideBar={setShowSideBar} headerLinks={headerLinks} />}
+  </nav>
+    
   </div>
       {open && <SideBarCart open={open} onClose={() => setOpen(false)} />}
 </header>

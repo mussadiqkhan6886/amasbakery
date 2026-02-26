@@ -9,7 +9,7 @@ import React from 'react';
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const categories = ["menu", "occasion-cakes"]
+  const categories = ["menu", "occasion-cakes", "gifts"]
   
   return categories.map((collection: string) => ({
     collection: collection,
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ collectio
   const title = collection.charAt(0).toUpperCase() + collection.slice(1);
 
   return {
-    title: `${title} | Amas Bakery`,
+    title: `${title}`,
     description: `Explore our delicious selection of ${collection} at Amas Bakery. Handcrafted treats available for delivery in Al Khobar and Dammam.`,
     openGraph: {
       title: `${title} Collection | Amas Bakery`,
@@ -31,22 +31,37 @@ export async function generateMetadata({ params }: { params: Promise<{ collectio
   };
 }
 
-// 3. The Main Component
 const Category = async ({ params }: { params: Promise<{ collection: string }> }) => {
   const { collection } = await params;
-
   await connectDB();
-  const res = await Product.find({ type: collection });
-  const products = JSON.parse(JSON.stringify(res));
+
+  let products: ProductType[] = [];
+
+  if (collection === 'gifts') {
+    const res = await Product.find({ 
+      type: 'menu',
+      'category.en': "Gift"
+    });
+    products = JSON.parse(JSON.stringify(res));
+  } else {
+    // 2. Normal behavior: fetch by type matching the URL param
+    const res = await Product.find({ type: collection });
+    products = JSON.parse(JSON.stringify(res));
+  }
+
 
   return (
     <main className="min-h-screen max-w-8xl mx-auto px-4 py-8 bg-white text-black">
       <MenuHeading collection={collection} />
       <section className="max-w-6xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {products.map((item: ProductType, i: number) => (
-            <Card key={i} item={item} />
-          ))}
+          {products.length > 0 ? (
+            products.map((item: ProductType, i: number) => (
+              <Card key={i} item={item} />
+            ))
+          ) : (
+            <p className="col-span-full text-center py-10">No products found in this category.</p>
+          )}
         </div>
       </section>
     </main>

@@ -13,7 +13,7 @@ const Language = () => {
     <select
       onChange={handleChange}
       value={lang}
-      className="bg-zinc-200 block lg:hidden border border-white/20 rounded-md px-2 py-1 text-sm z-50 focus:outline-none fixed bottom-4 -right-0.5"
+      className="bg-zinc-200 block border border-white/20 rounded-md px-2 py-1 text-sm z-50 focus:outline-none fixed bottom-4 -right-0.5"
     >
       <option value="en" className="text-black">EN</option>
       <option value="ar" className="text-black">AR</option>

@@ -522,24 +522,6 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                   <label className="block text-sm font-medium mt-2">
                   {t("Upload Payment Proof", "رفع إثبات الدفع", lang)}
                   </label>
-                  <input
-                    type="file"
-                    required
-                    accept="image/*"
-                    onChange={handleFileChangePayment}
-                    className="block w-full mt-2 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-gray-300 file:bg-gray-200 hover:file:bg-gray-300"
-                  />
-                  {paymentPreview && (
-                    <div className="mt-3">
-                      <Image
-                        src={paymentPreview}
-                        alt="Payment proof"
-                        width={200}
-                        height={200}
-                        className="rounded-md border"
-                      />
-                    </div>
-                  )}
                   <div className="p-6 bg-pink-50 rounded-3xl border-2 border-main border-dashed">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-gray-600">
