@@ -17,12 +17,7 @@ export const POST = async (req: NextRequest) => {
     const pricing = JSON.parse(formData.get("pricing") as string);
 
     const files = formData.getAll("image");
-    const paymentProof = formData.get("paymentProof");
     const uploadedImages: string[] = [];
-
-    if (!(paymentProof instanceof File)) {
-      return NextResponse.json({ success: false, message: "Payment proof image required" }, { status: 400 });
-    }
 
     // ✅ Upload images to Cloudinary
     for (const file of files) {
@@ -43,21 +38,6 @@ export const POST = async (req: NextRequest) => {
     }
     
 
-    let paymentProofImage : string ;
-
-     const buffer = Buffer.from(await paymentProof.arrayBuffer());
-
-      const result: any = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream(
-            { folder: "amasbakery", resource_type: "image" },
-            (error, result) => (error ? reject(error) : resolve(result))
-          )
-          .end(buffer);
-      });
-
-    paymentProofImage = result.secure_url
-
     const finalCustomer = {
       ...customer,
       city: delivery.orderType === "pickup" ? "Pickup" : customer.city,
@@ -73,9 +53,6 @@ export const POST = async (req: NextRequest) => {
       },
       delivery,
       pricing,
-      payment: {
-        paymentProofImage
-      }
     });
 
     // ✅ Increment today's custom order count

@@ -54,14 +54,14 @@ const customOrderSchema = new mongoose.Schema(
       ],
       default: "PENDING",
     },
-    payment: {
-      paymentStatus: {
-        type: String,
-        enum: ["PENDING", "PAID", "FAILED"],
-        default: "PENDING"
-      },
-      paymentProofImage: String, // image URL
-    },
+    // payment: {
+    //   paymentStatus: {
+    //     type: String,
+    //     enum: ["PENDING", "PAID", "FAILED"],
+    //     default: "PENDING"
+    //   },
+    //   paymentProofImage: String, // image URL
+    // },
   },
   { timestamps: true }
 );
