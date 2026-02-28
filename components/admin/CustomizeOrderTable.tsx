@@ -22,7 +22,7 @@ export default function CustomizeOrderTable({
   React.useEffect(() => {
     const formattedRows = orders.map((order) => ({
       id: order._id,
-      orderId: order.orderId,
+      orderId: order.orderId.slice(0,8),
       userName: order.customer.fullName,
       email: order.customer.email,
       phone: order.customer.phone,
