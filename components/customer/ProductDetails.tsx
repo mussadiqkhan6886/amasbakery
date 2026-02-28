@@ -14,7 +14,6 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
   const [selectedSize, setSelectedSize] = useState(
     product.varieties[0]
   );
-
   const [selectedFlavor, setSelectedFlavor] = useState(
     "-"
   );
@@ -77,7 +76,7 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
 
       <div className="flex flex-col w-full gap-2">
         <label className="font-medium">
-          {t("Size", "الحجم", lang)}
+          {product.category.en === "Gift" ? t("Items", "أغراض", lang) : t("Size", "الحجم", lang)}
         </label>
 
         <select
