@@ -147,7 +147,7 @@ export const POST = async (req: NextRequest) => {
     const adminHtml = `
       <div style="font-family:Arial;padding:20px;border:1px solid #eee">
         <h2 style="color:#d946ef">🎂 New Order Received</h2>
-        <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
+        <p><strong>Order ID:</strong> ${newOrder.orderId.slice(0,8)}</p>
         <p><strong>Customer:</strong> ${orderData.customer.fullName}</p>
         <p><strong>Phone:</strong> ${orderData.customer.phone}</p>
         <p><strong>Delivery/Pickup:</strong> ${orderData.delivery.deliveryType}</p>
@@ -169,7 +169,7 @@ export const POST = async (req: NextRequest) => {
     await transporter.sendMail({
       from: `"Amas Bakery" <${process.env.EMAIL_USER}>`,
       to: "sadafsafdar18@gmail.com",
-      subject: `New Order Alert! #${newOrder.orderId}`,
+      subject: `New Order Alert! #${newOrder.orderId.slice(0,8)}`,
       html: adminHtml,
     });
 
@@ -180,7 +180,7 @@ export const POST = async (req: NextRequest) => {
         <p>Hi <strong>${orderData.customer.fullName}</strong>,</p>
         <p>Your order has been received and is currently <strong>Pending Verification</strong> of your payment.</p>
         <hr/>
-        <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
+        <p><strong>Order ID:</strong> ${newOrder.orderId.slice(0,8)}</p>
         <p><strong>Time Slot:</strong> ${orderData.delivery.deliveryTimeSlot}</p>
         <hr/>
         <h3>Order Summary:</h3>

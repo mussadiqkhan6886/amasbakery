@@ -80,7 +80,7 @@ export const POST = async (req: NextRequest) => {
       <div style="font-family:Arial;padding:20px; color: #333;">
         <h2 style="color: #db2777;">🎂 New Custom Cake Order</h2>
 
-        <p><strong>Order ID:</strong> ${newOrder.orderId}</p>
+        <p><strong>Order ID:</strong> ${newOrder.orderId.slice(0,8)}</p>
         <p><strong>Customer:</strong> ${customer.fullName}</p>
         <p><strong>Phone:</strong> ${customer.phone}</p>
         <p><strong>Occasion:</strong> <span style="text-transform: capitalize;">${cakeDetails.occasion}</span></p>
@@ -108,7 +108,7 @@ export const POST = async (req: NextRequest) => {
     await transporter.sendMail({
       from: `"Amas Bakery Orders" <${process.env.EMAIL_USER}>`,
       to: "sadafsafdar18@gmail.com",
-      subject: `New Custom Order #${newOrder.orderId} 🎂`,
+      subject: `New Custom Order #${newOrder.orderId.slice(0,8)} 🎂`,
       html: adminHtml,
     });
 
@@ -117,7 +117,7 @@ export const POST = async (req: NextRequest) => {
   <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: auto; padding: 25px; border: 1px solid #f0f0f0; border-radius: 8px; color: #444; line-height: 1.6;">
     <div style="text-align: center; margin-bottom: 20px;">
       <h2 style="color: #db2777; margin-bottom: 5px;">🍰 We’ve Received Your Cake Request!</h2>
-      <p style="color: #6b7280; font-size: 14px; margin-top: 0;">Order Reference: #<strong>${newOrder.orderId}</strong></p>
+      <p style="color: #6b7280; font-size: 14px; margin-top: 0;">Order Reference: #<strong>${newOrder.orderId.slice(0,8)}</strong></p>
     </div>
 
     <p>Hi <strong>${customer.fullName}</strong>,</p>

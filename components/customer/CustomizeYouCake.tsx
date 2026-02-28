@@ -377,7 +377,7 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                           </select>
                         </div>
                         <div>
-                          <label className="text-xs font-bold text-gray-400">{t("Weight (lb)", "الوزن (باوند)", lang)}</label>
+                          <label className="text-xs font-bold text-gray-400">{tiers[i].type === "Real" ? t("Weight (lb)", "الوزن (باوند)", lang) : t("Size (inch)", "الحجم (بوصة)", lang)}</label>
                           <input 
                             value={tiers[i].lb || ""} 
                             type="number" 
