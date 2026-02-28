@@ -46,7 +46,8 @@ const Category = async ({ params }: { params: Promise<{ collection: string }> })
   } else {
     // 2. Normal behavior: fetch by type matching the URL param
     const res = await Product.find({ type: collection });
-    products = JSON.parse(JSON.stringify(res));
+    const filtered = res.filter(item => item.category.en !== "Gift")
+    products = JSON.parse(JSON.stringify(filtered));
   }
 
 
