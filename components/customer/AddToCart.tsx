@@ -19,10 +19,11 @@ const AddToCart = ({
   messageOn,
   message,
   specialInstruction,
+  cupcakeImage
 }: CartItem) => {
   const { t, lang } = useLanguage();
   const { addToCart, cart } = useCart();
-
+  console.log(cart)
   
   // Initialize as numbers
   const [currentCount, setCurrentCount] = useState(0);
@@ -73,6 +74,7 @@ const AddToCart = ({
       messageOn,
       message,
       specialInstruction,
+      cupcakeImage
     });
 
     setAdded(true);

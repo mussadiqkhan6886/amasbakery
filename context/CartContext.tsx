@@ -37,8 +37,9 @@ export const CartContextProvider = ({ children }: { children: React.ReactNode })
 
   // ------------------ UNIQUE CART KEY ------------------
   const generateCartKey = (item: CartItem) => {
-    // Two cakes are same if id + size + flavor + messageOn matches
-    return `${item.id}-${item.size}-${item.flavor || ""}-${item.messageOn}`;
+    const imageFlag = item.cupcakeImage ? "withImage" : "noImage";
+  
+  return `${item.id}-${item.size}-${item.flavor}-${item.messageOn}-${imageFlag}`;
   };
 
   // ------------------ TOTALS ------------------

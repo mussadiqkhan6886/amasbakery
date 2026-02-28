@@ -46,6 +46,7 @@ export interface CartItem {
   messageOn: string
   message?: string
   specialInstruction?: string
+  cupcakeImage?: string
   cartKey?: string
 }
 
@@ -124,6 +125,7 @@ export interface IOrderItem {
   message: string;
   specialInstructions: string;
   orderType: OrderType;
+  cupcakeReferenceImage: string
 }
 
 export interface MenuOccasionOrderType {

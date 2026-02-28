@@ -18,6 +18,7 @@ const orderItemSchema = new mongoose.Schema({
       enum: ["MENU", "OCCASION-CAKES", "GIFT"],
       required: true,
     },
+  cupcakeReferenceImage: {type: String}
 });
 
 const menuOccasionOrderSchema = new mongoose.Schema(

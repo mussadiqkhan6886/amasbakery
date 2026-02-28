@@ -16,7 +16,6 @@ export default function MenuOrderTable({
   orders: MenuOccasionOrderType[];
 }) {
   // Mapping logic remains the same - ensuring keys match the columns
-  console.log(orders)
   const [rows, setRows] = React.useState(
     orders.map((order: MenuOccasionOrderType) => ({
       id: order._id,
@@ -31,6 +30,7 @@ export default function MenuOrderTable({
       messageOn: order.items.map((i) => i.messageOn).filter((m) => m !== "noMessage").join(" | ") || "-",
       message: order.items.map((i) => i.message).filter(Boolean).join(", ") || "-",
       specialInstruction: order.items.map((i) => i.specialInstructions).filter(Boolean).join(" | ") || "-",
+      cupcakeReferenceImage: order.items.map(i => i.cupcakeReferenceImage),
       deliveryTime: order.delivery.deliveryTimeSlot || "-",
       deliveryCharges: order.pricing.deliveryCharges,
       totalAmount: order.pricing.total,
@@ -168,6 +168,25 @@ export default function MenuOrderTable({
           </Link>
         ) : (
           <span className="text-gray-400 text-sm">No Proof</span>
+        ),
+    },
+    {
+      field: "cupcakeReferenceImage",
+      headerName: "Cupcake Reference Image",
+      width: 120,
+      renderCell: (params) =>
+        params.value[0] ? (
+          <Link target="_blank" href={params.value[0]}>
+            <Image
+              src={params.value[0]}
+              alt="Cupcake reference image"
+              width={50}
+              height={50}
+              className="rounded border object-cover h-[50px]"
+            />
+          </Link>
+        ) : (
+          <span className="text-gray-400 text-sm">No Image</span>
         ),
     },
 

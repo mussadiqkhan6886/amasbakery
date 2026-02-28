@@ -6,6 +6,17 @@ import cloudinary from "@/lib/config/cloudinary";
 import nodemailer from "nodemailer";
 import { MenuOccasionOrder } from "@/lib/models/OrderSchema";
 
+const uploadToCloudinary = async (file: File, folder: string) => {
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const result: any = await new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_stream(
+      { folder: "amasbakery", resource_type: "image" },
+      (error, result) => (error ? reject(error) : resolve(result))
+    ).end(buffer);
+  });
+  return result.secure_url;
+};
+
 
 export const POST = async (req: NextRequest) => {
   await connectDB();
@@ -26,23 +37,26 @@ export const POST = async (req: NextRequest) => {
     }
 
     // 1. Upload payment proof to Cloudinary
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const uploadedResult: any = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream(
-          { folder: "amasbakery", resource_type: "image" },
-          (error, result) => (error ? reject(error) : resolve(result))
-        )
-        .end(buffer);
-    });
-    const paymentProofUrl = uploadedResult.secure_url;
+   const paymentProofUrl = await uploadToCloudinary(file, "amasbakery");
+
+    const updatedItems = await Promise.all(
+      orderData.items.map(async (item: any, index: number) => {
+        const cupcakeFile = formData.get(`cupcakeImage_${index}`);
+        
+        if (cupcakeFile && cupcakeFile instanceof File) {
+          const refUrl = await uploadToCloudinary(cupcakeFile, "amasbakery");
+          return { ...item, cupcakeReferenceImage: refUrl };
+        }
+        return item;
+      })
+    );
 
     // 2. Load and Reset Order Control if it's a new day
     let control = await OrderControl.findOne();
     if (!control) {
       return NextResponse.json({ success: false, message: "Order control not configured" }, { status: 500 });
     }
-
+    
     const now = new Date();
     const lastReset = new Date(control.lastResetDate);
 
@@ -85,7 +99,7 @@ export const POST = async (req: NextRequest) => {
     // 5. Create the Order
     const newOrder = await MenuOccasionOrder.create({
       customer: orderData.customer,
-      items: orderData.items, // items now include orderType from frontend
+      items: updatedItems, // items now include orderType from frontend
       pricing: orderData.pricing,
       delivery: orderData.delivery,
       payment: {
@@ -122,6 +136,9 @@ export const POST = async (req: NextRequest) => {
         <strong>${item.name}</strong> (Qty: ${item.quantity})<br/>
         Size: ${item.size} | Flavor: ${item.flavor || "N/A"}<br/>
         ${item.message ? `<em>Msg: ${item.message}</em>` : ""}
+        ${item.cupcakeReferenceImage ? 
+          `<a href="${item.cupcakeReferenceImage}" style="color: #d946ef; font-size: 12px;">View Reference Image</a>` 
+          : ""}
       </li>`
       )
       .join("");

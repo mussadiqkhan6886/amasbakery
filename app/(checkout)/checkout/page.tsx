@@ -61,6 +61,17 @@ const Checkout = () => {
     }
   };
 
+  const base64ToBlob = (base64: string) => {
+  const byteString = atob(base64.split(",")[1]);
+  const mimeString = base64.split(",")[0].split(":")[1].split(";")[0];
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: mimeString });
+};
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -95,7 +106,8 @@ const Checkout = () => {
           messageOn: item.messageOn || "",
           message: item.message || "",
           specialInstructions: item.specialInstruction || "",
-          orderType: item.type
+          orderType: item.type,
+          hasCustomImage: !!item.cupcakeImage
         })),
         pricing: {
           subtotal: totalAmount,
@@ -120,6 +132,13 @@ const Checkout = () => {
         });
 
       fd.append("paymentProof", compressedFile);
+      cartItems.forEach((item, index) => {
+      if (item.cupcakeImage && item.cupcakeImage.startsWith("data:image")) {
+        const imageBlob = base64ToBlob(item.cupcakeImage);
+        // We name it cupcakeImage_0, cupcakeImage_1, etc.
+        fd.append(`cupcakeImage_${index}`, imageBlob, `cupcake_${index}.jpg`);
+      }
+    });
       fd.append("orderData", JSON.stringify(orderData));
 
       const res = await axios.post("/api/order", fd);

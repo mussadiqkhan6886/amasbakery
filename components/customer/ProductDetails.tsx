@@ -3,10 +3,11 @@
 import { useLanguage } from "@/context/LanguageContext";
 import { playFair } from "@/lib/fonts";
 import { ProductType } from "@/type";
-import React, { useMemo, useState } from "react";
+import React, { ChangeEvent, useMemo, useState } from "react";
 import CurrenncyT from "./CurrenncyT";
 import AddToCart from "./AddToCart";
 import Image from "next/image";
+import imageCompression from "browser-image-compression";
 
 const ProductDetails = ({ product }: { product: ProductType }) => {
   const { t, lang } = useLanguage();
@@ -23,6 +24,42 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
   const [messageOn, setMessageOn] = useState("noMessage");
   const [message, setMessage] = useState("");
   const [specialInstruction, setSpecialInstruction] = useState("");
+
+
+
+const [cupcakeImageBase64, setCupcakeImageBase64] = useState<string>("");
+const [isCompressing, setIsCompressing] = useState(false);
+
+// 2. Updated Handler
+const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files[0]) {
+    const file = e.target.files[0];
+    setIsCompressing(true);
+
+    try {
+      // Compression options - optimized for Base64 storage
+      const options = {
+        maxSizeMB: 0.2, // Keep it under 200KB for localStorage safety
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
+      };
+
+      const compressedFile = await imageCompression(file, options);
+      
+      // Convert to Base64
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        const base64data = reader.result as string;
+        setCupcakeImageBase64(base64data);
+        setIsCompressing(false);
+      };
+    } catch (error) {
+      console.error("Compression error:", error);
+      setIsCompressing(false);
+    }
+  }
+};
 
   // ---------------- DYNAMIC PRICE ----------------
   const totalPrice = useMemo(() => {
@@ -195,6 +232,24 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
         </div>
       </div>
 
+      {product.category.en === "Cupcake & Bites" && (
+  <div className="p-4 bg-pink-50 border-2 border-dashed border-pink-200 rounded-xl">
+    <label className="block mb-2 font-bold text-pink-700">
+      {isCompressing ? "Processing Image..." : "Cupcake reference Image"}
+    </label>
+    <input
+      type="file"
+      accept="image/*"
+      onChange={handleCupcakeImageChange}
+      className="block w-full text-sm"
+      disabled={isCompressing}
+    />
+    {cupcakeImageBase64 && (
+      <p className="text-[10px] text-green-600 mt-1 font-bold">✓ Image ready to add</p>
+    )}
+  </div>
+)}
+
       {/* ADD TO CART */}
       <AddToCart
         id={product._id}
@@ -208,6 +263,7 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
         quantity={quantity}
         messageOn={messageOn}
         message={message}
+        cupcakeImage={cupcakeImageBase64}
         specialInstruction={specialInstruction}
       />
       <div>
