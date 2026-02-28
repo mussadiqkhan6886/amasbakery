@@ -42,6 +42,9 @@ export async function POST(req: NextRequest) {
     const flavors = formData
   .getAll("flavors")
   .filter((x): x is string => typeof x === "string");
+    const ingredients = formData
+  .getAll("ingredients")
+  .filter((x): x is string => typeof x === "string");
     const varietiesRaw = formData.get("varieties") as string;
     const varieties = JSON.parse(varietiesRaw).map((v: any) => ({
       size: v.size,
@@ -106,6 +109,7 @@ export async function POST(req: NextRequest) {
         ar: description_ar,
       },
       flavors,
+      ingredients,
       image: uploadedImages,
       varieties,
       isActive,

@@ -210,6 +210,15 @@ const ProductDetails = ({ product }: { product: ProductType }) => {
         message={message}
         specialInstruction={specialInstruction}
       />
+      <div>
+        <p className="text-xl font-semibold">Ingredients</p>
+        <ul className="list-disc pl-5 mt-2">
+          {product.ingredients.map(item => (
+            <li key={item}>{item}</li>
+        ))}
+        </ul>
+        
+      </div>
     </div>
     </>
     

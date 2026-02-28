@@ -81,6 +81,9 @@ export const PATCH = async (
         const flavors = formData
   .getAll("flavors")
   .filter((x): x is string => typeof x === "string");
+        const ingredients = formData
+  .getAll("ingredients")
+  .filter((x): x is string => typeof x === "string");
     const varietiesRaw = formData.get("varieties") as string;
     const varieties = JSON.parse(varietiesRaw).map((v: any) => ({
         size: v.size,
@@ -132,6 +135,7 @@ export const PATCH = async (
         },
         image: updatedImages,
         flavors,
+        ingredients,
         varieties,
         isActive,
     };

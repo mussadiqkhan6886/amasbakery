@@ -36,6 +36,7 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
     category_en: "",
     category_ar: "",
     flavors: [] as string[],
+    ingredients: [] as string[],
     description_en: "",
     description_ar: "",
     isActive: true,
@@ -82,6 +83,7 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
           slug: data.slug,
           type: "menu",
           flavors: data.flavors,
+          ingredients: data.ingredients,
           category_en: data.category.en,
           category_ar: data.category.ar,
           description_en: data.description.en,
@@ -163,13 +165,16 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
       const formData = new FormData();
 
       Object.entries(product).forEach(([key, value]) => {
-        if (key !== "flavors") {
+        if (key !== "flavors" && key !== "ingredients") {
           formData.append(key, value.toString());
         }
       });
 
       product.flavors.forEach((flavor) => {
         formData.append("flavors", flavor);
+      });
+      product.ingredients.forEach((ing) => {
+        formData.append("ingredients", ing);
       });
 
       formData.append("varieties", JSON.stringify(varieties));
@@ -224,18 +229,26 @@ export default function AddProductPage({params}: {params: Promise<{id: string}>}
     <select name="category_en" value={product.category_en} onChange={(e) => { const selected = categories.find( (c) => c.en === e.target.value ); setProduct((prev) => ({ ...prev, category_en: selected?.en || "", category_ar: selected?.ar || "", })); }} className="input" required > <option value="">Select Category</option> {categories.map((item) => ( <option key={item.en} value={item.en}> {item.en} </option> ))} </select>
      <input readOnly value={product.category_ar} className="input bg-gray-100" />
      <input
-        value={product.flavors.join(",")}
-        onChange={(e) =>
-        setProduct((prev) => ({
-            ...prev,
-            flavors: e.target.value
-            .split(",")
-            .map((f) => f.trim()),
-        }))
-        }
-        placeholder="Flavors (Chocolate, Vanilla, Red Velvet)"
-        className="input"
-    />
+          value={product.flavors.join(",")}
+          onChange={(e) =>
+            setProduct((prev) => ({
+              ...prev,
+              flavors: e.target.value
+                .split(",")
+            }))
+          }
+          placeholder="Flavors (Chocolate, Vanilla, Red Velvet)"
+          className="input"
+        />
+        <input
+            value={product.ingredients.join(",")}
+            onChange={(e) => setProduct((prev) => ({
+              ...prev,
+              ingredients: e.target.value.split(","),
+            }))}
+            placeholder="Ingredients (e.g. Flour, Eggs, Sugar)"
+            className="input"
+          />
       </div> <input readOnly value={product.slug} className="input bg-gray-100" /> <textarea name="description_en" value={product.description_en} placeholder="Description (EN)" onChange={handleChange} className="input h-28" required /> <textarea name="description_ar" value={product.description_ar} placeholder="Description (AR)" onChange={handleChange} className="input h-28" required /> {/* Varieties */} <div> <h2 className="text-xl font-semibold mb-5"> Varieties & Pricing </h2> {varieties.map((v, i) => ( <div key={i} className="grid md:grid-cols-3 gap-4 mb-4 items-center"> <input placeholder="Size (6 inch, 1kg)" value={v.size} onChange={(e) => handleVarietyChange(i, "size", e.target.value) } className="input" required /> <input type="number" placeholder="Price" value={v.price} onChange={(e) => handleVarietyChange(i, "price", e.target.value) } className="input" required /> {varieties.length > 1 && ( <button type="button" onClick={() => removeVariety(i)} className="text-red-500 text-sm" > Remove </button> )} </div> ))} <button type="button" onClick={addVariety} className="bg-black text-white px-5 py-2 rounded-lg" > + Add Variety </button> </div> {/* Images */} <div> <label className="block mb-3 font-medium"> Upload Images </label> <input type="file" multiple accept="image/*" onChange={handleImageChange} className="block w-full shadow-xl p-2" /> {previews.length > 0 && ( <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 mt-4"> {previews.map((src, i) => ( <Image key={i} src={src} alt="preview" width={130} height={130} className="w-28 h-28 object-cover rounded-lg border" /> ))} </div> )} </div>
         {/* Existing Images */}
         {existingImages.length > 0 && (

@@ -15,6 +15,7 @@ export interface IProduct extends Document {
     en: string;
     ar: string;
   };
+  ingredients: string[]
   image: string[];
   varieties: {
     size: string;
@@ -50,6 +51,7 @@ const ProductSchema: Schema<IProduct> = new Schema(
       },
     ],
     flavors: { type: [String], default: [] },
+    ingredients: { type: [String], default: [] },
     // tiers: { type: [String], default: [] },
     isActive: { type: Boolean, default: true },
   },

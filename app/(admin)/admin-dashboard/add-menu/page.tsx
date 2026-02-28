@@ -33,6 +33,7 @@ export default function AddProductPage() {
     type: "menu",
     category_en: "",
     flavors: [] as string[],
+    ingredients: [] as string[],
     category_ar: "",
     description_en: "",
     description_ar: "",
@@ -116,7 +117,7 @@ export default function AddProductPage() {
       const formData = new FormData();
 
       Object.entries(product).forEach(([key, value]) => {
-        if (key !== "flavors") {
+        if (key !== "flavors" && key !== "ingredients") {
           formData.append(key, value.toString());
         }
       });
@@ -124,6 +125,7 @@ export default function AddProductPage() {
       product.flavors.forEach((flavor) => {
         formData.append("flavors", flavor);
       });
+      product.ingredients.forEach((ing) => formData.append("ingredients", ing));
 
       formData.append("varieties", JSON.stringify(varieties));
 
@@ -154,7 +156,8 @@ export default function AddProductPage() {
           description_en: "",
           description_ar: "",
           isActive: true,
-          flavors: []
+          flavors: [],
+          ingredients: [],
         });
 
         setVarieties([{ size: "", price: "" }]);
@@ -228,13 +231,20 @@ export default function AddProductPage() {
               ...prev,
               flavors: e.target.value
                 .split(",")
-                .map((f) => f.trim()),
             }))
           }
           placeholder="Flavors (Chocolate, Vanilla, Red Velvet)"
           className="input"
         />
-
+        <input
+            value={product.ingredients.join(",")}
+            onChange={(e) => setProduct((prev) => ({
+              ...prev,
+              ingredients: e.target.value.split(","),
+            }))}
+            placeholder="Ingredients (e.g. Flour, Eggs, Sugar)"
+            className="input"
+          />
         </div>
 
              <input
