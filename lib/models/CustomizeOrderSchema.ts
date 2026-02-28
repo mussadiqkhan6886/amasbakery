@@ -22,6 +22,7 @@ const customOrderSchema = new mongoose.Schema(
       numTiers: Number,
       tiers: [], // Stores the array of {inches, flavor, type}
       estimatedWeight: Number, // ✅ ADDED: Stores the calculated weight from the frontend
+      cream: String,
       messageOn: String,
       message: String,
       specialInstruction: String,

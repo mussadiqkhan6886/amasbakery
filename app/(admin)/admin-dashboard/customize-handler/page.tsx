@@ -15,9 +15,11 @@ const CustomizeHandler = () => {
     deliveryFeeDammam: 35,
     maxTiers: 3,
     flavors: ["Vanilla Raspberry", "Chocolate Moist", "Pistachio"],
+    cream: ["Whipping Cream", "Butter Cream", "Founded Cake"]
   });
 
   const [newFlavor, setNewFlavor] = useState("");
+  const [newCream, setNewCream] = useState("");
 
   // Fetch current settings on load
   useEffect(() => {
@@ -55,6 +57,22 @@ const CustomizeHandler = () => {
     setSettings((prev) => ({
       ...prev,
       flavors: prev.flavors.filter((f) => f !== flavorToRemove),
+    }));
+  };
+  const addCream = () => {
+    if (newCream.trim() && !settings.cream.includes(newCream.trim())) {
+      setSettings((prev) => ({
+        ...prev,
+        cream: [...prev.cream, newCream.trim()],
+      }));
+      setNewCream("");
+    }
+  };
+
+  const removeCream = (creamToRemove: string) => {
+    setSettings((prev) => ({
+      ...prev,
+      cream: prev.cream.filter((f) => f !== creamToRemove),
     }));
   };
 
@@ -101,7 +119,7 @@ const CustomizeHandler = () => {
               <input type="number" name="realCakePricePerLb" value={settings.realCakePricePerLb} onChange={handleChange} className="w-full p-2 border rounded focus:border-pink-500 outline-none"/>
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-1">Dummy Cake (per lb)</label>
+              <label className="block text-sm font-semibold mb-1">Dummy Cake (per inch)</label>
               <input type="number" name="dummyCakePricePerLb" value={settings.dummyCakePricePerLb} onChange={handleChange} className="w-full p-2 border rounded focus:border-pink-500 outline-none"/>
             </div>
             <div>
@@ -153,6 +171,38 @@ const CustomizeHandler = () => {
                 <div key={idx} className="flex justify-between items-center bg-white p-3 rounded shadow-sm border border-gray-100">
                   <span className="font-medium text-sm text-gray-700">{flavor}</span>
                   <button onClick={() => removeFlavor(flavor)} className="text-red-500 hover:text-red-700 p-1">
+                    <FiTrash />
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+        <div className="space-y-6">
+          <h2 className="text-lg font-bold text-gray-700 border-b pb-2">Available Cream</h2>
+          
+          <div className="flex gap-2 mb-4">
+            <input 
+              type="text" 
+              value={newCream} 
+              onChange={(e) => setNewCream(e.target.value)} 
+              placeholder="e.g. Whipping Cream" 
+              className="flex-1 p-2 border rounded focus:border-pink-500 outline-none"
+              onKeyDown={(e) => e.key === 'Enter' && addCream()}
+            />
+            <button onClick={addCream} className="bg-gray-800 text-white px-4 rounded hover:bg-black transition flex items-center justify-center">
+              <FiPlus />
+            </button>
+          </div>
+
+          <div className="bg-gray-50 border rounded-lg p-4 max-h-64 overflow-y-auto space-y-2">
+            {settings.cream.length === 0 ? (
+              <p className="text-gray-400 text-sm text-center">No Cream added yet.</p>
+            ) : (
+              settings.cream.map((c, idx) => (
+                <div key={idx} className="flex justify-between items-center bg-white p-3 rounded shadow-sm border border-gray-100">
+                  <span className="font-medium text-sm text-gray-700">{c}</span>
+                  <button onClick={() => removeCream(c)} className="text-red-500 hover:text-red-700 p-1">
                     <FiTrash />
                   </button>
                 </div>

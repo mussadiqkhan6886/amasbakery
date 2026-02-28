@@ -81,6 +81,7 @@ export interface CustomizeOrderType {
     numTiers: number;
     tiers: TierConfig[]; // The array of tiers
     messageOn: string;   // "no", "cake", or "board"
+    cream: string
     message?: string;
     specialInstruction?: string;
     estimatedWeight: string;

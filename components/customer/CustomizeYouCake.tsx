@@ -12,6 +12,7 @@ interface TierConfig {
   lb: number;
   flavor: string;
   type: "Real" | "Dummy";
+  cream: string
 }
 
 interface SettingsConfig {
@@ -21,6 +22,7 @@ interface SettingsConfig {
   deliveryFeeKhobar: number;
   deliveryFeeDammam: number;
   flavors: string[];
+  cream: string[]
   maxTiers: number;
 }
 
@@ -42,7 +44,7 @@ export default function CustomizeYourCake() {
   const [numTiers, setNumTiers] = useState<number>(1);
   // 1. Update the initial state to be more flexible
 const [tiers, setTiers] = useState<TierConfig[]>(
-  Array(6).fill(null).map(() => ({ lb: 0, flavor: "", type: "Real" }))
+  Array(6).fill(null).map(() => ({ lb: 0, flavor: "", type: "Real", cream: '' }))
 );
 
 // 2. Add this useEffect to handle dynamic tier initialization 
@@ -56,7 +58,7 @@ useEffect(() => {
       // Otherwise, expand the array to match maxTiers
       const newTiers = [...prev];
       while (newTiers.length < settings.maxTiers) {
-        newTiers.push({ lb: 0, flavor: "", type: "Real" });
+        newTiers.push({ lb: 0, flavor: "", type: "Real", cream: '' });
       }
       return newTiers;
     });
@@ -67,7 +69,6 @@ useEffect(() => {
 const handleTierChange = (index: number, field: keyof TierConfig, value: any) => {
   setTiers((prev) => {
     const newTiers = [...prev];
-    // Ensure the index exists before modifying
     if (newTiers[index]) {
       newTiers[index] = { 
         ...newTiers[index], 
@@ -109,7 +110,8 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
           deliveryFeeKhobar: 25,
           deliveryFeeDammam: 35,
           maxTiers: 3,
-          flavors: ["Vanilla Raspberry", "Chocolate Moist", "Pistachio"]
+          flavors: ["Vanilla Raspberry", "Chocolate Moist", "Pistachio"],
+          cream: ["Whipped Cream", "Butter Cream", "Founded Cake"]
         });
       } finally {
         setLoadingSettings(false);
@@ -362,7 +364,7 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                       <h3 className="font-bold text-main uppercase text-xs tracking-widest">
                         {lang === 'ar' ? `الدور ${i === 0 ? 'العلوي' : i === 1 ? 'الأوسط' : 'السفلي'}` : (i === 0 ? 'Top Tier' : i === 1 ? 'Middle Tier' : 'Bottom Tier')}
                       </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         <div>
                           <label className="text-xs font-bold text-gray-400">{t("Type", "النوع", lang)}</label>
                           <select 
@@ -384,7 +386,7 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                             onChange={(e) => handleTierChange(i, 'lb', e.target.value)} 
                           />
                           <p className="text-[10px] text-gray-400 mt-1">
-                            {tiers[i].type === 'Real' ? `${settings.realCakePricePerLb} SAR/lb` : `${settings.dummyCakePricePerLb} SAR/lb`}
+                            {tiers[i].type === 'Real' ? `${settings.realCakePricePerLb} SAR/lb` : `${settings.dummyCakePricePerLb} SAR/inch`}
                           </p>
                         </div>
                         {tiers[i].type === 'Real' && (
@@ -402,6 +404,19 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
                             </select>
                           </div>
                         )}
+                        <div>
+                          <label className="text-xs font-bold text-gray-400">{t("Cream", "الكريمة", lang)}</label>
+                          <select 
+                            value={tiers[i].cream} 
+                            className="w-full p-2 mt-1 border rounded-lg bg-white outline-none focus:border-main" 
+                            onChange={(e) => handleTierChange(i, 'cream', e.target.value)} // Fixed: now updates 'cream'
+                          >
+                            <option value="">{t("Choose Cream", "اختر الكريمة", lang)}</option>
+                            {settings.cream.map((c, cIdx) => (
+                              <option key={cIdx} value={c}>{c}</option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
                     </div>
                   ))}

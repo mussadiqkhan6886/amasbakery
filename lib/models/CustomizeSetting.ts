@@ -7,6 +7,7 @@ const CustomizeSettingsSchema = new mongoose.Schema({
   deliveryFeeKhobar: { type: Number, default: 25 },
   deliveryFeeDammam: { type: Number, default: 35 },
   flavors: { type: [String], default: ["Vanilla Raspberry", "Chocolate Moist", "Pistachio"] },
+  cream: { type: [String], default: ["Whipping Cream", "Butter Cream", "Founded Cake"] },
   maxTiers: { type: Number, default: 3 }
 }, { timestamps: true });
 

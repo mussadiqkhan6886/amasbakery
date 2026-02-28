@@ -32,7 +32,7 @@ export default function CustomizeOrderTable({
       numTiers: order.cakeDetails?.numTiers || 1,
       estimatedWeight: order.cakeDetails?.estimatedWeight || 0,
       tiersSummary: order.cakeDetails?.tiers?.map((t: any) => 
-        `${t.lb}lb ${t.flavor || ""} (${t.type})`
+        `${t.lb}${t.type === "Dummy" ? "inch" : "lb"} ${t.flavor || ""} ${t.cream} (${t.type})`
       ).join(" | ") || "-",
       messageOn: order.cakeDetails?.messageOn || "-",
       message: order.cakeDetails?.message || "-",
