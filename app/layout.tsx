@@ -8,7 +8,7 @@ import Language from "@/components/customer/Language";
 
 export const metadata: Metadata = {
   title: {
-    default: "Delicious Cakes in Al khobar and Dammam | Amas Bakery",
+    default: "Delicious Cakes in Al khobar and Dammam",
     template: "%s | Amas Bakery",
   },
   description: "Experience the finest custom cakes, tiered wedding cakes, and artisanal pastries at Amas Bakery. Freshly baked in Al Khobar and Dammam.",
@@ -23,11 +23,12 @@ export const metadata: Metadata = {
   "luxury desserts",
   "pastry shop Al Khobar",
   "personalized cakes",
-  "graduation cakes 2026",
+  "graduation cakes",
   "anniversary cakes",
   "best bakery Eastern Province",
   "designer cakes KSA",
-  "bakery near me Khobar"
+  "bakery near me Khobar",
+  "bakery near me dammam"
 ],
   authors: [{ name: "Amas Bakery" }],
   metadataBase: new URL("https://www.amassbakery.com"), // Replace with your real domain
@@ -53,6 +54,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "WDwCpz3nM2cEE1YE3u4y_NwR357V2FnRwBtC4wXKvmY"
+  }
 };
 
 export default function RootLayout({
