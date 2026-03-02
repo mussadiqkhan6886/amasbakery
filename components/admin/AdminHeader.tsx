@@ -1,4 +1,8 @@
+'use client';
+
+import axios from 'axios';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { FiHome, FiLogOut } from 'react-icons/fi';
 
@@ -15,6 +19,17 @@ const AdminHeader = () => {
     { name: 'Reviews', link: '/admin-dashboard/reviews' },
     { name: 'Wedding', link: '/admin-dashboard/wedding-gallery' },
   ];
+
+  const router = useRouter()
+  const pathname = usePathname()
+  const logout = async () => {
+    const res = await axios.get("api/logout")
+    router.push("/admin-dashboard/login")
+  }
+
+  if(pathname.includes("/admin-dashboard/login")){
+    return null
+  }
 
   return (
     <header className="w-full bg-white px-4 py-4 border-b border-gray-200 flex flex-col md:flex-row items-center justify-between">
@@ -36,9 +51,9 @@ const AdminHeader = () => {
         <Link className='bg-black text-white p-2 rounded-xl' href="/">
           <FiHome className="" />
         </Link>
-        <Link className='bg-black text-white p-2 rounded-xl' href="/">
+        <button className='bg-black text-white p-2 rounded-xl' onClick={logout}>
           <FiLogOut className="" />
-        </Link>
+        </button>
       </div>
     </header>
   );
