@@ -30,14 +30,14 @@ export const metadata: Metadata = {
   "bakery near me Khobar"
 ],
   authors: [{ name: "Amas Bakery" }],
-  metadataBase: new URL("https://amasbakery.vercel.app"), // Replace with your real domain
+  metadataBase: new URL("https://www.amassbakery.com"), // Replace with your real domain
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Amas Bakery | Artisanal Cakes",
     description: "Handcrafted cakes and sweets for your special occasions.",
-    url: "https://amasbakery.vercel.app",
+    url: "https://www.amassbakery.com",
     siteName: "Amas Bakery",
     images: [
       {

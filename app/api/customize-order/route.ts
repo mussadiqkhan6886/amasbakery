@@ -99,7 +99,7 @@ export const POST = async (req: NextRequest) => {
         <p style="font-size: 18px;"><strong>Total Amount:</strong> <span style="color: #db2777;">SAR ${pricing?.totalAmount || 0}</span></p>
 
         <br/>
-        <a href="https://amasbakery.vercel.app/admin-dashboard" style="background: #db2777; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+        <a href="https://www.amassbakery.com/admin-dashboard" style="background: #db2777; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
           👉 View in Admin Dashboard
         </a>
       </div>

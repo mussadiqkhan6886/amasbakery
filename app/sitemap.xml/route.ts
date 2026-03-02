@@ -35,7 +35,7 @@ export async function GET() {
     // Add static pages
     staticPages.forEach(page => {
       urls.push({
-        loc: `https://amasbakery.vercel.app${page}`,
+        loc: `https://www.amassbakery.com${page}`,
         changefreq: "weekly",
         priority: 0.7,
       });
@@ -43,7 +43,7 @@ export async function GET() {
     
     menuItems.forEach(item => {
       urls.push({
-        loc: `https://amasbakery.vercel.app/collections/${item.type}/${item.slug}`,
+        loc: `https://www.amassbakery.com/collections/${item.type}/${item.slug}`,
         changefreq: "weekly",
         priority: 0.9,
       });
@@ -51,7 +51,7 @@ export async function GET() {
 
     menuItems.forEach(item => {
       urls.push({
-        loc: `https://amasbakery.vercel.app/collections/${item.type}`,
+        loc: `https://www.amassbakery.com/collections/${item.type}`,
         changefreq: "weekly",
         priority: 0.9,
       });

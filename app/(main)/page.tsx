@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Amas Bakery | Custom Cakes & Artisanal Treats",
     description: "Handcrafted cakes for your special moments in Al Khobar and Dammam.",
-    url: "https://amasbakery.vercel.app", // Replace with your actual domain
+    url: "https://www.amassbakery.com", // Replace with your actual domain
     siteName: "Amas Bakery",
     images: [
       {

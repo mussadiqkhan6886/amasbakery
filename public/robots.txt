@@ -14,4 +14,4 @@ Disallow: /thank-you/
 Allow: /
 
 # 4. Point to your Sitemap (Crucial for SEO)
-Sitemap: https://amasbakery.vercel.app/sitemap.xml
+Sitemap: https://www.amassbakery.com/sitemap.xml

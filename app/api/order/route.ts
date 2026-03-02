@@ -160,7 +160,7 @@ export const POST = async (req: NextRequest) => {
         <p><strong>Total Amount:</strong> Rs. ${orderData.pricing.total}</p>
         <p><strong>Payment Proof:</strong> <a href="${paymentProofUrl}">View Image</a></p>
         <br/>
-        <a href="https://amasbakery.vercel.app/admin-dashboard" style="background:#000;color:#fff;padding:10px;text-decoration:none;border-radius:5px">
+        <a href="https://www.amassbakery.com/admin-dashboard" style="background:#000;color:#fff;padding:10px;text-decoration:none;border-radius:5px">
           Open Admin Dashboard
         </a>
       </div>

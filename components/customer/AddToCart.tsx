@@ -23,7 +23,6 @@ const AddToCart = ({
 }: CartItem) => {
   const { t, lang } = useLanguage();
   const { addToCart, cart } = useCart();
-  console.log(cart)
   
   // Initialize as numbers
   const [currentCount, setCurrentCount] = useState(0);
@@ -86,9 +85,7 @@ const AddToCart = ({
   };
 
   // ---------------- BUTTON TEXT ----------------
-  const buttonText = isSoldOut
-    ? t("Booking Full", "الحجز ممتلئ", lang)
-    : added
+  const buttonText =  added
     ? t("Added Successfully ✓", "تمت الإضافة ✓", lang)
     : loading
     ? t("Adding...", "جاري الإضافة...", lang)
@@ -97,12 +94,10 @@ const AddToCart = ({
   return (
     <button
       onClick={handleAddToCart}
-      disabled={loading || isSoldOut}
+      disabled={loading}
       className={`mt-6 px-6 py-3 w-full transition font-medium rounded-lg
         ${
-          isSoldOut 
-            ? "bg-gray-400 cursor-not-allowed" 
-            : added
+           added
             ? "bg-green-600 text-white"
             : "bg-main text-white hover:scale-[1.02] active:scale-95"
         }

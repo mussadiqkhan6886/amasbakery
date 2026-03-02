@@ -16,12 +16,20 @@ export const metadata: Metadata = {
     "online cake ordering",
     "build a cake Dammam",
     "cake design upload",
-    "Amas Bakery customization"
+    "Amas Bakery customization",
+    "customize bakery cake",
+    "customize birthday cake",
+    "customize birthday cake in al-khobar",
+    "cake in al-khobar",
+    " birthday cake in al-khobar",
+    "customize birthday cake in dammam",
+    "cake in dammam",
+    " birthday cake in dammam",
   ],
   openGraph: {
     title: "Customize Your Cake | Amas Bakery",
     description: "Handcraft your dream cake with our interactive builder.",
-    url: "https://amasbakery.vercel.app/customize-your-cake", // Replace with your actual URL
+    url: "https://www.amassbakery.com/customize-your-cake", // Replace with your actual URL
     type: "website",
     images: [
       {
