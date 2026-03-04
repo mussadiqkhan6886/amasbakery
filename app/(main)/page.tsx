@@ -1,5 +1,4 @@
 import Language from '@/components/customer/Language'
-import { getAndResetOrderControl } from '@/lib/helper'
 import AboutUs from '@/sections/AboutUs'
 import CanDo from '@/sections/CanDo'
 import Categories from '@/sections/Categories'
@@ -11,9 +10,9 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Cakes in Al Khobar and Dammam",
-  description: "Amas Bakery crafts premium custom cakes, tiered wedding cakes, and artisanal pastries. Delivering fresh, handcrafted sweets across Al Khobar and Dammam.",
+  description: "Amass Bakery crafts premium custom cakes, tiered wedding cakes, and artisanal pastries. Delivering fresh, handcrafted sweets across Al Khobar and Dammam.",
   keywords: [
-    "Amas Bakery",
+    "Amass Bakery",
     "custom cakes Al Khobar",
     "cake delivery Dammam",
     "customized birthday cakes",
@@ -30,7 +29,7 @@ export const metadata: Metadata = {
     "bakery near me Khobar"
   ],
   openGraph: {
-    title: "Amas Bakery | Custom Cakes & Artisanal Treats",
+    title: "Amass Bakery | Custom Cakes & Artisanal Treats",
     description: "Handcrafted cakes for your special moments in Al Khobar and Dammam.",
     url: "https://www.amassbakery.com", // Replace with your actual domain
     siteName: "Amas Bakery",
@@ -39,7 +38,7 @@ export const metadata: Metadata = {
         url: "/logo.webp", // Ensure this exists in your public folder
         width: 1200,
         height: 630,
-        alt: "Amas Bakery Custom Cakes",
+        alt: "Amass Bakery Custom Cakes",
       },
     ],
     locale: "en_US",
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Amas Bakery | Custom Cakes",
+    title: "Amass Bakery | Custom Cakes",
     description: "Premium handcrafted cakes in Al Khobar and Dammam.",
     images: ["/logo.webp"],
   },
@@ -56,7 +55,6 @@ export const metadata: Metadata = {
 export const revalidate = 0; // Forces the page to run the logic on every request
 
 const Home = async () => {
-  const orderControl = await getAndResetOrderControl();
   return (
     <main>
       <Language />

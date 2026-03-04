@@ -148,6 +148,7 @@ export interface MenuOccasionOrderType {
   notes: string;
   delivery: {
     deliveryTimeSlot: string;
+    deliveryDateSlot: string;
     deliveryType: "DELIVERY" | "PICKUP";
   };
   payment: {

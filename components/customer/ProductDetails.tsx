@@ -266,6 +266,7 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         cupcakeImage={cupcakeImageBase64}
         specialInstruction={specialInstruction}
       />
+      
       <div>
         <p className="text-xl font-semibold">Ingredients</p>
         <ul className="list-disc pl-5 mt-2">

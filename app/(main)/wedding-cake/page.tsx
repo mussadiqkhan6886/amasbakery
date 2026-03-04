@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Discover our exclusive gallery of handcrafted wedding cakes. From classic elegance to modern designs, book your dream wedding cake consultation with Amas Bakery in alkhobar and dammam.',
   keywords: ['wedding cakes', 'bridal cakes', 'custom wedding cakes', 'wedding cake gallery', 'luxury cakes', 'order wedding cake', "cakes in al-khobar", "cakes in dammam", "wedding cake in saudi", "wedding cake in dammam", "wedding cake in al-khobar", "custom wedding cake in saudi", "custom wedding cake booking"],
   openGraph: {
-    title: 'Exquisite Wedding Cakes | Amas Bakery',
+    title: 'Exquisite Wedding Cakes | Amass Bakery',
     description: 'Transform your special day with a masterpiece. View our wedding cake gallery and contact us for custom bookings.',
     images: [
       {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Custom Wedding Cakes | Amas Bakery',
+    title: 'Custom Wedding Cakes | Amass Bakery',
     description: 'Bespoke wedding cake designs for your big day. Browse our gallery and book now.',
     images: ['/custom.webp'],
   },

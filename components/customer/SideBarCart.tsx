@@ -18,6 +18,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
   const { lang, t } = useLanguage();
 
   const [deliveryTime, setDeliveryTime] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState("");
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -25,11 +26,65 @@ const SideBarCart = ({ open, onClose }: Props) => {
 
     useEffect(() => {
       const savedTime = localStorage.getItem("deliveryTime");
+      const savedDate = localStorage.getItem("deliveryDate");
 
       if (savedTime) setDeliveryTime(savedTime);
+      if (savedDate) setDeliveryDate(savedDate);
     }, []);
 
+    // Inside your SideBarCart component
+const [bookedDates, setBookedDates] = useState<string[]>([]);
 
+// 1. Fetch orders and count delivery dates
+useEffect(() => {
+  const fetchOrders = async () => {
+    try {
+      const response = await fetch("/api/order"); 
+      const result = await response.json();
+      const orders = result.data || [];
+      const dateCounts: { [key: string]: number } = {};
+
+      orders.forEach((order: any) => {
+        // Access the nested delivery object
+        const rawDate = order.delivery?.deliveryDateSlot; 
+        
+        if (rawDate) {
+          // Normalize to YYYY-MM-DD to ignore time zones/hours
+          const d = new Date(rawDate).toISOString().split("T")[0];
+          dateCounts[d] = (dateCounts[d] || 0) + 1;
+        }
+      });
+
+      // Filter dates that appear 4 or more times
+      const fullDates = Object.keys(dateCounts).filter(date => dateCounts[date] >= 4);
+      setBookedDates(fullDates);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  fetchOrders();
+}, []);
+
+// 2. Logic for "Must have 1 day gap"
+const today = new Date();
+const tomorrowDate = new Date(today);
+tomorrowDate.setDate(today.getDate() + 1);
+const minDateString = tomorrowDate.toISOString().split("T")[0];
+
+// 3. Handle Date Change with validation
+const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selected = e.target.value;
+  
+  if (bookedDates.includes(selected)) {
+    alert(t("This date is fully booked", "هذا التاريخ محجوز بالكامل", lang));
+    setDeliveryDate("");
+    localStorage.removeItem("deliveryDate");
+  } else {
+    setDeliveryDate(selected);
+    localStorage.setItem("deliveryDate", selected);
+  }
+};
 
   return (
     <>
@@ -37,7 +92,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
       {open && (
         <div
           onClick={onClose}
-          className="fixed inset-0 h-screen bg-black/10 z-40"
+          className="fixed inset-0 h-screen scale-120 bg-black/10 z-40"
         />
       )}
 
@@ -129,7 +184,7 @@ const SideBarCart = ({ open, onClose }: Props) => {
         <div className="border-t p-3 overflow-y-auto thin-scrollbar flex flex-col gap-2">
          {cart.length > 0 ? ( <>
           <div>
-              <label className="text-sm font-medium">
+            <label className="text-sm font-medium">
               {t("Delivery Time", "وقت التوصيل", lang)}
             </label>
             <select
@@ -147,6 +202,23 @@ const SideBarCart = ({ open, onClose }: Props) => {
               <option value="4-6">4 PM - 6 PM</option>
               <option value="6-10">6 PM - 10 PM</option>
             </select>
+            <label className="text-sm" htmlFor="date">Delivery Date:</label>
+           <input
+  type="date"
+  id="date"
+  min={minDateString}
+  value={deliveryDate}
+  onChange={handleDateChange}
+  className={`w-full border rounded px-3 text-sm py-1 mt-1 ${
+    bookedDates.includes(deliveryDate) ? "border-red-500 bg-red-50" : ""
+  }`}
+/>
+{bookedDates.includes(deliveryDate) && (
+  <p className="text-xs text-red-500 font-bold mt-1">
+    {t("Date fully booked", "هذا التاريخ محجوز بالكامل", lang)}
+  </p>
+)}
+
           </div>
 
           <div className="flex justify-between font-semibold text-lg">
@@ -159,10 +231,10 @@ const SideBarCart = ({ open, onClose }: Props) => {
           <div className="flex gap-2 w-full">
             <button
             onClick={onClose}
-            disabled={!deliveryTime || cart.length === 0}
+            disabled={!deliveryTime || !deliveryDate || cart.length === 0}
             className={`py-3 rounded font-medium transition w-full
               ${
-                deliveryTime && cart.length > 0
+                deliveryTime && deliveryDate && cart.length > 0
                   ? "bg-main text-white hover:bg-main/90"
                   : "bg-gray-300 text-gray-600 cursor-not-allowed"
               }
@@ -171,11 +243,11 @@ const SideBarCart = ({ open, onClose }: Props) => {
             <Link href="/checkout">{t("Proceed to Checkout", "المتابعة للدفع", lang)}</Link>
           </button>
           <button
-            disabled={!deliveryTime || cart.length === 0}
+            disabled={!deliveryTime || !deliveryDate || cart.length === 0}
             onClick={onClose}
             className={`py-3 rounded font-medium transition w-full
               ${
-                 deliveryTime && cart.length > 0
+                 deliveryTime && deliveryDate && cart.length > 0
                   ? "border border-main text-main hover:bg-main hover:text-white"
                   : "bg-gray-300 text-gray-600 cursor-not-allowed"
               }

@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/config/db";
-import { CustomOrder } from "@/lib/models/CustomizeOrderSchema";
-import { OrderControl } from "@/lib/models/ControlSchema";
 import cloudinary from "@/lib/config/cloudinary";
 import nodemailer from "nodemailer";
 import { MenuOccasionOrder } from "@/lib/models/OrderSchema";
@@ -51,50 +49,50 @@ export const POST = async (req: NextRequest) => {
       })
     );
 
-    // 2. Load and Reset Order Control if it's a new day
-    let control = await OrderControl.findOne();
-    if (!control) {
-      return NextResponse.json({ success: false, message: "Order control not configured" }, { status: 500 });
-    }
+    // // 2. Load and Reset Order Control if it's a new day
+    // let control = await OrderControl.findOne();
+    // if (!control) {
+    //   return NextResponse.json({ success: false, message: "Order control not configured" }, { status: 500 });
+    // }
     
-    const now = new Date();
-    const lastReset = new Date(control.lastResetDate);
+    // const now = new Date();
+    // const lastReset = new Date(control.lastResetDate);
 
-    // If dates don't match, reset counts to 0 for the new day
-    if (now.toDateString() !== lastReset.toDateString()) {
-      control = await OrderControl.findOneAndUpdate(
-        {},
-        {
-          $set: {
-            "todayOrders.menuCount": 0,
-            "todayOrders.occasionCount": 0,
-            "todayOrders.customCount": 0,
-            lastResetDate: now,
-          },
-        },
-        { new: true }
-      );
-    }
+    // // If dates don't match, reset counts to 0 for the new day
+    // if (now.toDateString() !== lastReset.toDateString()) {
+    //   control = await OrderControl.findOneAndUpdate(
+    //     {},
+    //     {
+    //       $set: {
+    //         "todayOrders.menuCount": 0,
+    //         "todayOrders.occasionCount": 0,
+    //         "todayOrders.customCount": 0,
+    //         lastResetDate: now,
+    //       },
+    //     },
+    //     { new: true }
+    //   );
+    // }
 
     // 3. Binary Logic: Determine if order contains specific types
     // 1 full menu order (even with 10 items) = 1 limit increase
-    const hasMenu = orderData.items.some((i: any) => i.orderType === "MENU") ? 1 : 0;
-    const hasOccasion = orderData.items.some((i: any) => i.orderType === "OCCASION-CAKES") ? 1 : 0;
+    // const hasMenu = orderData.items.some((i: any) => i.orderType === "MENU") ? 1 : 0;
+    // const hasOccasion = orderData.items.some((i: any) => i.orderType === "OCCASION-CAKES") ? 1 : 0;
 
-    // 4. Validate Limits
-    if (hasMenu && control.todayOrders.menuCount + hasMenu > control.dailyLimits.menuLimit) {
-      return NextResponse.json({
-        success: false,
-        message: "Menu bookings are full for today. Please try again tomorrow.",
-      }, { status: 400 });
-    }
+    // // 4. Validate Limits
+    // if (hasMenu && control.todayOrders.menuCount + hasMenu > control.dailyLimits.menuLimit) {
+    //   return NextResponse.json({
+    //     success: false,
+    //     message: "Menu bookings are full for today. Please try again tomorrow.",
+    //   }, { status: 400 });
+    // }
 
-    if (hasOccasion && control.todayOrders.occasionCount + hasOccasion > control.dailyLimits.occasionLimit) {
-      return NextResponse.json({
-        success: false,
-        message: "Occasion Cake bookings are full for today. Please try again tomorrow.",
-      }, { status: 400 });
-    }
+    // if (hasOccasion && control.todayOrders.occasionCount + hasOccasion > control.dailyLimits.occasionLimit) {
+    //   return NextResponse.json({
+    //     success: false,
+    //     message: "Occasion Cake bookings are full for today. Please try again tomorrow.",
+    //   }, { status: 400 });
+    // }
 
     // 5. Create the Order
     const newOrder = await MenuOccasionOrder.create({
@@ -110,25 +108,33 @@ export const POST = async (req: NextRequest) => {
       notes: orderData.notes || "No notes",
     });
 
-    // 6. Update OrderControl counts (Increment by 1 or 0, not item length)
-    await OrderControl.updateOne(
-      {},
-      {
-        $inc: {
-          "todayOrders.menuCount": hasMenu,
-          "todayOrders.occasionCount": hasOccasion,
-        },
-      }
-    );
+    // // 6. Update OrderControl counts (Increment by 1 or 0, not item length)
+    // await OrderControl.updateOne(
+    //   {},
+    //   {
+    //     $inc: {
+    //       "todayOrders.menuCount": hasMenu,
+    //       "todayOrders.occasionCount": hasOccasion,
+    //     },
+    //   }
+    // );
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD,
-      },
-    });
-
+   const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // Must be false for 587
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_APP_PASSWORD,
+  },
+  tls: {
+    // This helps bypass the "Client network socket disconnected" error 
+    // by allowing the TLS handshake to complete even if the certificate 
+    // verification is strict.
+    rejectUnauthorized: false,
+    minVersion: "TLSv1.2"
+  },
+});
     const itemsHtml = orderData.items
       .map(
         (item: any) => `
@@ -157,6 +163,7 @@ export const POST = async (req: NextRequest) => {
         <ul>${itemsHtml}</ul>
         <hr/>
         <p><strong>Time Slot:</strong> ${orderData.delivery.deliveryTimeSlot}</p>
+        <p><strong>Date Slot:</strong> ${orderData.delivery.deliveryDateSlot}</p>
         <p><strong>Total Amount:</strong> Rs. ${orderData.pricing.total}</p>
         <p><strong>Payment Proof:</strong> <a href="${paymentProofUrl}">View Image</a></p>
         <br/>
@@ -182,6 +189,7 @@ export const POST = async (req: NextRequest) => {
         <hr/>
         <p><strong>Order ID:</strong> ${newOrder.orderId.slice(0,8)}</p>
         <p><strong>Time Slot:</strong> ${orderData.delivery.deliveryTimeSlot}</p>
+        <p><strong>Date Slot:</strong> ${orderData.delivery.deliveryDateSlot}</p>
         <hr/>
         <h3>Order Summary:</h3>
         <ul>${itemsHtml}</ul>

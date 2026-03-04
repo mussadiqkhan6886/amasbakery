@@ -90,7 +90,7 @@ const HeroHeading = () => {
 
 
   return (
-    <div className="absolute top-1/2 left-1/2 transform w-full -translate-x-1/2 -translate-y-1/2 text-center z-40">
+    <div className="absolute uppercase top-1/2 left-1/2 transform w-full -translate-x-1/2 -translate-y-1/2 text-center z-40">
       <AnimatePresence mode="wait">
         {showFirst ? (
           <motion.div key="amas">

@@ -6,7 +6,6 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
-import { CartItem } from "../../../type";
 import { useLanguage } from "@/context/LanguageContext";
 import imageCompression from "browser-image-compression";
 import CurrenncyT from "@/components/customer/CurrenncyT";
@@ -17,7 +16,7 @@ const Checkout = () => {
   const [deliveryTiming, setDeliveryTiming] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
-  const {t, lang} = useLanguage()
+  const { t, lang } = useLanguage();
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -32,21 +31,70 @@ const Checkout = () => {
     city: "",
   });
 
-  const [deliveryCharges, setDeliveryCharges] = useState(0);
+  const [deliveryDate, setDeliveryDate] = useState("");
+  const [bookedDates, setBookedDates] = useState<string[]>([]);
 
-  // Load delivery date/time from localStorage
+  // 1. Logic for "Must have 1 day gap" (Min Date = Tomorrow)
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const minDate = tomorrow.toISOString().split("T")[0];
+
+  // 2. Fetch fully booked dates
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch("/api/order");
+        const result = await response.json();
+        const orders = result.data || [];
+
+        const dateCounts: { [key: string]: number } = {};
+        orders.forEach((order: any) => {
+          const rawDate = order.delivery?.deliveryDateSlot;
+          if (rawDate) {
+            const d = new Date(rawDate).toISOString().split("T")[0];
+            dateCounts[d] = (dateCounts[d] || 0) + 1;
+          }
+        });
+
+        const fullDates = Object.keys(dateCounts).filter((date) => dateCounts[date] >= 4);
+        setBookedDates(fullDates);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  // 3. Sync with LocalStorage
   useEffect(() => {
     const savedTime = localStorage.getItem("deliveryTime");
+    const savedDate = localStorage.getItem("deliveryDate");
 
+    if (savedDate) setDeliveryDate(savedDate);
     if (savedTime) setDeliveryTiming(savedTime);
   }, []);
 
+  // 4. Handle Date Change
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.value;
+    if (bookedDates.includes(selected)) {
+      alert(t("This date is fully booked", "هذا التاريخ محجوز بالكامل", lang));
+      setDeliveryDate("");
+      localStorage.removeItem("deliveryDate");
+    } else {
+      setDeliveryDate(selected);
+      localStorage.setItem("deliveryDate", selected);
+    }
+  };
+
+  const [deliveryCharges, setDeliveryCharges] = useState(0);
+
   // Update delivery charges based on city
   useEffect(() => {
-  if (formData.city === "al-khobar" && formData.deliveryType !== "pickup") setDeliveryCharges(25);
-  else if (formData.city === "damam" && formData.deliveryType !== "pickup") setDeliveryCharges(35);
-  else setDeliveryCharges(0);
-}, [formData.city, formData.deliveryType]);
+    if (formData.city === "al-khobar" && formData.deliveryType === "delivery") setDeliveryCharges(25);
+    else if (formData.city === "damam" && formData.deliveryType === "delivery") setDeliveryCharges(35);
+    else setDeliveryCharges(0);
+  }, [formData.city, formData.deliveryType]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -62,15 +110,15 @@ const Checkout = () => {
   };
 
   const base64ToBlob = (base64: string) => {
-  const byteString = atob(base64.split(",")[1]);
-  const mimeString = base64.split(",")[0].split(":")[1].split(";")[0];
-  const ab = new ArrayBuffer(byteString.length);
-  const ia = new Uint8Array(ab);
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([ab], { type: mimeString });
-};
+    const byteString = atob(base64.split(",")[1]);
+    const mimeString = base64.split(",")[0].split(":")[1].split(";")[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -81,7 +129,11 @@ const Checkout = () => {
     }
 
     if (!deliveryTiming) {
-      alert(t("Please select delivery  time", "يرجى اختيار تاريخ ووقت التوصيل", lang));
+      alert(t("Please select delivery time", "يرجى اختيار تاريخ ووقت التوصيل", lang));
+      return;
+    }
+    if (!deliveryDate) {
+      alert(t("Please select delivery Date", "يرجى اختيار تاريخ التوصيل", lang));
       return;
     }
 
@@ -107,7 +159,7 @@ const Checkout = () => {
           message: item.message || "",
           specialInstructions: item.specialInstruction || "",
           orderType: item.type,
-          hasCustomImage: !!item.cupcakeImage
+          hasCustomImage: !!item.cupcakeImage,
         })),
         pricing: {
           subtotal: totalAmount,
@@ -116,6 +168,7 @@ const Checkout = () => {
         },
         delivery: {
           deliveryTimeSlot: deliveryTiming,
+          deliveryDateSlot: deliveryDate, // Added this field
           deliveryType: formData.deliveryType.toUpperCase(),
         },
         payment: {
@@ -125,35 +178,34 @@ const Checkout = () => {
       };
 
       const fd = new FormData();
-        const compressedFile = await imageCompression(paymentProof, {
-          maxSizeMB: 1,
-          maxWidthOrHeight: 1200,
-          useWebWorker: true,
-        });
+      const compressedFile = await imageCompression(paymentProof, {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1200,
+        useWebWorker: true,
+      });
 
       fd.append("paymentProof", compressedFile);
       cartItems.forEach((item, index) => {
-      if (item.cupcakeImage && item.cupcakeImage.startsWith("data:image")) {
-        const imageBlob = base64ToBlob(item.cupcakeImage);
-        // We name it cupcakeImage_0, cupcakeImage_1, etc.
-        fd.append(`cupcakeImage_${index}`, imageBlob, `cupcake_${index}.jpg`);
-      }
-    });
+        if (item.cupcakeImage && item.cupcakeImage.startsWith("data:image")) {
+          const imageBlob = base64ToBlob(item.cupcakeImage);
+          fd.append(`cupcakeImage_${index}`, imageBlob, `cupcake_${index}.jpg`);
+        }
+      });
       fd.append("orderData", JSON.stringify(orderData));
 
       const res = await axios.post("/api/order", fd);
 
       if (res.data.success) {
-      clearCart();
-      localStorage.removeItem("deliveryTime");
-      
-      // Ensure we access the ID correctly from the response
-      const orderId = res.data.order?._id || res.data.data?._id; 
-      router.push(`/thank-you/${orderId}`);
-    } else {
-      setStatus(res.data.message || "Order failed.");
-    }
-    } catch (err:any) {
+        clearCart();
+        localStorage.removeItem("deliveryTime");
+        localStorage.removeItem("deliveryDate");
+
+        const orderId = res.data.order?._id || res.data.data?._id;
+        router.push(`/thank-you/${orderId}`);
+      } else {
+        setStatus(res.data.message || "Order failed.");
+      }
+    } catch (err: any) {
       console.error(err);
       const errorMsg = err.response?.data?.message || "Order failed. Try again.";
       setStatus(errorMsg);
@@ -168,13 +220,9 @@ const Checkout = () => {
       <div className="w-full py-5 border-r lg:pl-20 pl-5 pr-5 border-gray-300 md:w-2/3">
         <h1 className="text-3xl text-center font-bold mb-6 border-b border-gray-300 pb-2">
           <Link href={"/"}>{t("Checkout", "الدفع", lang)}</Link>
-
         </h1>
 
-        <form
-          onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6"
-        >
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
           {/* Customer Info */}
           <div className="space-y-4">
             <input
@@ -210,45 +258,43 @@ const Checkout = () => {
               className="border w-full border-gray-300 p-2 rounded-md"
               required
             >
-              <option value="">
-                {t("Select Delivery Type", "اختر نوع التوصيل", lang)}
-              </option>
-
-              <option value="pickup">
-                {t("Pick Up", "استلام", lang)}
-              </option>
-
-              <option value="delivery">
-                {t("Delivery", "توصيل", lang)}
-              </option>
+              <option value="">{t("Select Delivery Type", "اختر نوع التوصيل", lang)}</option>
+              <option value="pickup">{t("Pick Up", "استلام", lang)}</option>
+              <option value="delivery">{t("Delivery", "توصيل", lang)}</option>
             </select>
-            {
-              formData.deliveryType === "pickup" && (<p className="text-sm text-zinc-600">{t("NOTE: Pickup Address will be whatsapp to you after order is confirm", "ملاحظة: سيتم إرسال عنوان الاستلام إليك عبر واتساب بعد تأكيد الطلب.", lang)}</p>)
-            }
-            {formData.deliveryType === "delivery" &&
-              (<>
-              <select
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              className="border w-full border-gray-300 p-2 rounded-md"
-              required
-            >
-              <option value="">{t("City", "المدينة", lang)}</option>
-              <option value="al-khobar">{t("Al Khobar", "الخبر", lang)}</option>
-              <option value="damam">{t("Dammam", "الدمام", lang)}</option>
-            </select>
-            
-            <input
-              name="address"
-              type="text"
-              placeholder={t("Address", "العنوان", lang)}
-              required
-              value={formData.address}
-              onChange={handleChange}
-              className="border-gray-300 outline-none w-full p-3 border rounded-md"
-            />
-            </>)}
+            {formData.deliveryType === "pickup" && (
+              <p className="text-sm text-zinc-600">
+                {t(
+                  "NOTE: Pickup Address will be whatsapp to you after order is confirm",
+                  "ملاحظة: سيتم إرسال عنوان الاستلام إليك عبر واتساب بعد تأكيد الطلب.",
+                  lang
+                )}
+              </p>
+            )}
+            {formData.deliveryType === "delivery" && (
+              <>
+                <select
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  className="border w-full border-gray-300 p-2 rounded-md"
+                  required
+                >
+                  <option value="">{t("City", "المدينة", lang)}</option>
+                  <option value="al-khobar">{t("Al Khobar", "الخبر", lang)}</option>
+                  <option value="damam">{t("Dammam", "الدمام", lang)}</option>
+                </select>
+                <input
+                  name="address"
+                  type="text"
+                  placeholder={t("Address", "العنوان", lang)}
+                  required
+                  value={formData.address}
+                  onChange={handleChange}
+                  className="border-gray-300 outline-none w-full p-3 border rounded-md"
+                />
+              </>
+            )}
           </div>
 
           {/* Notes */}
@@ -265,9 +311,7 @@ const Checkout = () => {
 
           {/* Payment */}
           <div className="md:col-span-2 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-            <h3 className="mb-3 text-sm font-semibold text-gray-800">
-              {t("Payment Method", "طريقة الدفع", lang)}
-            </h3>
+            <h3 className="mb-3 text-sm font-semibold text-gray-800">{t("Payment Method", "طريقة الدفع", lang)}</h3>
             <select
               name="paymentMethod"
               value={formData.paymentMethod}
@@ -277,16 +321,22 @@ const Checkout = () => {
               <option value="online">{t("Bank Payment", "تحويل بنكي", lang)}</option>
             </select>
             <p className="mt-2 text-xs text-gray-500">
-              {t("Secure bank transfer. Your payment details are safe.", "تحويل بنكي آمن. تفاصيل الدفع الخاصة بك آمنة.", lang)}
+              {t(
+                "Secure bank transfer. Your payment details are safe.",
+                "تحويل بنكي آمن. تفاصيل الدفع الخاصة بك آمنة.",
+                lang
+              )}
             </p>
             <div className="p-3 flex flex-col gap-2 px-5 bg-zinc-100 shadow-inner text-sm">
               <p className="font-semibold">STC BANK</p>
-              <p><span className="font-semibold">IBAN:</span> SA9278000000001258715768</p>
-              <p><span className="font-semibold">Account:</span> 561812342</p>
+              <p>
+                <span className="font-semibold">IBAN:</span> SA9278000000001258715768
+              </p>
+              <p>
+                <span className="font-semibold">Account:</span> 561812342
+              </p>
             </div>
-            <label className="block text-sm font-medium mt-2">
-             {t("Upload Payment Proof", "رفع إثبات الدفع", lang)}
-            </label>
+            <label className="block text-sm font-medium mt-2">{t("Upload Payment Proof", "رفع إثبات الدفع", lang)}</label>
             <input
               type="file"
               required
@@ -296,20 +346,13 @@ const Checkout = () => {
             />
             {preview && (
               <div className="mt-3">
-                <Image
-                  src={preview}
-                  alt="Payment proof"
-                  width={200}
-                  height={200}
-                  className="rounded-md border"
-                />
+                <Image src={preview} alt="Payment proof" width={200} height={200} className="rounded-md border" />
               </div>
             )}
           </div>
 
           {/* Delivery Date/Time */}
           <div className="md:col-span-2">
-            
             <label className="block mt-2 mb-1">{t("Delivery Time", "وقت التوصيل", lang)}</label>
             <select
               value={deliveryTiming}
@@ -322,20 +365,39 @@ const Checkout = () => {
               <option value="">{t("Select time", "اختر الوقت", lang)}</option>
               <option value="4-6">4 PM - 6 PM</option>
               <option value="6-10">6 PM - 10 PM</option>
-
             </select>
+            <div>
+              <label className="text-sm font-medium mt-2 block">{t("Delivery Date", "تاريخ التوصيل", lang)}</label>
+              <input
+                type="date"
+                min={minDate}
+                value={deliveryDate}
+                onChange={handleDateChange}
+                className={`w-full border rounded px-3 py-2 mt-1 ${
+                  bookedDates.includes(deliveryDate) ? "border-red-500 bg-red-50" : "border-gray-300"
+                }`}
+              />
+              {bookedDates.includes(deliveryDate) && (
+                <p className="text-xs text-red-500 mt-1">{t("This date is fully booked", "هذا التاريخ محجوز بالكامل", lang)}</p>
+              )}
+            </div>
           </div>
 
           <button
             type="submit"
-            disabled={loading || cartItems.length === 0 || !paymentProof || !formData.deliveryType}
+            disabled={
+              loading ||
+              cartItems.length === 0 ||
+              !paymentProof ||
+              !formData.deliveryType ||
+              !deliveryDate ||
+              bookedDates.includes(deliveryDate)
+            }
             className={`md:col-span-2 w-full disabled:opacity-40 cursor-pointer text-white py-3 rounded-md transition ${
               loading ? "bg-gray-600" : "bg-black hover:bg-gray-800"
             }`}
           >
-           {loading
-  ? t("Placing Order...", "جاري تنفيذ الطلب...", lang)
-  : t("Place Order", "إتمام الطلب", lang)}
+            {loading ? t("Placing Order...", "جاري تنفيذ الطلب...", lang) : t("Place Order", "إتمام الطلب", lang)}
           </button>
         </form>
 
@@ -344,8 +406,7 @@ const Checkout = () => {
 
       {/* RIGHT: CART SUMMARY */}
       <div className="w-full md:w-1/3 bg-gray-100 py-6 px-6">
-        <h3 className="text-xl font-semibold mb-4">{t("Your Cart", "سلة المشتريات", lang)}
-</h3>
+        <h3 className="text-xl font-semibold mb-4">{t("Your Cart", "سلة المشتريات", lang)}</h3>
         {cartItems.length === 0 ? (
           <p className="text-gray-500">{t("Your cart is empty.", "سلة المشتريات فارغة.", lang)}</p>
         ) : (
@@ -362,27 +423,37 @@ const Checkout = () => {
                       alt={item.titleEn}
                     />
                   ) : (
-                    <div className="w-[70px] h-[70px] bg-gray-200 flex items-center justify-center text-xs">
-                      No Img
-                    </div>
+                    <div className="w-[70px] h-[70px] bg-gray-200 flex items-center justify-center text-xs">No Img</div>
                   )}
                   <div>
-                    <p className="font-medium">{t(item.titleEn, item.titleAr,lang)}</p>
-                    <p dir="ltr" className="text-sm">{item.flavor && item.flavor}</p>
-                    <p dir="ltr" className="text-sm">{item.size}</p>
-                    <p className="text-sm text-gray-600">{t("Qty", "الكمية", lang)}: {item.quantity}</p>
+                    <p className="font-medium">{lang === "en" ? item.titleEn : item.titleAr}</p>
+                    <p dir="ltr" className="text-sm">
+                      {item.flavor && item.flavor}
+                    </p>
+                    <p dir="ltr" className="text-sm">
+                      {item.size}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {t("Qty", "الكمية", lang)}: {item.quantity}
+                    </p>
                   </div>
                 </div>
-                <p className="font-medium">{item.price * item.quantity} <CurrenncyT /> </p>
+                <p className="font-medium">
+                  {item.price * item.quantity} <CurrenncyT />{" "}
+                </p>
               </div>
             ))}
             <div className="flex justify-between mt-4 font-bold text-lg">
               <span>{t("Shipping", "الشحن", lang)}:</span>
-              <span>{deliveryCharges} <CurrenncyT /> </span>
+              <span>
+                {deliveryCharges} <CurrenncyT />{" "}
+              </span>
             </div>
             <div className="flex justify-between mt-4 font-bold text-lg">
               <span>{t("Total", "الإجمالي", lang)}:</span>
-              <span>{totalAmount + deliveryCharges} <CurrenncyT /> </span>
+              <span>
+                {totalAmount + deliveryCharges} <CurrenncyT />{" "}
+              </span>
             </div>
           </>
         )}

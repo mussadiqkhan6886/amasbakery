@@ -45,6 +45,7 @@ notes: { type: String, default: "No notes" },
 
     delivery: {
       deliveryTimeSlot: String,
+      deliveryDateSlot: Date,
       deliveryType: {
         type: String,
         enum: ["DELIVERY", "PICKUP"],

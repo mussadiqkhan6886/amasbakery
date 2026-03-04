@@ -9,12 +9,14 @@ import Language from "@/components/customer/Language";
 export const metadata: Metadata = {
   title: {
     default: "Delicious Cakes in Al khobar and Dammam",
-    template: "%s | Amas Bakery",
+    template: "%s | Amass Bakery",
   },
-  description: "Experience the finest custom cakes, tiered wedding cakes, and artisanal pastries at Amas Bakery. Freshly baked in Al Khobar and Dammam.",
+  description: "Experience the finest custom cakes, tiered wedding cakes, and artisanal pastries at Amass Bakery. Freshly baked in Al Khobar and Dammam.",
   keywords: [
-  "Amas Bakery",
+  "Amass Bakery",
   "custom cakes Al Khobar",
+  "best cakes Al Khobar",
+  "best cakes Dammam",
   "cake delivery Dammam",
   "customized birthday cakes",
   "wedding cakes Saudi Arabia",
@@ -30,16 +32,16 @@ export const metadata: Metadata = {
   "bakery near me Khobar",
   "bakery near me dammam"
 ],
-  authors: [{ name: "Amas Bakery" }],
+  authors: [{ name: "Amass Bakery" }],
   metadataBase: new URL("https://www.amassbakery.com"), // Replace with your real domain
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Amas Bakery | Artisanal Cakes",
+    title: "Amass Bakery | Cakes",
     description: "Handcrafted cakes and sweets for your special occasions.",
     url: "https://www.amassbakery.com",
-    siteName: "Amas Bakery",
+    siteName: "Amass Bakery",
     images: [
       {
         url: "/logo.webp", // Make sure to put an image in your public folder

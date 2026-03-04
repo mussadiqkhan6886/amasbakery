@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Checkout | Amas Bakery",
+  title: "Checkout | Amass Bakery",
   description: "Checkout page",
   // This line prevents search engines from indexing the admin area
   robots: {

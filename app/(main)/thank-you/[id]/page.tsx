@@ -29,7 +29,7 @@ const ThankYou = ({ params }: { params: Promise<{ id: string }> }) => {
 
         <div className="inline-block bg-pink-50 px-6 py-2 rounded-full border border-pink-100 mb-12">
           <p className="text-pink-700 font-medium">
-            {t("Order ID:", "رقم الطلب:", lang)} <span className="font-bold">#{id.slice(-8).toUpperCase()}</span>
+            {t("Order ID:", "رقم الطلب:", lang)} <span className="font-bold">#{id.slice(0, 8).toUpperCase()}</span>
           </p>
         </div>
 

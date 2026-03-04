@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "online cake ordering",
     "build a cake Dammam",
     "cake design upload",
-    "Amas Bakery customization",
+    "Amass Bakery customization",
     "customize bakery cake",
     "customize birthday cake",
     "customize birthday cake in al-khobar",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     " birthday cake in dammam",
   ],
   openGraph: {
-    title: "Customize Your Cake | Amas Bakery",
+    title: "Customize Your Cake | Amass Bakery",
     description: "Handcraft your dream cake with our interactive builder.",
     url: "https://www.amassbakery.com/customize-your-cake", // Replace with your actual URL
     type: "website",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         url: "/custom.webp", // Create a specific image for the customize page
         width: 1200,
         height: 630,
-        alt: "Amas Bakery Cake Customization Tool",
+        alt: "Amass Bakery Cake Customization Tool",
       },
     ],
   },

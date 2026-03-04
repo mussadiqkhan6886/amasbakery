@@ -3,7 +3,6 @@ import MayLike from '@/components/customer/MayLike';
 import ProductDetails from '@/components/customer/ProductDetails';
 import { connectDB } from '@/lib/config/db';
 import { playFair } from '@/lib/fonts';
-import { getAndResetOrderControl } from '@/lib/helper';
 import { Product } from '@/lib/models/ProductSchema';
 import Link from 'next/link';
 import React from 'react';
@@ -27,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!product) return { title: "Product Not Found" };
 
   return {
-    title: `${product.name.en} | Amas Bakery`,
+    title: `${product.name.en}`,
     description: product.description.en.substring(0, 160), // SEO snippet
     openGraph: {
       title: product.name.en,
@@ -43,7 +42,6 @@ const singleProduct = async ({ params }: { params: Promise<{ slug: string }> }) 
 
   await connectDB();
   const res = await Product.findOne({ slug });
-  const orderControl = await getAndResetOrderControl();
   const product = JSON.parse(JSON.stringify(res));
 
   if (!product) {

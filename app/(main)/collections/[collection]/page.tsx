@@ -23,9 +23,9 @@ export async function generateMetadata({ params }: { params: Promise<{ collectio
 
   return {
     title: `${title}`,
-    description: `Explore our delicious selection of ${collection} at Amas Bakery. Handcrafted treats available for delivery in Al Khobar and Dammam.`,
+    description: `Explore our delicious selection of ${collection} at Amass Bakery. Handcrafted treats available for delivery in Al Khobar and Dammam.`,
     openGraph: {
-      title: `${title} Collection | Amas Bakery`,
+      title: `${title} Collection | Amass Bakery`,
       description: `Browse our ${collection} and find the perfect treat for your celebration.`,
     }
   };

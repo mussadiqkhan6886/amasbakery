@@ -32,6 +32,13 @@ export default function MenuOrderTable({
       specialInstruction: order.items.map((i) => i.specialInstructions).filter(Boolean).join(" | ") || "-",
       cupcakeReferenceImage: order.items.map(i => i.cupcakeReferenceImage),
       deliveryTime: order.delivery.deliveryTimeSlot || "-",
+      deliveryDate: order.delivery?.deliveryDateSlot 
+        ? new Date(order.delivery.deliveryDateSlot).toLocaleDateString("en-US", {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long'
+          })
+        : "-",
       deliveryCharges: order.pricing.deliveryCharges,
       totalAmount: order.pricing.total,
       orderStatus: order.orderStatus,
@@ -70,6 +77,7 @@ export default function MenuOrderTable({
     { field: "message", headerName: "Message", width: 130 },
     { field: "specialInstruction", headerName: "Special Instructions", width: 150 },
     { field: "deliveryTime", headerName: "Time", width: 100 },
+    { field: "deliveryDate", headerName: "Date", width: 140 },
     { field: "totalAmount", headerName: "Total (Rs)", width: 100 },
 
      {

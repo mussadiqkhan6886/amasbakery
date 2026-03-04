@@ -2,7 +2,7 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard | Amas Bakery",
+  title: "Admin Dashboard | Amass Bakery",
   description: "Administrative control panel",
   // This line prevents search engines from indexing the admin area
   robots: {
