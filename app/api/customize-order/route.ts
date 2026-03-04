@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/config/db";
 import { CustomOrder } from "@/lib/models/CustomizeOrderSchema";
-import { OrderControl } from "@/lib/models/ControlSchema";
 import cloudinary from "@/lib/config/cloudinary";
 import nodemailer from "nodemailer";
 
@@ -54,12 +53,6 @@ export const POST = async (req: NextRequest) => {
       delivery,
       pricing,
     });
-
-    // ✅ Increment today's custom order count
-    await OrderControl.updateOne(
-      {},
-      { $inc: { "todayOrders.customCount": 1 } }
-    );
 
     // ✅ Nodemailer setup
     const transporter = nodemailer.createTransport({
