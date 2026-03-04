@@ -32,10 +32,10 @@ export const metadata: Metadata = {
     title: "Amass Bakery | Custom Cakes & Artisanal Treats",
     description: "Handcrafted cakes for your special moments in Al Khobar and Dammam.",
     url: "https://www.amassbakery.com", // Replace with your actual domain
-    siteName: "Amas Bakery",
+    siteName: "Amass Bakery",
     images: [
       {
-        url: "/logo.webp", // Ensure this exists in your public folder
+        url: "/hero.webp", // Ensure this exists in your public folder
         width: 1200,
         height: 630,
         alt: "Amass Bakery Custom Cakes",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Amass Bakery | Custom Cakes",
     description: "Premium handcrafted cakes in Al Khobar and Dammam.",
-    images: ["/logo.webp"],
+    images: ["/hero.webp"],
   },
 };
 

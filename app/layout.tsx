@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "Amass Bakery",
     images: [
       {
-        url: "/logo.webp", // Make sure to put an image in your public folder
+        url: "/hero.webp", // Make sure to put an image in your public folder
         width: 1200,
         height: 630,
       },
