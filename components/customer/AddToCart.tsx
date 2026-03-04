@@ -24,39 +24,12 @@ const AddToCart = ({
   const { t, lang } = useLanguage();
   const { addToCart, cart } = useCart();
   
-  // Initialize as numbers
-  // const [currentCount, setCurrentCount] = useState(0);
-  // const [maxLimit, setMaxLimit] = useState(0);
-  // const [isSoldOut, setIsSoldOut] = useState(false);
   
   const [added, setAdded] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchOrderControl = async () => {
-  //     try {
-  //       const res = await axios.get("/api/orderControl");
-  //       const data = res.data.data;
-
-  //       if (type === "MENU") {
-  //         setCurrentCount(data.todayOrders.menuCount);
-  //         setMaxLimit(data.dailyLimits.menuLimit);
-  //         if (data.todayOrders.menuCount >= data.dailyLimits.menuLimit) setIsSoldOut(true);
-  //       } else {
-  //         setCurrentCount(data.todayOrders.occasionCount);
-  //         setMaxLimit(data.dailyLimits.occasionLimit);
-  //         if (data.todayOrders.occasionCount >= data.dailyLimits.occasionLimit) setIsSoldOut(true);
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch order control:", error);
-  //     }
-  //   };
-
-  //   fetchOrderControl();
-  // }, [type]);
 
   const handleAddToCart = () => {
-    // if (loading || isSoldOut) return;
     if (loading) return;
 
     setLoading(true);
