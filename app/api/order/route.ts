@@ -175,7 +175,7 @@ export const POST = async (req: NextRequest) => {
 
     await transporter.sendMail({
       from: `"Amas Bakery" <${process.env.EMAIL_USER}>`,
-      to: "sadafsafdar18@gmail.com",
+      to: process.env.EMAIL_USER,
       subject: `New Order Alert! #${newOrder.orderId.slice(0,8)}`,
       html: adminHtml,
     });

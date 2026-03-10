@@ -14,7 +14,7 @@ const Footer = () => {
         <Link target='_blank' href={"https://www.instagram.com/amassbakery/?__pwa=1"}>
           <FiInstagram />
         </Link>
-          <Link href="mailto:sadafsafdar18@gmail.com">
+          <Link href="mailto:amassbakery@gmail.com">
             <FiMail />
           </Link>
       </div>
