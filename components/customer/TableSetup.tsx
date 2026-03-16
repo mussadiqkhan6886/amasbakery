@@ -45,6 +45,7 @@ const TableSetup = () => {
             <Image src={img.imageUrl} alt="Setup Preview" fill className="object-cover hover:scale-105 transition" />
           </div>
         ))}
+        {images.length <= 0 && <p className='h-20 bg-zinc-200 text-zinc-500 flex items-center justify-center font-semibold text-center w-full col-span-3'>No Images</p>}
       </div>
 
       <TabelForm />
