@@ -9,7 +9,7 @@ const ReviewsSlider = ({ data }: { data: ReviewType[] }) => {
   const { t, lang } = useLanguage();
 
   if (!data || data.length === 0) return (<section>
-    <h4>{t("No Reviews yet", "لا توجد تعليقات حتى الآن", lang)}</h4>
+    <h4 className="text-center">{t("No Reviews yet", "لا توجد تعليقات حتى الآن", lang)}</h4>
   </section>)
 
   return (
