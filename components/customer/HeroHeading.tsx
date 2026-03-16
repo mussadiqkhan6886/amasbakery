@@ -47,13 +47,13 @@ const HeroHeading = () => {
 
   const secondHeading =
     lang === "en"
-      ? ["Sweet", "Cravings"]
+      ? ["Sweet", "Craving"]
       : ["حلو", "الرغبة الشديدة"]
 
   const renderHeading = (words: string[]) => (
   <motion.h1
     dir={lang === "ar" ? "rtl" : "ltr"}
-    className={`${playFair.className} text-[70px] md:text-9xl font-thin text-white px-4`}
+    className={`${playFair.className} text-[67px] md:text-9xl font-thin text-white px-4`}
     variants={containerVariants}
     initial="hidden"
     animate="visible"
