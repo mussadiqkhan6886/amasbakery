@@ -42,12 +42,12 @@ const HeroHeading = () => {
 
   const firstHeading =
     lang === "en"
-      ? ["Amas", "Bakery"]
+      ? ["Amass", "Bakery"]
       : ["مخبز", "أماس"]
 
   const secondHeading =
     lang === "en"
-      ? ["Bake  With", "Love"]
+      ? ["Sweet", "Cravings"]
       : ["خبز", "مع", "حب"]
 
   const renderHeading = (words: string[]) => (
