@@ -48,7 +48,7 @@ const HeroHeading = () => {
   const secondHeading =
     lang === "en"
       ? ["Sweet", "Cravings"]
-      : ["خبز", "مع", "حب"]
+      : ["حلو", "الرغبة الشديدة"]
 
   const renderHeading = (words: string[]) => (
   <motion.h1
