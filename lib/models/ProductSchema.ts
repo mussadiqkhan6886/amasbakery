@@ -33,7 +33,7 @@ const ProductSchema: Schema<IProduct> = new Schema(
       en: { type: String, required: true },
       ar: { type: String, required: true },
     },
-    slug: { type: String, required: true, unique: true },
+    slug: { type: String, required: true },
     type: { type: String, enum: ["menu", "occasion-cakes"], required: true },
     category: {
       en: { type: String, required: true },

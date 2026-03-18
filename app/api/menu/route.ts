@@ -65,31 +65,26 @@ export async function POST(req: NextRequest) {
 
     /* ---------------- Upload Images ---------------- */
 
-    const uploadedImages: string[] = [];
-
-    for (const file of files) {
-      if (!(file instanceof File)) continue;
-
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
-      const uploadResult: any = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream(
-            {
-              folder: "amasbakery",
-              resource_type: "image",
-            },
-            (error, result) => {
-              if (error) reject(error);
-              else resolve(result);
-            }
-          )
-          .end(buffer);
-      });
-
-      uploadedImages.push(uploadResult.secure_url);
-    }
+    const uploadPromises = files.map(async (file) => {
+         if (!(file instanceof File)) return null;
+   
+         const arrayBuffer = await file.arrayBuffer();
+         const buffer = Buffer.from(arrayBuffer);
+   
+         return new Promise<string>((resolve, reject) => {
+           const uploadStream = cloudinary.uploader.upload_stream(
+             { folder: "amasbakery", resource_type: "image" },
+             (error, result) => {
+               if (error) reject(error);
+               else resolve(result?.secure_url || "");
+             }
+           );
+           uploadStream.end(buffer);
+         });
+       });
+   
+       // Run all uploads at once
+       const uploadedImages = (await Promise.all(uploadPromises)).filter((url): url is string => !!url);
 
     /* ---------------- Create Product ---------------- */
 

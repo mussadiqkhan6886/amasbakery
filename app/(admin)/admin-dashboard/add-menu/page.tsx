@@ -132,7 +132,7 @@ export default function AddProductPage() {
       // Compress images
       for (const file of files) {
         const compressedFile = await imageCompression(file, {
-          maxSizeMB: 1,
+          maxSizeMB: 0.5,
           maxWidthOrHeight: 1200,
           useWebWorker: true,
         });
@@ -162,6 +162,7 @@ export default function AddProductPage() {
 
         setVarieties([{ size: "", price: "" }]);
         setFiles([]);
+        previews.forEach(url => URL.revokeObjectURL(url));
         setPreviews([]);
       }
     } catch (error) {
