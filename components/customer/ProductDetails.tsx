@@ -103,9 +103,9 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         {t(product.name.en, product.name.ar, lang)}
       </h1>
 
-      <p className="text-xl mb-2 text-gray-800">
+      {/* <p className="text-xl mb-2 text-gray-800">
         {totalPrice.toFixed(2)} <CurrenncyT />
-      </p>
+      </p> */}
 
       <p className="text-sm leading-6 tracking-wide">
         {t(product.description.en, product.description.ar, lang)}
@@ -251,7 +251,7 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
 )}
 
       {/* ADD TO CART */}
-      <AddToCart
+      {/* <AddToCart
         id={product._id}
         type={product.category.en === "Gift" ? "GIFT" : product.type.toUpperCase()}
         titleEn={product.name.en}
@@ -265,7 +265,7 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         message={message}
         cupcakeImage={cupcakeImageBase64}
         specialInstruction={specialInstruction}
-      />
+      /> */}
       
       <div>
         <p className="text-xl font-semibold">Ingredients</p>

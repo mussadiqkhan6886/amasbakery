@@ -91,11 +91,11 @@ export default function Header() {
 
     <div className="flex items-center gap-3 text-lg">
       <div className="relative">
-        <FiShoppingCart
+        {/* <FiShoppingCart
           onClick={() => setOpen(true)}
           className="cursor-pointer hover:scale-110 transition"
           size={20}
-        />
+        /> */}
 
         {totalItems > 0 && (
           <span className="absolute -top-3 -right-2 bg-main text-white text-[9px] px-1 py-0.5 rounded-full">

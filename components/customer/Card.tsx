@@ -28,9 +28,9 @@ const Card = ({ item }: { item: ProductType }) => {
       <h2 className={`${playFair.className} mt-2 text-main text-center text-[16px]`}>
         {t(item.name.en, item.name.ar, lang)}
       </h2>
-      <h3 className="text-sm text-center text-gray-700 mt-1">
+      {/* <h3 className="text-sm text-center text-gray-700 mt-1">
         {item.varieties[0].price} <CurrenncyT />
-      </h3>
+      </h3> */}
     </Link>
   );
 };
