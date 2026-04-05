@@ -39,9 +39,9 @@ const SwiperCard: React.FC<SwiperCardProps> = ({ data , delay}) => {
                 <Image src={item.image[0]} alt={item.name.en} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover rounded-lg" />
               </div>
               <h5 className={`${playFair.className} text-center text-lg`}>{t(item.name.en, item.name.ar, lang)}</h5>
-              <h6 className="text-sm">
+              {/* <h6 className="text-sm">
                 {item.varieties[0].price} <CurrenncyT />
-              </h6>
+              </h6> */}
             </Link>
           </SwiperSlide>
         )})}

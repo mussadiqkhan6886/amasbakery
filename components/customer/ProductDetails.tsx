@@ -129,7 +129,8 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         >
           {product.varieties.map((item) => (
             <option key={item.size} value={item.size}>
-              {item.size} - {item.price} <CurrenncyT />
+              {item.size} 
+              {/* - {item.price} <CurrenncyT /> */}
             </option>
           ))}
         </select>
