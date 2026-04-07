@@ -136,7 +136,7 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         </select>
       </div> */}
 
-        {/* <div className="flex flex-col w-full gap-2">
+        <div className="flex flex-col w-full gap-2">
           <label className="font-medium">
             {t("Flavor", "النكهة", lang)}
           </label>
@@ -156,7 +156,7 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
             ))
             )}
           </select>
-        </div> */}
+        </div>
       
 
       {/* <div className="flex flex-col gap-2">
