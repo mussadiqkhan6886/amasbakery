@@ -111,7 +111,7 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         {t(product.description.en, product.description.ar, lang)}
       </p>
 
-      <div className="flex flex-col w-full gap-2">
+      {/* <div className="flex flex-col w-full gap-2">
         <label className="font-medium">
           {product.category.en === "Gift" ? t("Items", "أغراض", lang) : t("Size", "الحجم", lang)}
         </label>
@@ -130,13 +130,13 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
           {product.varieties.map((item) => (
             <option key={item.size} value={item.size}>
               {item.size} 
-              {/* - {item.price} <CurrenncyT /> */}
+              {/* - {item.price} <CurrenncyT />
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
 
-        <div className="flex flex-col w-full gap-2">
+        {/* <div className="flex flex-col w-full gap-2">
           <label className="font-medium">
             {t("Flavor", "النكهة", lang)}
           </label>
@@ -156,10 +156,10 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
             ))
             )}
           </select>
-        </div>
+        </div> */}
       
 
-      <div className="flex flex-col gap-2">
+      {/* <div className="flex flex-col gap-2">
        {product.category.en.toLowerCase() === "cake" && <> <label className="font-medium">
           {t("Add Personalized Message", "إضافة رسالة شخصية", lang)}
         </label>
@@ -208,7 +208,7 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         />
       </div>
 
-      {/* QUANTITY */}
+      {/* QUANTITY *
       <div className="flex items-center gap-4 mt-4">
         <span className="font-medium">
           {t("Quantity", "الكمية", lang)}
@@ -249,7 +249,7 @@ const handleCupcakeImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
       <p className="text-[10px] text-green-600 mt-1 font-bold">✓ Image ready to add</p>
     )}
   </div>
-)}
+)} */}
 
       {/* ADD TO CART */}
       {/* <AddToCart
