@@ -1,4 +1,4 @@
-# 🎂 Amass Bakery — Client Website
+# Amass Bakery — Client Website
 
 > A production website built for **Ama's Bakery**, a home-based custom cake and artisanal dessert shop based in **Al Khobar, Saudi Arabia**.
 
