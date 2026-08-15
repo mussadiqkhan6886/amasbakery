@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import jwt from "jsonwebtoken"
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -10,6 +11,11 @@ export async function proxy(req: NextRequest) {
   ) {
     const token = req.cookies.get("adminToken")?.value;
     if (!token) {
+      return NextResponse.redirect(new URL("/admin-dashboard/login", req.url));
+    }
+     try {
+      jwt.verify(token, process.env.TOKEN_SECRET!);
+    } catch {
       return NextResponse.redirect(new URL("/admin-dashboard/login", req.url));
     }
   }
