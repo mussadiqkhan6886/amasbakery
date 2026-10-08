@@ -33,6 +33,7 @@ const TableSetup = () => {
 
   return (
     <section className={`max-w-6xl mx-auto px-6 ${isRtl ? 'text-right' : 'text-left'}`} dir={isRtl ? 'rtl' : 'ltr'}>
+      <h2 className="bg-red-600 text-white absolute top-30 text-sm px-5 right-10 z-40 p-3 rounded-full">Orders are closed</h2>
       <h1 className={`${playFair.className} text-3xl text-center mb-8 text-gray-800`}>
         {t("Table Setup", "تنسيق الطاولات", lang)}
       </h1>

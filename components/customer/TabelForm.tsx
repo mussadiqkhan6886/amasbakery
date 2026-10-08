@@ -239,7 +239,7 @@ const TabelForm = () => {
       </div>
 
       {/* Submit */}
-      <button 
+      {/* <button 
         type="submit" 
         disabled={loading}
         className="group relative w-full overflow-hidden bg-black py-6 text-white transition-all hover:bg-zinc-900 disabled:bg-gray-100 disabled:text-gray-500"
@@ -247,7 +247,7 @@ const TabelForm = () => {
         <span className="relative z-10 text-[11px] font-bold uppercase tracking-[0.4em]">
           {loading ? t("Sending Request...", "جاري الإرسال...", lang) : t("Confirm Table Setup", "تأكيد التنسيق", lang)}
         </span>
-      </button>
+      </button> */}
       {error && (
         <div className="p-4 bg-red-50 border border-red-100 text-red-600 text-xs tracking-widest uppercase text-center animate-pulse">
           {error}

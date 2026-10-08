@@ -217,6 +217,7 @@ const Checkout = () => {
   return (
     <main className="flex flex-col md:flex-row justify-between">
       {/* LEFT: FORM */}
+      <div><h2>Orders are closed</h2></div>
       <div className="w-full py-5 border-r lg:pl-20 pl-5 pr-5 border-gray-300 md:w-2/3">
         <h1 className="text-3xl text-center font-bold mb-6 border-b border-gray-300 pb-2">
           <Link href={"/"}>{t("Checkout", "الدفع", lang)}</Link>
@@ -383,7 +384,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <button
+          {/* <button
             type="submit"
             disabled={
               loading ||
@@ -398,7 +399,7 @@ const Checkout = () => {
             }`}
           >
             {loading ? t("Placing Order...", "جاري تنفيذ الطلب...", lang) : t("Place Order", "إتمام الطلب", lang)}
-          </button>
+          </button> */}
         </form>
 
         {status && <p className="my-6 text-center text-black font-medium">{status}</p>}
