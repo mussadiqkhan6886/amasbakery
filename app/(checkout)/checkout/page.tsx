@@ -273,7 +273,7 @@ const Checkout = () => {
             )}
             {formData.deliveryType === "delivery" && (
               <>
-                <select
+                {/* <select
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
@@ -283,7 +283,7 @@ const Checkout = () => {
                   <option value="">{t("City", "المدينة", lang)}</option>
                   <option value="al-khobar">{t("Al Khobar", "الخبر", lang)}</option>
                   <option value="damam">{t("Dammam", "الدمام", lang)}</option>
-                </select>
+                </select> */}
                 <input
                   name="address"
                   type="text"

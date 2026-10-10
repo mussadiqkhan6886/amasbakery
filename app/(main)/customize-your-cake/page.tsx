@@ -4,7 +4,7 @@ import React from 'react'
 
 export const metadata: Metadata = {
   title: "Design Your Dream Cake ",
-  description: "Use our custom cake builder to design your perfect celebration cake. Choose flavors, sizes, and tiers, or upload your own design for delivery in Al Khobar and Dammam.",
+  description: "Use our custom cake builder to design your perfect celebration cake. Choose flavors, sizes, and tiers, or upload your own design for delivery in islamabad.",
   keywords: [
     "design your own cake",
     "custom cake builder",

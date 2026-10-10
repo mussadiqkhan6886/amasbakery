@@ -18,7 +18,7 @@ const PrivacyPolicy = () => {
     {
       title: t("2. How We Use Your Information", "٢. كيف نستخدم معلوماتك", lang),
       content: t(
-        "Your information is used specifically to process orders, verify payments, organize deliveries in Al-Khobar and Dammam, and communicate with you regarding your cake designs.",
+        "Your information is used specifically to process orders, verify payments, organize deliveries in islamabad, and communicate with you regarding your cake designs.",
         "تُستخدم معلوماتك خصيصاً لمعالجة الطلبات، والتحقق من الدفع، وتنظيم التوصيل في الخبر والدمام، والتواصل معك بخصوص تصاميم الكيك الخاصة بك.",
         lang
       )

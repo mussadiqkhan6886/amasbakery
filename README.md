@@ -1,6 +1,6 @@
 # Amass Bakery — Client Website
 
-> A production website built for **Ama's Bakery**, a home-based custom cake and artisanal dessert shop based in **Al Khobar, Saudi Arabia**.
+> A production website built for **Ama's Bakery**, a home-based custom cake and artisanal dessert shop based in **Al Khobar, Saudi Arabia & islamabad**.
 
 🌐 **Live Site:** [amassbakery.com](https://www.amassbakery.com)
 
@@ -102,6 +102,6 @@ Design & Developed by **[Mussadiq Khan](https://github.com/mussadiqkhan6886)** a
 
 ## 📬 Client Info
 
-- **Business:** Ama's Bakery
-- **Location:** Al Khobar, Saudi Arabia
+- **Business:** Amass Bakery
+- **Location:** Al Khobar, Saudi Arabia & islamabad
 - **Specialty:** Custom cakes, handcrafted desserts, and event setups

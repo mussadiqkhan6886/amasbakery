@@ -9,8 +9,8 @@ import React from 'react'
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cakes in Al Khobar and Dammam",
-  description: "Amass Bakery crafts premium custom cakes, tiered wedding cakes, and artisanal pastries. Delivering fresh, handcrafted sweets across Al Khobar and Dammam.",
+  title: "Cakes in Islamabad",
+  description: "Amass Bakery crafts premium custom cakes, tiered wedding cakes, and artisanal pastries. Delivering fresh, handcrafted sweets across Islamabad Pakistan.",
   keywords: [
     "Amass Bakery",
     "custom cakes Al Khobar",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Amass Bakery | Custom Cakes & Artisanal Treats",
-    description: "Handcrafted cakes for your special moments in Al Khobar and Dammam.",
+    description: "Handcrafted cakes for your special moments in Islamabad.",
     url: "https://www.amassbakery.com", // Replace with your actual domain
     siteName: "Amass Bakery",
     images: [
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Amass Bakery | Custom Cakes",
-    description: "Premium handcrafted cakes in Al Khobar and Dammam.",
+    description: "Premium handcrafted cakes in Islamabad.",
     images: ["/hero.webp"],
   },
 };

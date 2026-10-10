@@ -8,10 +8,10 @@ import Language from "@/components/customer/Language";
 
 export const metadata: Metadata = {
   title: {
-    default: "Delicious Cakes in Al khobar and Dammam",
+    default: "Delicious Cakes in Islamabad",
     template: "%s | Amass Bakery",
   },
-  description: "Experience the finest custom cakes, tiered wedding cakes, and artisanal pastries at Amass Bakery. Freshly baked in Al Khobar and Dammam.",
+  description: "Experience the finest custom cakes, tiered wedding cakes, and artisanal pastries at Amass Bakery. Freshly baked in Islamabad.",
   keywords: [
   "Amass Bakery",
   "custom cakes Al Khobar",

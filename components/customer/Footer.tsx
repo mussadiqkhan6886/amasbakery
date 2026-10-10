@@ -26,8 +26,8 @@ const Footer = () => {
         </div>
         <p className={`${playFair.className} text-main text-7xl text-center `}>{t("Amas Bakery", "مخبز أماس", lang)}</p>
         <div className="text-[12px]">
-          <p>{t("Based In Al Khobar", "مقرنا في الخبر", lang)}</p>
-          <p>{t("Amas Bakery Est. 2023", "مخبز أماس، تأسس عام 2023" ,lang)}</p>
+          {/* <p>{t("Based In Al Khobar", "مقرنا في الخبر", lang)}</p> */}
+          <p>{t("Amass Bakery Est. 2023", "مخبز أماس، تأسس عام 2023" ,lang)}</p>
         </div>
       </div>
       <p className='text-center border-t text-[13px] border-main py-2'>&copy; {t("All rights reserved","جميع الحقوق محفوظة" ,lang)} {new Date().getFullYear()}</p>
