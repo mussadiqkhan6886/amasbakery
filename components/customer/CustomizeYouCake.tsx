@@ -286,7 +286,6 @@ const handleTierChange = (index: number, field: keyof TierConfig, value: any) =>
 
   return (
     <main className={`min-h-screen pt-24 pb-20 px-4 bg-gray-50 ${lang === "ar" ? "rtl text-right" : "ltr text-left"}`} dir={lang === "ar" ? "rtl" : "ltr"}>
-      <h1 className="bg-red-600 text-white absolute top-30 text-sm px-5 right-10 z-40 p-3 rounded-full">Orders are closed</h1>
       <section className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
           <h1 className={`${playFair.className} text-4xl font-bold text-main mb-3`}>

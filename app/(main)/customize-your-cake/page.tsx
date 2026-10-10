@@ -44,7 +44,8 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <CustomizeYourCake />
+    // <CustomizeYourCake />
+    <></>
   )
 }
 
