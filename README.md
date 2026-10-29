@@ -28,7 +28,7 @@ The result: a fully custom solution where every part of the ordering experience 
 ## ✨ Features
 
 ### Customer-Facing
-- **Bilingual support** — Full English and Arabic (EN/AR) language toggle via `next-intl`
+- **Bilingual support** — Full English and Arabic (EN/AR) language toggle
 - **4 distinct order systems**, each with its own multi-step flow and validation:
   - Menu orders (date picker enforcing 1-day advance & 2-order-per-date limit)
   - Occasion cake orders (3-day advance, 1-order-per-day limit)
@@ -66,7 +66,6 @@ The result: a fully custom solution where every part of the ordering experience 
 | **Swiper.js** | Touch-friendly product carousels |
 | **MUI (Material UI) v7** | Admin dashboard UI components & Data Grid |
 | **React Icons** | Icon library |
-| **next-intl** | Bilingual EN/AR internationalization |
 
 ### Backend (Next.js API Routes)
 | Technology | Purpose |
